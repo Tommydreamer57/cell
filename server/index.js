@@ -9,6 +9,7 @@ const dbToReq = require('./middlewares/db');
 const userToSession = require('./middlewares/user');
 // CONTROLLERS
 const ec = require('./controllers/everything');
+const oc = require('./controllers/organisations');
 
 // APP
 const app = express();
@@ -33,6 +34,8 @@ massive(process.env.CONNECTION_STRING).then(db => {
 
 // EVERYTHING
 app.get('/api/everything', ec.read);
+// ORGANISATION
+app.get('/api/organisation/:organisation_id', oc.read);
 
 // LISTEN
 

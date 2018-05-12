@@ -19,7 +19,7 @@ export default function create(update) {
                 <Switch>
                     <Route exact path="/" render={props => home.view(model)} />
                     <Route path="/dashboard" render={props => dashboard.view(model)} />
-                    <Route path="/messages/:id" render={props => messages.view(model)} />
+                    <Route path="/messages/:type/:id" render={props => messages.view(model)} />
                     <Route path="/organisation/:id" render={props => organisation.view(model)} />
                     <Route path="/profile" render={props => profile.view(model)} />
                 </Switch>
