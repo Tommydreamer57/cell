@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from '../routing/Link';
 import http from '../../http/http';
 
 export default function create(update) {

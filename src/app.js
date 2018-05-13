@@ -24,12 +24,12 @@ export default function create(update) {
             console.log("APP MODEL");
             console.log(model);
             return (
-                <Router>
+                // <Router>
                     <div id="app">
                         {routes.view(model)}
                         {statics.view(model)}
                     </div>
-                </Router>
+                // </Router>
             );
         }
     };

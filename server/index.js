@@ -32,6 +32,8 @@ massive(process.env.CONNECTION_STRING).then(db => {
 
 // ENDPOINTS
 
+// AUTHENTICATION
+app.get('/auth/me', (req, res) => res.status(200).send(req.session.user));
 // EVERYTHING
 app.get('/api/everything', ec.read);
 // ORGANISATION

@@ -6,10 +6,11 @@ export default {
         members: []
     },
     directMessages: [],
-    location: {},
-    history: {},
-    match: {
-        params: {}
+    router: {
+        routes: [],
+        match: '',
+        params: {},
+        location: {}
     }
     /*
     user: {

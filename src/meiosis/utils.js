@@ -25,7 +25,7 @@ export function scan(accumulator, initial, sourceStream) {
     let accumulated = initial;
     sourceStream.map(function (value) {
         accumulated = accumulator(accumulated, value);
-        newStream(accumulated);
+        return newStream(accumulated);
     });
     return newStream;
 }
