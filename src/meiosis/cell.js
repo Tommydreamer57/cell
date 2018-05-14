@@ -4,6 +4,7 @@ import http from '../http/http';
 export default function create(update) {
     // INITIAL DATA
     // CHILDREN
+    // METHODS
     // COMPONENT
     return {
         view(model) {

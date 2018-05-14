@@ -9,7 +9,7 @@ export default function create(update) {
         view(model) {
             return (
                 <div>
-
+                    
                 </div>
             );
         }

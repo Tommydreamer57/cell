@@ -30,32 +30,6 @@ export function scan(accumulator, initial, sourceStream) {
     return newStream;
 }
 
-function isObjNotArr(obj) {
-    return (
-        obj &&
-        typeof obj === 'object' &&
-        !Array.isArray(obj)
-    );
-}
-
-// MERGE
-export function merge(old, neww) {
-    if (old === neww) return neww;
-    let obj = { ...old };
-    if (typeof neww === 'function') {
-        neww = neww(old);
-    }
-    for (let prop in neww) {
-        // IF PROP ALREADY EXISTS & IS DIFFERENT
-        if (obj.hasOwnProperty(prop) && isObjNotArr(obj[prop]) && isObjNotArr(neww[prop])) {
-            obj[prop] = merge(obj[prop], neww[prop]);
-        } else {
-            obj[prop] = neww[prop];
-        }
-    }
-    return obj;
-}
-
 // NEST UPDATE
 function nestUpdate(update, prop) {
     return function (cb) {

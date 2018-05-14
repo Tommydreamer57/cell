@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import { Link } from '../../meiosis-router';
 import http from '../../http/http';
 
 export default function create(update) {

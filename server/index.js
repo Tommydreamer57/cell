@@ -2,6 +2,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const http = require('http');
+const socketio = require('socket.io');
 const massive = require('massive');
 require('dotenv').config();
 // MIDDLEWARES
@@ -40,5 +42,14 @@ app.get('/api/everything', ec.read);
 app.get('/api/organisation/:organisation_id', oc.read);
 
 // LISTEN
+const server = app.listen(3021, () => console.log('cells on 3021!'));
 
-app.listen(3021, () => console.log('cells on 3021!'));
+// SOCKET
+const io = socketio(server);
+
+// SOCKETS
+io.on('connection', socket => {
+
+    socket.on('')
+
+});

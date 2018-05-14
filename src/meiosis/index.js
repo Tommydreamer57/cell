@@ -3,7 +3,6 @@ import * as u from './utils';
 export const {
     stream,
     scan,
-    merge,
     nestComponent
 } = u;
 
