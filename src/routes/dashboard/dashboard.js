@@ -1,10 +1,8 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import { Link, link } from '../../meiosis-router';
 import http from '../../http/http';
 
 export default function create(update) {
-    // INITIAL DATA
     // METHODS
     function getOrganisation(id) {
         http.getOrganisation(update, id);

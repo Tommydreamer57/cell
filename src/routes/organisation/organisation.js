@@ -5,11 +5,13 @@ import http from '../../http/http';
 
 export default function create(update) {
     // INITIAL DATA
-    let org_id = window.location.href.replace(/.*\//, '');
-    http.getOrganisation(update, org_id);
     // CHILDREN
     // COMPONENT
     return {
+        data() {
+            let org_id = window.location.href.replace(/.*\//, '');
+            http.getOrganisation(update, org_id);
+        },
         view(model) {
             return (
                 <section>

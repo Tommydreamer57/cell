@@ -3,12 +3,14 @@ import http from '../../http/http';
 
 export default function create(update) {
     // INITIAL DATA
-    let type = window.location.href.replace(/.*\/(.{1,})\/[^/]*$/, '$1');
-    let id = window.location.href.replace(/.*\/(.{1,})/, '$1');
-    http.getChannel(update, id);
     // CHILDREN
     // COMPONENT
     return {
+        data() {
+            console.log("REQUESTING MESSAGES: '" + id + "'");
+            let id = window.location.href.replace(/.*\/(.{1,})/, '$1');
+            return http.getChannel(update, id);
+        },
         view(model) {
             return (
                 <div>
