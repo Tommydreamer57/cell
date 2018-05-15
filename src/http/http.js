@@ -3,7 +3,7 @@ import defaultModel from '../model';
 
 export default {
     authenticate(update) {
-        axios.get('/auth/me')
+        return axios.get('/auth/me')
             .then(({ data: user }) => {
                 update(model => ({
                     ...model,
@@ -15,7 +15,7 @@ export default {
             });
     },
     getAllOrganisations(update) {
-        axios.get(`/api/organisation/all`)
+        return axios.get(`/api/organisation/all`)
             .then(({ data: allOrganisations }) => {
                 update(model => ({
                     ...model,
@@ -31,7 +31,7 @@ export default {
             ...model,
             organisation: defaultModel.organisation
         }));
-        axios.get(`/api/organisation/${id}`)
+        return axios.get(`/api/organisation/${id}`)
             .then(({ data: organisation }) => {
                 update(model => ({
                     ...model,
@@ -41,5 +41,20 @@ export default {
             .catch(err => {
                 console.log(err);
             });
+    },
+    getChannel(update, id) {
+        axios.get(`/api/channel/${id}`)
+            .then(({ data: channel }) => {
+                update(model => ({
+                    ...model,
+                    channel
+                }));
+            })
+            .catch(console.log);
+    },
+    getMessages(update, type, id) {
+        return axios.get(`/api/messages/${type}/${id}`)
+            .then(console.log)
+            .catch(console.log);
     }
 }

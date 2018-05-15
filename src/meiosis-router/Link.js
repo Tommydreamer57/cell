@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 
-export default class Link extends Component {
+export class Link extends Component {
     constructor() {
         super();
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick(e) {
-        console.log(this);
         if (
             !e.defaultPrevented && e.button === 0 && !this.props.target &&
             !(e.metaKey || e.altKey || e.ctrlKey || e.shiftKey)
@@ -25,9 +24,9 @@ export default class Link extends Component {
     }
 }
 
-export function link(model, href, children) {
+export default function link(model, href, children) {
     return (
-        <Link to={href} history={model.router.history} >
+        <Link key={href} to={href} history={model.router.history} >
             {children}
         </Link>
     );

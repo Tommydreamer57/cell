@@ -35,10 +35,10 @@ function parse(pathname, route) {
 // FIND CORRECT ROUTE AND CREATE MATCH OBJECT
 export default function matchAndParse(pathname, routes) {
     let exact = true;
-    let route = createMatch(pathname, routes.map(route => route.route), exact);
+    let route = createMatch(pathname, routes.map(route => route.path), exact);
     if (!route) {
         exact = false
-        route = createMatch(pathname, routes.filter(route => !route.exact).map(route => route.route), exact);
+        route = createMatch(pathname, routes.filter(route => !route.exact).map(route => route.path), exact);
     }
     let params = parse(pathname, route);
     return {

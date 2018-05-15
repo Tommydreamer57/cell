@@ -27,8 +27,8 @@ export default function create(update) {
         },
         // TOP LEVEL VIEW
         view(model) {
-            // console.log("APP MODEL");
-            // console.log(model);
+            console.log("APP MODEL");
+            console.log(model);
             return (
                 <div id="app">
                     {routes.view(model)}

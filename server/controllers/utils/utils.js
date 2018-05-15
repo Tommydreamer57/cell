@@ -79,5 +79,68 @@ module.exports = {
             channels,
             members
         };
+    },
+    convertChannel(arr) {
+        console.log(arr);
+        // MEMBERS
+        let members = arr.reduce((members, {
+            // DESTRUCTURE
+            member_id,
+            first_name,
+            last_name,
+            username,
+            email,
+            admin
+        }) => {
+            // DO NOT ADD DUPLICATES
+            if (!members.some(member => member.id === member_id)) {
+                members.push({
+                    id: member_id,
+                    first_name,
+                    last_name,
+                    username,
+                    email,
+                    admin
+                });
+            }
+            return members;
+        }, []);
+        // MESSAGES
+        let messages = arr.filter(({ message_id }) => message_id).map(({
+            member_id,
+            first_name,
+            last_name,
+            username,
+            email,
+            admin,
+            text,
+            timestamp
+        }) => ({
+            member_id,
+            first_name,
+            last_name,
+            username,
+            email,
+            admin,
+            text,
+            timestamp
+        }))
+        // CHANNEL
+        let {
+            channel_id,
+            name,
+            created_by,
+            created_on,
+            private
+        } = arr[0];
+        return {
+            id: channel_id,
+            name,
+            created_by,
+            created_on,
+            private,
+            members,
+            messages
+        };
     }
 }

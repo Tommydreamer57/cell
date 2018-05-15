@@ -18,14 +18,12 @@ export default function create(update) {
                     </header>
                     <div>
                         <h2>Channels</h2>
-                        {model.organisation.channels.map(channel => (
-                            // <Link to={`/messages/channel/${channel.id}`} history={model.router.history} >
-                            link(model, `/messages/channel/${channel.id}`, <h3>{channel.name}</h3>)
-                            // </Link>
+                        {model.organisation.channels.map(channel => link(model, `/messages/channel/${channel.id}`,
+                            <h3>{channel.name}</h3>
                         ))}
                         <h2>Members</h2>
                         {model.organisation.members.map(member => (
-                            <div>{member.name}</div>
+                            <div>{member.username}</div>
                         ))}
                     </div>
                 </section>

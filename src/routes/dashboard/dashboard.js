@@ -5,7 +5,6 @@ import http from '../../http/http';
 
 export default function create(update) {
     // INITIAL DATA
-    // CHILDREN
     // METHODS
     function getOrganisation(id) {
         http.getOrganisation(update, id);
@@ -13,18 +12,13 @@ export default function create(update) {
     // COMPONENT
     return {
         view(model) {
+            let { allOrganisations: orgs } = model;
             return (
                 <div>
-                    {model.allOrganisations.map(org => (
-                        <div>
-                            {/* <Link to={`/organisation/${org.id}`} history={model} > */}
-                            {link(model, `/organisation/${org.id}`, (
-                                <button onClick={() => getOrganisation(org.id)} >
-                                    {org.name}
-                                </button>
-                            ))}
-                            {/* </Link> */}
-                        </div>
+                    {orgs.map(org => link(model, `/organisation/${org.id}`,
+                        <button onClick={() => getOrganisation(org.id)} >
+                            {org.name}
+                        </button>
                     ))}
                 </div>
             );

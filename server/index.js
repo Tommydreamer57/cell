@@ -12,6 +12,8 @@ const userToSession = require('./middlewares/user');
 // CONTROLLERS
 const ec = require('./controllers/everything');
 const oc = require('./controllers/organisations');
+const cc = require('./controllers/channels');
+const mc = require('./controllers/messages');
 
 // APP
 const app = express();
@@ -27,10 +29,16 @@ app.use(dbToReq);
 app.use(userToSession);
 
 // DB
-massive(process.env.CONNECTION_STRING).then(db => {
-    // db.seed().then(() => console.log('refreshed database'));
-    app.set('db', db);
-});
+massive(process.env.CONNECTION_STRING)
+    .then(db => {
+        // db.seed().then(() => console.log('refreshed database'));
+        console.log("Connected To Database");
+        app.set('db', db);
+    })
+    .catch(err => {
+        console.log("Database Error");
+        console.log(err);
+    });
 
 // ENDPOINTS
 
@@ -42,9 +50,13 @@ app.get('/auth/me', (req, res) => res.status(200).send(req.session.user));
 app.get('/api/everything', ec.read);
 // ORGANISATION
 app.get('/api/organisation/:organisation_id', oc.read);
+// CHANNEL
+app.get('/api/channel/:channel_id', cc.read);
+// MESSAGES
+app.get('/api/messages/:type/:id', mc.read);
 
 // LISTEN
-const server = app.listen(3021, () => console.log('cells on 3021!'));
+const server = app.listen(3021, () => console.log('Cells on 3021!'));
 
 // SOCKET
 const io = socketio(server);
