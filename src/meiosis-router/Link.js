@@ -4,9 +4,9 @@ export default class Link extends Component {
     constructor() {
         super();
         this.handleClick = this.handleClick.bind(this);
-        console.log(this);
     }
     handleClick(e) {
+        console.log(this);
         if (
             !e.defaultPrevented && e.button === 0 && !this.props.target &&
             !(e.metaKey || e.altKey || e.ctrlKey || e.shiftKey)
@@ -23,4 +23,12 @@ export default class Link extends Component {
             </a>
         );
     }
+}
+
+export function link(model, href, children) {
+    return (
+        <Link to={href} history={model.router.history} >
+            {children}
+        </Link>
+    );
 }

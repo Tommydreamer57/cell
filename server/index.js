@@ -34,6 +34,8 @@ massive(process.env.CONNECTION_STRING).then(db => {
 
 // ENDPOINTS
 
+// CONSOLE
+app.post('/api/console', (req, res) => { console.log(req.body); res.sendStatus(200) });
 // AUTHENTICATION
 app.get('/auth/me', (req, res) => res.status(200).send(req.session.user));
 // EVERYTHING

@@ -1,6 +1,6 @@
 import React from 'react';
 // import Link from 'react-router-dom';
-import Link from '../../meiosis-router';
+import { Link, link } from '../../meiosis-router';
 import http from '../../http/http';
 
 export default function create(update) {
@@ -19,9 +19,9 @@ export default function create(update) {
                     <div>
                         <h2>Channels</h2>
                         {model.organisation.channels.map(channel => (
-                            <Link to={`/messages/channel/${channel.id}`} >
-                                <h3>{channel.name}</h3>
-                            </Link>
+                            // <Link to={`/messages/channel/${channel.id}`} history={model.router.history} >
+                            link(model, `/messages/channel/${channel.id}`, <h3>{channel.name}</h3>)
+                            // </Link>
                         ))}
                         <h2>Members</h2>
                         {model.organisation.members.map(member => (

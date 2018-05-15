@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-import { Link } from '../../meiosis-router';
+import { Link, link } from '../../meiosis-router';
 import http from '../../http/http';
 
 export default function create(update) {
@@ -17,11 +17,13 @@ export default function create(update) {
                 <div>
                     {model.allOrganisations.map(org => (
                         <div>
-                            <Link to={`/organisation/${org.id}`} >
+                            {/* <Link to={`/organisation/${org.id}`} history={model} > */}
+                            {link(model, `/organisation/${org.id}`, (
                                 <button onClick={() => getOrganisation(org.id)} >
                                     {org.name}
                                 </button>
-                            </Link>
+                            ))}
+                            {/* </Link> */}
                         </div>
                     ))}
                 </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import createProvider from './meiosis-router';
+import listen from './meiosis-router';
 import createRoutes from './routes/routes';
 import createStatics from './statics/statics';
 import http from './http/http';
@@ -12,8 +12,8 @@ export default function create(update) {
     http.authenticate(update);
     http.getAllOrganisations(update);
 
-    // ROUTER PROVIDER
-    const Router = createProvider(update);
+    // LISTEN TO ROUTES
+    listen(update);
 
     // CHILDREN
     let routes = createRoutes(update);
@@ -27,16 +27,13 @@ export default function create(update) {
         },
         // TOP LEVEL VIEW
         view(model) {
-            console.log("APP MODEL");
-            console.log(model);
-            console.log(Router);
+            // console.log("APP MODEL");
+            // console.log(model);
             return (
-                <Router.Provider>
-                    <div id="app">
-                        {routes.view(model)}
-                        {statics.view(model)}
-                    </div>
-                </Router.Provider>
+                <div id="app">
+                    {routes.view(model)}
+                    {statics.view(model)}
+                </div>
             );
         }
     };
