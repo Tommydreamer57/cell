@@ -11,7 +11,9 @@ export default {
     },
     directMessages: [],
     router: {
-        history: {},
+        history: {
+            location: {}
+        },
         routes: [],
         match: {
             params: {},

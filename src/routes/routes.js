@@ -7,8 +7,8 @@ import createDashboard from './dashboard/dashboard';
 import createMessages from './messages/messages';
 import createOrganisation from './organisation/organisation';
 import createProfile from './profile/profile';
-// UTILS
-import http from '../http/http';
+// JSS
+import { RouterView } from '../styles/components';
 
 export default function create(update) {
 
@@ -20,13 +20,18 @@ export default function create(update) {
         ['/organisation/:id', createOrganisation, update],
         ['/profile', createProfile, update]
     );
-    // let home = createRoute('/', createHome, update, true);
-    // let dashboard = createRoute('/dashboard', createDashboard, update);
-    // let messages = createRoute('/messages/:type/:id', createMessages, update);
-    // let organisation = createRoute('/organisation/:id', createOrganisation, update);
-    // let profile = createRoute('/profile', createProfile, update);
-    // let routes = [home, dashboard, messages, organisation, profile];
 
     // SWITCH
-    return createSwitch(update, ...routes); //home, dashboard, messages, organisation, profile);
+    let switchh = createSwitch(update, ...routes);
+    
+    // COMPONENT
+    return {
+        view(model) {
+            return (
+                <RouterView>
+                    {switchh.view(model)}
+                </RouterView>
+            );
+        }
+    };
 }

@@ -1,27 +1,39 @@
 import React from 'react';
-import http from '../../http/http';
+import { GET, POST } from '../../http';
+import initialModel from '../../model';
+import { Messages } from '../../styles/components';
+import Message from './Message/Message';
+import MessageInput from './MessageInput/MessageInput';
 
 export default function create(update) {
-    // INITIAL DATA
-    // CHILDREN
+    // CHANNEL ID
+    function getId() {
+        return window.location.href.replace(/.*\/(.{1,})/, '$1');
+    }
+    // EVENT HANDLERS
+    function onKeyDown({ target, key }) {
+        if (key === 'Enter' && target.value.trim()) {
+            POST.message(update, 'channel', getId(), target.value);
+            target.value = '';
+        }
+    }
     // COMPONENT
     return {
         data() {
-            console.log("REQUESTING MESSAGES: '" + id + "'");
-            let id = window.location.href.replace(/.*\/(.{1,})/, '$1');
-            return http.getChannel(update, id);
+            GET.channel(update, getId());
         },
         view(model) {
+            let { channel } = model
+            if (getId() != channel.id) {
+                channel = initialModel.channel;
+            }
             return (
-                <div>
-                    <header>
-                        <h1>{model.channel.name} {model.channel.private ? '(private)' : ''}</h1>
-                    </header>
-                    <div>
-                        <h2>Members</h2>
-                        {model.channel.members.map(member => <div>{member.username}</div>)}
-                    </div>
-                </div>
+                <Messages>
+                    {channel.messages.map(message => (
+                        <Message key={message.id} message={message} />
+                    ))}
+                    <MessageInput onKeyDown={onKeyDown} />
+                </Messages>
             );
         }
     };

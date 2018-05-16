@@ -107,6 +107,7 @@ module.exports = {
         }, []);
         // MESSAGES
         let messages = arr.filter(({ message_id }) => message_id).map(({
+            message_id,
             member_id,
             first_name,
             last_name,
@@ -116,6 +117,7 @@ module.exports = {
             text,
             timestamp
         }) => ({
+            id: message_id,    
             member_id,
             first_name,
             last_name,
@@ -127,6 +129,7 @@ module.exports = {
         }))
         // CHANNEL
         let {
+            organisation_id,
             channel_id,
             name,
             created_by,
@@ -134,6 +137,7 @@ module.exports = {
             private
         } = arr[0];
         return {
+            organisation_id,
             id: channel_id,
             name,
             created_by,

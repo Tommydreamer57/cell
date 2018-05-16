@@ -1,16 +1,22 @@
 import React from 'react';
+// LISTEN TO WINDOW HREF
 import listen from './meiosis-router';
+// ROUTES & STATICS
 import createRoutes from './routes/routes';
 import createStatics from './statics/statics';
-import http from './http/http';
+// HTTP
+import { GET } from './http';
+// DEFAULT MODEL
 import defaultModel from './model';
+// STYLES
+import { App } from './styles/components';
 
 // APP
 export default function create(update) {
 
     // INITIAL DATA
-    http.authenticate(update);
-    http.getAllOrganisations(update);
+    GET.authenticate(update);
+    GET.allOrganisations(update);
 
     // LISTEN TO ROUTES
     listen(update);
@@ -30,10 +36,10 @@ export default function create(update) {
             console.log("APP MODEL");
             console.log(model);
             return (
-                <div id="app">
+                <App id="app">
                     {routes.view(model)}
                     {statics.view(model)}
-                </div>
+                </App>
             );
         }
     };

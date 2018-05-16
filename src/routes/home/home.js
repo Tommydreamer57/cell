@@ -1,5 +1,5 @@
 import React from 'react';
-import http from '../../http/http';
+import http from '../../http';
 
 export default function create(update) {
     // INITIAL DATA
