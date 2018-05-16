@@ -3,25 +3,28 @@ import { TopNav } from '../../styles/components';
 
 export default function create(update) {
     function getId() {
-        let id = window.location.href.replace(/.*\/(.{1,})/, '$1');
-        console.log(id);
-        return id;
+        return window.location.href.replace(/.*\/(.{1,})/, '$1');
     }
     return {
         view(model) {
             let { pathname } = window.location;
             let header;
-            if (pathname && pathname.includes('messages')) {
-                if (pathname.includes('channel')) header = model.channel.name;
-                if (model.channel.private) header += ' (private)';
+            let currentId = getId();
+            if (pathname.match(/messages/)) {
+                if (pathname.match(/channel/)) {
+                    let channel = model.organisation.channels.find(channel => channel.id == currentId) || {};
+                    header = channel.name;
+                    if (channel.private) header += ' (private)';
+                    if (channel.id != currentId) header = '';
+                }
                 // else header = model.group.name;
-            } else if (pathname && pathname.includes('organisation')) {
-                header = model.organisation.name;
+            } else if (pathname.match(/organisation/)) {
+                if (model.organisation.id != currentId) header = '';
+                else header = model.organisation.name;
             }
-            if (model.channel.id != getId() && model.organisation.id != getId()) header = '';
             return (
                 <TopNav>
-                    <h1>{header}</h1>
+                    <h2>{header}</h2>
                     <input placeholder="search" />
                 </TopNav>
             );

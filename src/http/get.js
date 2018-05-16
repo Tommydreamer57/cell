@@ -22,7 +22,7 @@ export function allOrganisations(update) {
         .catch(console.log);
 }
 export function organisation(update, id) {
-    return axios.get(`/api/organisation/${id}`)
+    return axios.get(`/api/entire/organisation/${id}`)
         .then(({ data: organisation }) => {
             update(model => ({
                 ...model,

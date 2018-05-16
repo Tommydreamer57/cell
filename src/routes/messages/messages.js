@@ -1,6 +1,8 @@
 import React from 'react';
 import { GET, POST } from '../../http';
 import initialModel from '../../model';
+import { css } from 'aphrodite-jss';
+import styles from '../../styles/styles';
 import { Messages } from '../../styles/components';
 import Message from './Message/Message';
 import MessageInput from './MessageInput/MessageInput';
@@ -20,16 +22,17 @@ export default function create(update) {
     // COMPONENT
     return {
         data() {
-            GET.channel(update, getId());
+            // GET.channel(update, getId()).then(() => {
+                let $messages = document.querySelector("#router-view");
+                $messages.scrollTop = $messages.scrollHeight;
+            // });
         },
         view(model) {
-            let { channel } = model
-            if (getId() != channel.id) {
-                channel = initialModel.channel;
-            }
+            let currentId = getId();
+            let channel = model.organisation.channels.find(channel => channel.id == currentId);
             return (
-                <Messages>
-                    {channel.messages.map(message => (
+                <Messages id="messages" >
+                    {channel && channel.messages && channel.messages.map(message => (
                         <Message key={message.id} message={message} />
                     ))}
                     <MessageInput onKeyDown={onKeyDown} />

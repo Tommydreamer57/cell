@@ -12,6 +12,7 @@ const flexEnd = 'flex-end';
 const center = 'center';
 const spaceBetween = 'space-between';
 const scroll = 'scroll';
+const bold = 'bold';
 
 const centerFlex = {
     display: flex,
@@ -50,7 +51,8 @@ const reset = {
     border: none,
     outline: none,
     margin: 0,
-    padding: 0
+    padding: 0,
+    textDecoration: none
 };
 
 export default StyleSheet.create({
@@ -87,12 +89,25 @@ export default StyleSheet.create({
         background: '#DDD',
         left: 0,
         bottom: 0,
-        width: 'calc(20vw - 48px)',
-        padding: 24,
+        width: '20vw',
         overflowY: auto,
         flexDirection: column,
         justifyContent: flexStart,
         alignItems: flexStart,
+        '& .selected': {
+            fontWeight: bold,
+        },
+        '& a': {
+            ...reset,
+            width: '100%',
+            fontSize: 18,
+            '& .channel-link': {
+                padding: '6px 18px',
+                '&:hover': {
+                    background: '#CCC'
+                }
+            }
+        }
     },
     topnav: {
         left: '20vw',
@@ -117,7 +132,16 @@ export default StyleSheet.create({
         flexDirection: column,
         justifyContent: flexEnd,
         '& .message': {
-            padding: 8
+            padding: 8,
+            ...startFlex,
+            flexDirection: column,
+            '& div': {
+                display: flex,
+                flexDirection: column
+            },
+            '& span': {
+                display: flex
+            }
         },
         '& .message-input': {
             ...centerFlex,

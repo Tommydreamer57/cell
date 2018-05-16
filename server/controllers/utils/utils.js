@@ -1,4 +1,39 @@
+function assign(regex, obj, ...except) {
+    let newObj = {};
+    for (let key in obj) {
+        if (key.match(regex) && !except.includes(key)) {
+            newObj[key.replace(regex, '')] = obj[key];
+        }
+    }
+    return newObj;
+}
+
 module.exports = {
+    convertEntireOrganisation(arr) {
+        // ORGANISATION
+        let organisation = assign(/^organisation_/, arr[0], 'organisation_channel_id', 'organisation_member_id');
+        // CHANNELS
+        organisation.channels = arr.reduce((channels, obj) => {
+            if (!channels.some(channel => channel.id === obj.channel_id)) {
+                let newChannel = assign(/^channel_/, obj);
+                // MESSAGES
+                newChannel.messages = arr
+                    .filter(({ message_channel_id }) => message_channel_id === newChannel.id)
+                    .map(obj => assign(/^message_/, obj));
+                channels.push(newChannel);
+            }
+            return channels;
+        }, []);
+        // MEMBERS
+        organisation.members = arr.reduce((members, obj) => {
+            if (!members.some(member => member.id === obj.member_id)) {
+                let newMember = assign(/^member_/, obj);
+                members.push(newMember);
+            }
+            return members;
+        }, []);
+        return organisation;
+    },
     convertOrganisation(arr) {
         // MEMBERS
         let members = arr.reduce((members, {
@@ -117,7 +152,7 @@ module.exports = {
             text,
             timestamp
         }) => ({
-            id: message_id,    
+            id: message_id,
             member_id,
             first_name,
             last_name,

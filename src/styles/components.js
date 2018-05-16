@@ -3,7 +3,7 @@ import { css } from 'aphrodite-jss';
 import styles from './styles';
 
 function wrapper(type, ...classes) {
-    return ({ children, ...props }) => createElement(type, { ...props, className: css(...classes) }, children)
+    return ({ children, className, ...props }) => createElement(type, { ...props, className: className + " " + css(...classes) }, children)
 }
 
 export const App = wrapper('div', styles.app);

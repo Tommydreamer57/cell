@@ -1,4 +1,4 @@
-const { convertOrganisation } = require('./utils/utils');
+const { convertEntireOrganisation, convertOrganisation } = require('./utils/utils');
 
 module.exports = {
     read(req, res) {
@@ -16,7 +16,6 @@ module.exports = {
             req.db.read_organisation(req.params)
                 .then(convertOrganisation)
                 .then(organisation => {
-                    // console.log(organisation);
                     res.status(200).send(organisation);
                 })
                 .catch(err => {
@@ -25,4 +24,16 @@ module.exports = {
                 });
         }
     },
+    readEntire(req, res) {
+        let { organisation_id } = req.params;
+        req.db.read_entire_organisation({ organisation_id })
+            .then(convertEntireOrganisation)
+            .then(organisation => {
+                res.status(200).send(organisation);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(200).send(err);
+            });
+    }
 }

@@ -3,18 +3,24 @@ import { link } from '../../meiosis-router';
 import { SideNav } from '../../styles/components';
 
 export default function create(update) {
+    function getId() {
+        return window.location.href.replace(/.*\/(.{1,})/, '$1');
+    }
     return {
         view(model) {
             let { organisation: org } = model;
             let { channels } = org;
+            let currentId = getId();
             return (
                 <SideNav id="sidenav" >
-                    <h1>{org.name}</h1>
+                    <h3>{org.name}</h3>
                     {channels.map(channel => link(model, `/messages/channel/${channel.id}`,
-                        <div key={channel.name} >{channel.private ? 'P' : '#'} {channel.name}</div>
+                        <div className={`channel-link ${channel.id === currentId ? 'selected' : ''}`} >
+                            {channel.private ? '$' : '#'} {channel.name}
+                        </div>
                     ))}
                 </SideNav>
             );
         }
-    }
+    };
 }

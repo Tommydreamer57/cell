@@ -14,9 +14,15 @@ import { App } from './styles/components';
 // APP
 export default function create(update) {
 
+    // CURRENT ROUTE ID
+    function getId() {
+        return window.location.href.replace(/.*\/(.{1,})/, '$1');
+    }
+
     // INITIAL DATA
     GET.authenticate(update);
     GET.allOrganisations(update);
+    GET.organisation(update, getId());
 
     // LISTEN TO ROUTES
     listen(update);

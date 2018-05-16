@@ -5,19 +5,15 @@ export default {
         channels: [],
         members: []
     },
-    channel: {
-        members: [],
-        messages: []
-    },
     directMessages: [],
     router: {
         history: {
             location: {}
         },
-        routes: [],
         match: {
             params: {},
-        }
+        },
+        routes: []
     }
 }
 
