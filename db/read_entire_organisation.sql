@@ -61,6 +61,7 @@ AND messages.message_author_id = channels.channel_member_id
 JOIN members
 ON members.member_id = organisations.organisation_member_id
 WHERE organisation_id = ${organisation_id}
+OR organisation_id IN (SELECT organisation_id FROM cell_channels WHERE cell_channels.id = ${channel_id})
 ORDER BY messages.message_timestamp;
 
 

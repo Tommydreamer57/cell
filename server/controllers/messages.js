@@ -1,5 +1,3 @@
-const cc = require('./channels');
-
 function defaultQuery() {
     return {
         then(cb) {
@@ -29,16 +27,15 @@ module.exports = {
             })
     },
     create(req, res) {
-        let { type, id } = req.params;
+        let { type, id: channel_id } = req.params;
         let { text } = req.body;
         let { id: author_id } = req.session.user;
-        let query = defaultQuery;
-        if (type === 'channel') query = req.db.create_channel_message;
-        else if (type === 'direct') query = db.create_direct_message;
-        query({ text, author_id, channel_id: id })
-            .then(() => {
-                req.params.channel_id = id;
-                cc.read(req, res);
+        // let query = defaultQuery;
+        // if (type === 'channel') query = req.db.create_channel_message;
+        // else if (type === 'direct') query = db.create_direct_message;
+        req.db.create_channel_message({ text, author_id, channel_id })
+            .then(messages => {
+                res.status(200).send(messages);
             })
             .catch(err => {
                 console.log(err);

@@ -1,8 +1,9 @@
 function assign(regex, obj, ...except) {
     let newObj = {};
     for (let key in obj) {
-        if (key.match(regex) && !except.includes(key)) {
+        if (key.match(regex) && !except.includes(key.replace(regex, ''))) {
             newObj[key.replace(regex, '')] = obj[key];
+            // newObj[key] = obj[key];
         }
     }
     return newObj;
@@ -11,27 +12,40 @@ function assign(regex, obj, ...except) {
 module.exports = {
     convertEntireOrganisation(arr) {
         // ORGANISATION
-        let organisation = assign(/^organisation_/, arr[0], 'organisation_channel_id', 'organisation_member_id');
-        // CHANNELS
-        organisation.channels = arr.reduce((channels, obj) => {
-            if (!channels.some(channel => channel.id === obj.channel_id)) {
-                let newChannel = assign(/^channel_/, obj);
-                // MESSAGES
-                newChannel.messages = arr
-                    .filter(({ message_channel_id }) => message_channel_id === newChannel.id)
-                    .map(obj => assign(/^message_/, obj));
-                channels.push(newChannel);
-            }
-            return channels;
-        }, []);
+        let organisation = assign(/^organisation_/, arr[0], 'channel_id', 'member_id');
         // MEMBERS
-        organisation.members = arr.reduce((members, obj) => {
-            if (!members.some(member => member.id === obj.member_id)) {
-                let newMember = assign(/^member_/, obj);
-                members.push(newMember);
-            }
-            return members;
-        }, []);
+        organisation.members = arr
+            .reduce((members, obj) => {
+                if (!members.some(member => member.id === obj.member_id)) {
+                    let newMember = assign(/^member_/, obj);
+                    members.push(newMember);
+                }
+                return members;
+            }, []);
+        // CHANNELS
+        organisation.channels = arr
+            .reduce((channels, obj) => {
+                if (!channels.some(channel => channel.id === obj.channel_id)) {
+                    let newChannel = assign(/^channel_/, obj, 'member_id');
+                    // MEMBERS
+                    newChannel.members = arr // organisation.members.map(({ id }) => id);
+                        .reduce((members, { channel_id, member_id }) => {
+                            if (!members.includes(member_id) && channel_id === newChannel.id) {
+                                members.push(member_id);
+                            }
+                            return members;
+                        }, []);
+                        // .filter(({ channel_id }) => channel_id === newChannel.id)
+                        // .map(({ member_id }) => member_id);
+                    // MESSAGES
+                    newChannel.messages = arr
+                        .filter(({ message_channel_id }) => message_channel_id === newChannel.id)
+                        .map(obj => assign(/^message_/, obj, 'channel_id'));
+                    channels.push(newChannel);
+                }
+                return channels;
+            }, []);
+        // ORGANISATION
         return organisation;
     },
     convertOrganisation(arr) {
@@ -116,7 +130,6 @@ module.exports = {
         };
     },
     convertChannel(arr) {
-        console.log(arr);
         // MEMBERS
         let members = arr.reduce((members, {
             // DESTRUCTURE

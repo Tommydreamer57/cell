@@ -3,12 +3,11 @@ import React from 'react';
 import { Link, link } from '../../meiosis-router';
 import { GET, POST } from '../../http';
 import defaultModel from '../../model';
+import { getId, getMatch } from '../url-parser';
 
 export default function create(update) {
     // ORGANISATION ID
-    function getId() {
-        return window.location.href.replace(/.*\//, '');
-    }
+
     // COMPONENT
     return {
         data() {

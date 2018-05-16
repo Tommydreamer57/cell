@@ -6,12 +6,9 @@ import styles from '../../styles/styles';
 import { Messages } from '../../styles/components';
 import Message from './Message/Message';
 import MessageInput from './MessageInput/MessageInput';
+import { getId, getMatch } from '../url-parser';
 
 export default function create(update) {
-    // CHANNEL ID
-    function getId() {
-        return window.location.href.replace(/.*\/(.{1,})/, '$1');
-    }
     // EVENT HANDLERS
     function onKeyDown({ target, key }) {
         if (key === 'Enter' && target.value.trim()) {
@@ -21,11 +18,13 @@ export default function create(update) {
     }
     // COMPONENT
     return {
-        data() {
-            // GET.channel(update, getId()).then(() => {
-                let $messages = document.querySelector("#router-view");
-                $messages.scrollTop = $messages.scrollHeight;
-            // });
+        data(model) {
+            if (!model.organisation.id) {
+                GET.organisationByChannel(update, getId()).then(() => {
+                    let $messages = document.querySelector("#router-view");
+                    $messages.scrollTop = $messages.scrollHeight;
+                });
+            }
         },
         view(model) {
             let currentId = getId();

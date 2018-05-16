@@ -4,6 +4,8 @@ import listen from './meiosis-router';
 // ROUTES & STATICS
 import createRoutes from './routes/routes';
 import createStatics from './statics/statics';
+// URL PARSER
+import { getId } from './routes/url-parser';
 // HTTP
 import { GET } from './http';
 // DEFAULT MODEL
@@ -13,11 +15,6 @@ import { App } from './styles/components';
 
 // APP
 export default function create(update) {
-
-    // CURRENT ROUTE ID
-    function getId() {
-        return window.location.href.replace(/.*\/(.{1,})/, '$1');
-    }
 
     // INITIAL DATA
     GET.authenticate(update);

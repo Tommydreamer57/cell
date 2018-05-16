@@ -57,6 +57,7 @@ app.get('/auth/me', (req, res) => res.status(200).send(req.session.user));
 app.get('/api/everything', ec.read);
 // ORGANISATION
 app.get('/api/organisation/:organisation_id', oc.read);
+app.get('/api/entire/organisation', oc.readEntire);
 app.get('/api/entire/organisation/:organisation_id', oc.readEntire);
 // CHANNEL
 app.get('/api/channel/:channel_id', cc.read);

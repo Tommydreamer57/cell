@@ -26,7 +26,8 @@ module.exports = {
     },
     readEntire(req, res) {
         let { organisation_id } = req.params;
-        req.db.read_entire_organisation({ organisation_id })
+        let { channel_id } = req.query;
+        req.db.read_entire_organisation({ organisation_id, channel_id })
             .then(convertEntireOrganisation)
             .then(organisation => {
                 res.status(200).send(organisation);
