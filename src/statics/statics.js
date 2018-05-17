@@ -10,9 +10,9 @@ export default function create(update) {
     return {
         view(model) {
             return (
-                <div>
-                    {sidenav.view(model)}
+                <div id="statics-view" >
                     {topnav.view(model)}
+                    {sidenav.view(model)}
                 </div>
             );
         }

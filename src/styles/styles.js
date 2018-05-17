@@ -3,6 +3,7 @@ import { StyleSheet, css } from 'aphrodite-jss';
 const none = 'none';
 const inherit = 'inherit';
 const fixed = 'fixed';
+const relative = 'relative';
 const flex = 'flex';
 const auto = 'auto';
 const row = 'row';
@@ -17,6 +18,7 @@ const width = 'width';
 const height = 'height';
 const horizontal = 'horizontal';
 const vertical = 'vertical';
+const transparent = 'transparent';
 
 const centerFlex = {
     display: flex,
@@ -82,7 +84,8 @@ export default StyleSheet.create({
         },
         '& p': {
             fontSize: 14
-        }
+        },
+        '& button': reset
     },
     nav: {
         position: fixed,
@@ -100,34 +103,38 @@ export default StyleSheet.create({
         alignItems: flexStart,
         resize: horizontal,
         '& .header': {
-            width: '100%',
-            padding: '6px 18px',
+            width: 'calc(100% - 36px)',
+            padding: '14px 18px',
+            background: '#CCC',
             '& button': {
                 ...reset,
                 ...startFlex,
                 width: '100%',
             },
+            '&:hover': {
+                background: '#BBB'
+            }
         },
         '& .selected': {
             fontWeight: bold,
         },
-        '& a': {
+        '& a, & button': {
             ...reset,
             width: '100%',
             fontSize: 18,
-            '& .channel-link': {
+            '& .channel-link, & .channel-header': {
+                width: 'calc(100% - 36px)',
                 padding: '6px 18px',
                 '&:hover': {
-                    background: '#CCC'
+                    background: '#BBB'
                 }
             }
         }
     },
     topnav: {
         left: '20vw',
-        height: 'calc(10vh - 16px)',
         width: 'calc(80vw - 48px)',
-        padding: '8px 24px',
+        padding: '14px 24px',
         background: '#EEE',
         justifyContent: spaceBetween,
         alignItems: center,
@@ -187,6 +194,23 @@ export default StyleSheet.create({
                     fontSize: 18,
                 }
             }
+        }
+    },
+    modalwrapper: {
+        position: fixed,
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        '& .modal': {
+            position: fixed,
+            left: '25vw',
+            width: '50vw',
+            height: '50vh',
+            background: '#EEE',
+            zIndex: 5,
+            ...centerFlex,
+            flexDirection: column
         }
     }
 });
