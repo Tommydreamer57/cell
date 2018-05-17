@@ -4,5 +4,5 @@ export function getId() {
 }
 
 export function getMatch() {
-    return window.location.href.replace(/.*\/(.{1,})/, '$1');
+    return window.location.href.replace(/.*\/(.+)\/\d*/, '$1');
 }

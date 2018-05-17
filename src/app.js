@@ -5,7 +5,7 @@ import listen from './meiosis-router';
 import createRoutes from './routes/routes';
 import createStatics from './statics/statics';
 // URL PARSER
-import { getId } from './routes/url-parser';
+import { getId, getMatch } from './routes/url-parser';
 // HTTP
 import { GET } from './http';
 // DEFAULT MODEL
@@ -19,7 +19,12 @@ export default function create(update) {
     // INITIAL DATA
     GET.authenticate(update);
     GET.allOrganisations(update);
-    GET.organisation(update, getId());
+    let MATCH = getMatch();
+    let ID = getId();
+    console.log(MATCH);
+    console.log(ID);
+    if (MATCH === 'organisation') GET.organisation(update, ID);
+    else if (MATCH === 'channel') GET.organisationByChannel(update, ID);
 
     // LISTEN TO ROUTES
     listen(update);

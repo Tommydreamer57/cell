@@ -16,17 +16,21 @@ export default function create(update) {
             target.value = '';
         }
     }
+    // FUNCTIONS
+    function scrollToBottom() {
+        let $messages = document.querySelector("#router-view");
+        $messages.scrollTop = $messages.scrollHeight;
+    }
     // COMPONENT
     return {
         data(model) {
             if (!model.organisation.id) {
-                GET.organisationByChannel(update, getId()).then(() => {
-                    let $messages = document.querySelector("#router-view");
-                    $messages.scrollTop = $messages.scrollHeight;
-                });
-            }
+                GET.organisationByChannel(update, getId()).then(scrollToBottom).catch(scrollToBottom);
+            } else scrollToBottom();
         },
         view(model) {
+            // AFTER RERENDER, SCROLL TO BOTTOM;
+            setTimeout(scrollToBottom, 0);
             let currentId = getId();
             let channel = model.organisation.channels.find(channel => channel.id == currentId);
             return (

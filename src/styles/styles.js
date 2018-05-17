@@ -13,6 +13,10 @@ const center = 'center';
 const spaceBetween = 'space-between';
 const scroll = 'scroll';
 const bold = 'bold';
+const width = 'width';
+const height = 'height';
+const horizontal = 'horizontal';
+const vertical = 'vertical';
 
 const centerFlex = {
     display: flex,
@@ -89,11 +93,21 @@ export default StyleSheet.create({
         background: '#DDD',
         left: 0,
         bottom: 0,
-        width: '20vw',
+        minWidth: '20vw',
         overflowY: auto,
         flexDirection: column,
         justifyContent: flexStart,
         alignItems: flexStart,
+        resize: horizontal,
+        '& .header': {
+            width: '100%',
+            padding: '6px 18px',
+            '& button': {
+                ...reset,
+                ...startFlex,
+                width: '100%',
+            },
+        },
         '& .selected': {
             fontWeight: bold,
         },
@@ -131,6 +145,7 @@ export default StyleSheet.create({
         display: flex,
         flexDirection: column,
         justifyContent: flexEnd,
+        minHeight: '100%',
         '& .message': {
             padding: 8,
             ...startFlex,
