@@ -14,7 +14,7 @@ export function message(update, type, id, text) {
 }
 
 export function channel(update, organisation_id, name, _private) {
-    return axios.post(`/api/channels/${organisation_id}`, { name, _private })
+    return axios.post(`/api/channel/${organisation_id}`, { name, _private })
         .then(({ data: channel }) => {
             update(model => {
                 if (model.organisation.id === organisation_id) model.organisation.channels.push(channel);

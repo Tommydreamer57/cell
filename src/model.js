@@ -15,7 +15,7 @@ export default {
         },
         routes: []
     },
-    modal: false,
+    currentModal: false,
     sideWidth: '20vw'
 }
 

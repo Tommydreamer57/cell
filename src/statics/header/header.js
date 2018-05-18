@@ -24,7 +24,7 @@ export default function create(update) {
             }
             return (
                 <Header style={{ left: model.sideWidth }} >
-                    <h2>{header}</h2>
+                    <h2>{header}&nbsp;</h2>
                     <input placeholder="search" />
                 </Header>
             );

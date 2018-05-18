@@ -8,18 +8,39 @@ import { POST } from '../../http';
 import createDrag from './drag';
 
 export default function create(update) {
-    // CHILDREN
-    let drag = createDrag(update);
+    // MODAL
+    const modalProps = {
+        title: 'Create A Channel',
+        subtitle: '',
+        toggle: toggleModal,
+        submit,
+        inputs: [{
+            name: 'Channel Name',
+            placeholder: 'Give your channel a name',
+            type: 'text'
+        }, {
+            name: 'Private?',
+            placeholder: false,
+            type: 'radio'
+        }]
+    }
     // FUNCTIONS
     function toggleModal() {
+        console.log(arguments);
         update(model => ({
             ...model,
-            modal: typeof arguments[0] === 'boolean' ? arguments[0] : !model.modal
+            currentModal: typeof arguments[0] === 'string' ? arguments[0] : null,
         }));
     }
-    function submit(data) {
-        POST.channel()
+    function submit(data, organisation_id) {
+        // console.log(data);
+        let [nameKey, _privateKey] = modalProps.inputs.map(({ name }) => name);
+        let name = data[nameKey];
+        let _private = data[_privateKey];
+        POST.channel(update, organisation_id, name, _private).then(console.log).catch(console.log);
     }
+    // CHILDREN
+    let drag = createDrag(update);
     // COMPONENT
     return {
         view(model) {
@@ -29,26 +50,28 @@ export default function create(update) {
             let match = getMatch();
             return (
                 <SideNav id="sidenav" style={{ width: model.sideWidth }} >
-                    <Dropdown model={model} update={update} />
-                    <button onClick={toggleModal} ><h5 className="channel-link" >Channels +</h5></button>
-                    <Modal
-                        toggle={toggleModal}
-                        open={model.modal}
-                        inputs={[{
-                            name: 'Channel Name',
-                            placeholder: 'Give your channel a name'
-                        }, {
-                            name: 'Private?',
-                            placeholder: false
-                        }]}
-                        title="Create A Channel"
-                        subtitle=""
+                    {/* DROPDOWN HEADER */}
+                    <Dropdown
+                        model={model}
+                        update={update}
                     />
+                    {/* CREATE CHANNEL */}
+                    <button onClick={() => toggleModal(modalProps.title)} >
+                        <h5 className="channel-link" ><div>Channels</div><div> +</div></h5>
+                    </button>
+                    {/* MODAL -- OFF SCREEN */}
+                    <Modal
+                        current={model.currentModal}
+                        organisation_id={model.organisation.id}
+                        {...modalProps}
+                    />
+                    {/* CHANNEL LIST */}
                     {channels.map(channel => link(model, `/messages/channel/${channel.id}`,
                         <div className={`channel-link ${match === 'channel' && channel.id === currentId ? 'selected' : ''}`} >
                             {channel.private ? '$' : '#'} {channel.name}
                         </div>
                     ))}
+                    {/* DRAGGABLE SIDE */}
                     {drag.view(model)}
                 </SideNav>
             );

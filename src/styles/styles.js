@@ -126,6 +126,7 @@ export default StyleSheet.create({
             '& .channel-link, & .channel-header': {
                 width: 'calc(100% - 36px)',
                 padding: '6px 18px',
+                ...xFlex,
                 '&:hover': {
                     background: '#BBB'
                 }
@@ -154,7 +155,6 @@ export default StyleSheet.create({
         background: '#EEE',
         justifyContent: spaceBetween,
         alignItems: center,
-        // zIndex: 1
     },
     routerview: {
         position: fixed,

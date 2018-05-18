@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TransitionMotion, spring } from 'react-motion';
 import { ModalWrapper } from '../../styles/components';
+import ModalInput from './ModalInput';
 
 let inn = window.innerHeight * 0.25;
 let out = window.innerHeight * 1.5;
@@ -16,23 +17,31 @@ export default class Modal extends Component {
             }, {});
         this.onKeyDown = this.onKeyDown.bind(this);
         this.handleInput = this.handleInput.bind(this);
+        this.toggle = this.toggle.bind(this);
     }
     // EVENTS
     onKeyDown({ key }) {
         if (key === 'Escape') this.props.toggle(false);
-        if (key === 'Enter') this.props.submit(this.state);
+        if (key === 'Enter') this.props.submit(this.state, this.props.organisation_id);
     }
     handleInput(prop, val) {
         this.setState({
             [prop]: val
         });
     }
+    toggle() {
+        let { current, title } = this.props;
+        let open = current === title;
+        this.props.toggle(!open && title);
+    }
     stopPropagation = e => e.stopPropagation();
     // RENDER
     render() {
-        let { willEnter, willLeave, defaultStyles, styles, stopPropagation, onKeyDown } = this;
-        let { open, toggle, title, subtitle, inputs } = this.props
+        let { willEnter, willLeave, defaultStyles, styles, stopPropagation, onKeyDown, toggle, handleInput } = this;
+        let { current, title, subtitle, inputs } = this.props
         console.log(this.state);
+
+        let open = current === title;
 
         return (
             <TransitionMotion
@@ -62,12 +71,14 @@ export default class Modal extends Component {
                 {styles => (
                     <ModalWrapper>
                         <div
-                            onClick={open ? toggle : undefined}
+                            onClick={toggle}
                             style={{
                                 position: 'fixed',
-                                top: 0, bottom: 0, left: 0, right: 0,
-                                background: `rgba(0, 0, 0, ${styles[0] ? styles[0].style.opacity : 0})`,
-                                zIndex: styles[0] ? 4 : -5
+                                top: styles[0] ? 0 : window.innerHeight,
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                background: `rgba(0, 0, 0, ${styles[0] ? styles[0].style.opacity : 0})`
                             }}
                         />
                         {styles.map(({ key, style }) => (
@@ -81,13 +92,7 @@ export default class Modal extends Component {
                                 <h1>{title}</h1>
                                 <h5>{subtitle}</h5>
                                 {inputs.map(input => (
-                                    <div key={input.name} className="input-wrapper" >
-                                        <h4>{input.name}</h4>
-                                        <input
-                                            onChange={(e) => this.handleInput(input.name, e.target.value)}
-                                            placeholder={'' + input.placeholder}
-                                        />
-                                    </div>
+                                    <ModalInput {...input} handleInput={handleInput} />
                                 ))}
                             </div>
                         ))}

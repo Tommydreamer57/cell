@@ -25,7 +25,7 @@ export default function create(update) {
     // SWITCH
     let switchh = createSwitch(update, ...routes);
 
-    // console.log(ReactDOM.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED);
+    console.log(ReactDOM.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED);
     // COMPONENT
     return {
         view(model) {
