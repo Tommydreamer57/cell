@@ -30,7 +30,7 @@ export default function create(update) {
     return {
         view(model) {
             return (
-                <RouterView id="router-view" >
+                <RouterView id="router-view" style={{ left: model.sideWidth }} >
                     {switchh.view(model)}
                 </RouterView>
             );

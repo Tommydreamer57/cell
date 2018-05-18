@@ -4,15 +4,23 @@ import { SideNav } from '../../styles/components';
 import { getId, getMatch } from '../../routes/url-parser';
 import Dropdown from './Dropdown';
 import Modal from '../Modal/Modal';
+import { POST } from '../../http';
+import createDrag from './drag';
 
 export default function create(update) {
+    // CHILDREN
+    let drag = createDrag(update);
+    // FUNCTIONS
     function toggleModal() {
         update(model => ({
             ...model,
-            modal: arguments.length > 0 ? arguments[0] : !model.modal,
-            undef: console.log(model)
+            modal: typeof arguments[0] === 'boolean' ? arguments[0] : !model.modal
         }));
     }
+    function submit(data) {
+        POST.channel()
+    }
+    // COMPONENT
     return {
         view(model) {
             let { organisation: org } = model;
@@ -20,7 +28,7 @@ export default function create(update) {
             let currentId = getId();
             let match = getMatch();
             return (
-                <SideNav id="sidenav" >
+                <SideNav id="sidenav" style={{ width: model.sideWidth }} >
                     <Dropdown model={model} update={update} />
                     <button onClick={toggleModal} ><h5 className="channel-link" >Channels +</h5></button>
                     <Modal
@@ -41,6 +49,7 @@ export default function create(update) {
                             {channel.private ? '$' : '#'} {channel.name}
                         </div>
                     ))}
+                    {drag.view(model)}
                 </SideNav>
             );
         }

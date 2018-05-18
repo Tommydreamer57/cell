@@ -61,6 +61,7 @@ app.get('/api/entire/organisation', oc.readEntire);
 app.get('/api/entire/organisation/:organisation_id', oc.readEntire);
 // CHANNEL
 app.get('/api/channel/:channel_id', cc.read);
+app.post('/api/channel/:organisation_id', cc.create);
 // MESSAGES
 app.get('/api/messages/:type/:id', mc.read);
 

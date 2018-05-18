@@ -3,6 +3,7 @@ import { StyleSheet, css } from 'aphrodite-jss';
 const none = 'none';
 const inherit = 'inherit';
 const fixed = 'fixed';
+const absolute = 'absolute';
 const relative = 'relative';
 const flex = 'flex';
 const auto = 'auto';
@@ -129,20 +130,36 @@ export default StyleSheet.create({
                     background: '#BBB'
                 }
             }
+        },
+        '& #sidenav-drag': {
+            ...centerFlex,
+            position: absolute,
+            top: '20vh',
+            right: 0,
+            bottom: '20vh',
+            width: 10,
+            cursor: 'ew-resize',
+            '& div': {
+                background: 'rgba(0, 0, 0, 0.2)',
+                borderRadius: 2,
+                height: 24,
+                width: 4
+            }
         }
     },
-    topnav: {
+    header: {
         left: '20vw',
         width: 'calc(80vw - 48px)',
         padding: '14px 24px',
         background: '#EEE',
         justifyContent: spaceBetween,
         alignItems: center,
+        // zIndex: 1
     },
     routerview: {
         position: fixed,
         left: '20vw',
-        top: '10vh',
+        top: 55,
         bottom: 96,
         right: 0,
         overflowY: scroll,
@@ -153,6 +170,7 @@ export default StyleSheet.create({
         flexDirection: column,
         justifyContent: flexEnd,
         minHeight: '100%',
+        zIndex: 1,
         '& .message': {
             padding: 8,
             ...startFlex,
@@ -197,18 +215,12 @@ export default StyleSheet.create({
         }
     },
     modalwrapper: {
-        position: fixed,
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
         '& .modal': {
             position: fixed,
             left: '25vw',
             width: '50vw',
             height: '50vh',
             background: '#EEE',
-            zIndex: 5,
             ...centerFlex,
             flexDirection: column
         }

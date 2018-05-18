@@ -1,17 +1,17 @@
 import React from 'react';
 import createSidenav from './sidenav/sidenav';
-import createTopnav from './topnav/topnav';
+import createHeader from './header/header';
 
 export default function create(update) {
     // CHILDREN
     let sidenav = createSidenav(update);
-    let topnav = createTopnav(update);
+    let header = createHeader(update);
     // COMPONENT
     return {
         view(model) {
             return (
                 <div id="statics-view" >
-                    {topnav.view(model)}
+                    {header.view(model)}
                     {sidenav.view(model)}
                 </div>
             );

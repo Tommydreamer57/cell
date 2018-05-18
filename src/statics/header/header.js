@@ -1,5 +1,5 @@
 import React from 'react';
-import { TopNav } from '../../styles/components';
+import { Header } from '../../styles/components';
 
 export default function create(update) {
     function getId() {
@@ -19,14 +19,14 @@ export default function create(update) {
                 }
                 // else header = model.group.name;
             } else if (pathname.match(/organisation/)) {
-                if (model.organisation.id != currentId) header = '';
+                if (model.organisation.id != currentId) header = ' ';
                 else header = model.organisation.name;
             }
             return (
-                <TopNav>
+                <Header style={{ left: model.sideWidth }} >
                     <h2>{header}</h2>
                     <input placeholder="search" />
-                </TopNav>
+                </Header>
             );
         }
     };

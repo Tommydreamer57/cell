@@ -9,16 +9,15 @@ export default class Modal extends Component {
     // CONSTRUCTOR
     constructor(props) {
         super(props);
-        this.state = this.props.inputs.reduce((state, input) => {
-            state[input.name] = '';
-            return state;
-        }, {});
+        this.state = this.props.inputs
+            .reduce((state, input) => {
+                state[input.name] = '';
+                return state;
+            }, {});
         this.onKeyDown = this.onKeyDown.bind(this);
+        this.handleInput = this.handleInput.bind(this);
     }
     // EVENTS
-    stopPropagation(e) {
-        e.stopPropagation();
-    }
     onKeyDown({ key }) {
         if (key === 'Escape') this.props.toggle(false);
         if (key === 'Enter') this.props.submit(this.state);
@@ -28,16 +27,10 @@ export default class Modal extends Component {
             [prop]: val
         });
     }
-    // LIFECYCLE
-    componentDidMount() {
-        window.addEventListener('keydown', this.onKeyDown);
-    }
-    componentWillUnmount() {
-        window.removeEventListener('keydown', this.onKeyDown);
-    }
+    stopPropagation = e => e.stopPropagation();
     // RENDER
     render() {
-        let { willEnter, willLeave, defaultStyles, styles, stopPropagation } = this;
+        let { willEnter, willLeave, defaultStyles, styles, stopPropagation, onKeyDown } = this;
         let { open, toggle, title, subtitle, inputs } = this.props
         console.log(this.state);
 
@@ -67,26 +60,33 @@ export default class Modal extends Component {
                 }] : [])}
             >
                 {styles => (
-                    <ModalWrapper
-                        onClick={open ? toggle : undefined}
-                        style={{
-                            background: `rgba(0, 0, 0, ${styles[0] ? styles[0].style.opacity : 0})`,
-                            zIndex: styles[0] ? 4 : -1
-                        }}
-                    >
+                    <ModalWrapper>
+                        <div
+                            onClick={open ? toggle : undefined}
+                            style={{
+                                position: 'fixed',
+                                top: 0, bottom: 0, left: 0, right: 0,
+                                background: `rgba(0, 0, 0, ${styles[0] ? styles[0].style.opacity : 0})`,
+                                zIndex: styles[0] ? 4 : -5
+                            }}
+                        />
                         {styles.map(({ key, style }) => (
                             <div
                                 className="modal"
                                 key={key}
-                                style={{ ...style, opacity: 1 }}
+                                style={{ ...style, opacity: 1, zIndex: 5 }}
                                 onClick={stopPropagation}
+                                onKeyDown={onKeyDown}
                             >
                                 <h1>{title}</h1>
                                 <h5>{subtitle}</h5>
                                 {inputs.map(input => (
                                     <div key={input.name} className="input-wrapper" >
                                         <h4>{input.name}</h4>
-                                        <input onChange={(e) => this.handleInput(input.name, e.target.value)} placeholder={'' + input.placeholder} />
+                                        <input
+                                            onChange={(e) => this.handleInput(input.name, e.target.value)}
+                                            placeholder={'' + input.placeholder}
+                                        />
                                     </div>
                                 ))}
                             </div>

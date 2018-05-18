@@ -12,3 +12,14 @@ export function message(update, type, id, text) {
         })
         .catch(console.log);
 }
+
+export function channel(update, organisation_id, name, _private) {
+    return axios.post(`/api/channels/${organisation_id}`, { name, _private })
+        .then(({ data: channel }) => {
+            update(model => {
+                if (model.organisation.id === organisation_id) model.organisation.channels.push(channel);
+                return model;
+            });
+        })
+        .catch(console.log);
+}
