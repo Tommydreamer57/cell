@@ -17,9 +17,10 @@ CREATE TABLE cell_users (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(40),
     last_name VARCHAR(40),
-    username VARCHAR(40),
-    email VARCHAR(60),
-    admin BOOLEAN
+    username VARCHAR(40) UNIQUE,
+    email VARCHAR(60) UNIQUE,
+    admin BOOLEAN,
+    hash VARCHAR(60)
 );
 
 CREATE TABLE cell_organisations (

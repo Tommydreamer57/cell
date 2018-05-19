@@ -1,6 +1,17 @@
 import utils from './utils';
 import axios from 'axios';
 
+export function login(update, username, password) {
+    return axios.post(`/auth/login`, { username, password })
+        .then(({ data: user }) => {
+            console.log(user);
+            update(model => ({
+                ...model,
+                user
+            }));
+        })
+        .catch(console.log);
+}
 
 export function message(update, type, id, text) {
     return axios.post(`/api/messages/${type}/${id}`, { text })

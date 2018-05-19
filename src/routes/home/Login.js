@@ -20,8 +20,9 @@ export default class Login extends Component {
     }
     onKeyDown({ key }) {
         if (key === "Enter") {
-            console.log(this.username.current.value);
-            console.log(this.password.current.value);
+            let username = this.username.current.value;
+            let password = this.password.current.value;
+            this.props.login(username, password);
         }
     }
     render() {
