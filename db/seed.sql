@@ -169,3 +169,5 @@ VALUES
 (1, 6),
 (7, 6),
 (8, 6);
+
+SELECT * FROM cell_users;

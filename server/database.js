@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = function (app) {
     massive(process.env.CONNECTION_STRING)
         .then(db => {
-            // reset(db);
+            reset(db);
             console.log("Connected To Database");
             app.set('db', db);
         })
@@ -14,6 +14,12 @@ module.exports = function (app) {
         });
 }
 
-// function reset(db) {
-//     axios.get('/auth/signup')
-// }
+function reset(db) {
+    db.seed()
+        .then(users => {
+            users.forEach(({ username }) => {
+                axios.put('http://localhost:3021/auth/reset', { username, newPassword: username });
+            });
+        })
+        .catch(console.log);
+}

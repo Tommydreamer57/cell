@@ -46,8 +46,7 @@ function login(req, res) {
                 if (err) {
                     console.log(err);
                     res.status(500).send(err);
-                }
-                else if (result) {
+                } else if (result) {
                     req.db.read_user({ username, hash, user_id: null })
                         .then(convertUser)
                         .then(user => {
@@ -58,8 +57,7 @@ function login(req, res) {
                             console.log(err);
                             res.status(200).send(err);
                         });
-                }
-                else {
+                } else {
                     res.status(401).send({ username });
                 }
             });
@@ -81,5 +79,63 @@ function getCurrentUser(req, res) {
 }
 
 function resetPassword(req, res) {
-    let { username } = req.body;
+    let { username, newPassword, oldPassword } = req.body;
+
+    console.log("RESETTING PASSWORD");
+    console.log(req.body);
+
+    req.db.read_hash({ username })
+        .then(([{ hash: oldHash }]) => {
+            console.log("OLD PASSWORD HASH");
+            console.log(oldHash);
+            if (!oldHash) {
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(newPassword, salt, (err, newHash) => {
+                        req.db.update_password({ username, newHash, oldHash })
+                            .then(convertUser)
+                            .then(user => {
+                                req.session.user = user.id;
+                                res.status(200).send(user);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                res.status(500).send(err);
+                            });
+                    });
+                });
+            } else {
+                bcrypt.compare(oldPassword, oldHash, (err, result) => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500).send(err);
+                    } else if (result) {
+                        bcrypt.genSalt(10, (err, salt) => {
+                            bcrypt.hash(newPassword, salt, (err, newHash) => {
+                                req.db.update_password({ username, newHash, oldHash })
+                                    .then(convertUser)
+                                    .then(user => {
+                                        req.session.user = user.id;
+                                        res.status(200).send(user);
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                        res.status(500).send(err);
+                                    });
+                            });
+                        });
+                    } else {
+                        res.status(400).json("bad request");
+                    }
+                });
+            }
+        })
+        .catch(err => {
+            err = err.toString();
+            console.log(err)
+            if (err.match(/Cannot match against/)) {
+                res.status(401).json('invalid credentials');
+            } else {
+                res.status(500).send({ err });
+            }
+        });
 }
