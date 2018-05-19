@@ -23,7 +23,7 @@ export default function create(update) {
             placeholder: false,
             type: 'radio'
         }]
-    }
+    };
     // FUNCTIONS
     function toggleModal() {
         console.log(arguments);
@@ -33,11 +33,21 @@ export default function create(update) {
         }));
     }
     function submit(data, organisation_id) {
-        // console.log(data);
+        console.log(data);
+        console.log(organisation_id);
         let [nameKey, _privateKey] = modalProps.inputs.map(({ name }) => name);
         let name = data[nameKey];
         let _private = data[_privateKey];
-        POST.channel(update, organisation_id, name, _private).then(console.log).catch(console.log);
+        console.log({ organisation_id, name, _private });
+        return POST.channel(update, organisation_id, name, _private)
+            .then(res => {
+                update(model => ({
+                    ...model,
+                    currentModal: null
+                }));
+                return res;
+            })
+            .catch(console.log);
     }
     // CHILDREN
     let drag = createDrag(update);
@@ -66,7 +76,7 @@ export default function create(update) {
                         {...modalProps}
                     />
                     {/* CHANNEL LIST */}
-                    {channels.map(channel => link(model, `/messages/channel/${channel.id}`,
+                    {channels.filter(channel => channel.members.some(id => id === model.user.id)).map(channel => link(model, `/messages/channel/${channel.id}`,
                         <div className={`channel-link ${match === 'channel' && channel.id === currentId ? 'selected' : ''}`} >
                             {channel.private ? '$' : '#'} {channel.name}
                         </div>

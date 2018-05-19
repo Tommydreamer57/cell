@@ -4,28 +4,40 @@ export default class ModalInput extends Component {
     constructor(props) {
         super(props);
         this.handleInput = this.handleInput.bind(this);
+        this.handleBooleanInput = this.handleBooleanInput.bind(this);
     }
     handleInput({ target: { value } }) {
-        console.log(arguments);
-        console.log(value);
-        let { name, type } = this.props;
-        if (type === 'radio' || type === 'checkbox') {
-            value = !value;
-        }
+        let { name } = this.props;
         this.props.handleInput(name, value);
     }
+    handleBooleanInput() {
+        let { name, value } = this.props;
+        this.props.handleInput(name, !value);
+    }
     render() {
-        let { handleInput } = this;
-        let { name, placeholder, type } = this.props;
+        let { handleInput, handleBooleanInput } = this;
+        let { name, placeholder, type, value } = this.props;
         return (
-            <div key={name} className="input-wrapper" >
+            <div className="input-wrapper" >
                 <h4>{name}</h4>
-                <input
-                    type={type}
-                    onChange={handleInput}
-                    onClick={type === 'radio' || type === 'checkbox' ? handleInput : undefined}
-                    placeholder={'' + placeholder}
-                />
+                {(!type || type === 'text')
+                    &&
+                    <input
+                        type="text"
+                        onChange={handleInput}
+                        value={value}
+                        placeholder={placeholder}
+                    />
+                }
+                {(type === 'radio' || type === 'checkbox')
+                    &&
+                    <input
+                        type={type}
+                        checked={value}
+                        onChange={handleBooleanInput}
+                        onClick={handleBooleanInput}
+                    />
+                }
             </div>
         );
     }

@@ -7,9 +7,9 @@ export default function create(update) {
     window.addEventListener('mousemove', event => {
         if (!dragging) return;
         event.preventDefault();
+        let sideWidth = event.pageX;
         let max = window.innerWidth / 2;
         let min = window.innerWidth / 5;
-        let sideWidth = event.pageX;
         if (sideWidth > max) sideWidth = max;
         if (sideWidth < min) sideWidth = min;
         update(model => ({

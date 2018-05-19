@@ -10,34 +10,46 @@ export default class Modal extends Component {
     // CONSTRUCTOR
     constructor(props) {
         super(props);
-        this.state = this.props.inputs
+        this.state = this.initialState
+        this.onKeyDown = this.onKeyDown.bind(this);
+        this.handleInput = this.handleInput.bind(this);
+        // this.toggle = this.toggle.bind(this);
+        this.close = this.close.bind(this);
+    }
+    // STATE
+    get initialState() {
+        return this.props.inputs
             .reduce((state, input) => {
                 state[input.name] = '';
                 return state;
             }, {});
-        this.onKeyDown = this.onKeyDown.bind(this);
-        this.handleInput = this.handleInput.bind(this);
-        this.toggle = this.toggle.bind(this);
     }
     // EVENTS
     onKeyDown({ key }) {
         if (key === 'Escape') this.props.toggle(false);
-        if (key === 'Enter') this.props.submit(this.state, this.props.organisation_id);
+        if (key === 'Enter') {
+            this.props.submit(this.state, this.props.organisation_id).then(() => {
+                this.setState(this.initialState);
+            })
+         }
     }
     handleInput(prop, val) {
         this.setState({
             [prop]: val
         });
     }
-    toggle() {
-        let { current, title } = this.props;
-        let open = current === title;
-        this.props.toggle(!open && title);
+    // toggle() {
+    //     let { current, title } = this.props;
+    //     let open = current === title;
+    //     this.props.toggle(!open && title);
+    // }
+    close() {
+        this.props.toggle('null');
     }
     stopPropagation = e => e.stopPropagation();
     // RENDER
     render() {
-        let { willEnter, willLeave, defaultStyles, styles, stopPropagation, onKeyDown, toggle, handleInput } = this;
+        let { willEnter, willLeave, defaultStyles, styles, stopPropagation, onKeyDown, close, handleInput } = this;
         let { current, title, subtitle, inputs } = this.props
         console.log(this.state);
 
@@ -71,7 +83,7 @@ export default class Modal extends Component {
                 {styles => (
                     <ModalWrapper>
                         <div
-                            onClick={toggle}
+                            onClick={close}
                             style={{
                                 position: 'fixed',
                                 top: styles[0] ? 0 : window.innerHeight,
@@ -92,7 +104,7 @@ export default class Modal extends Component {
                                 <h1>{title}</h1>
                                 <h5>{subtitle}</h5>
                                 {inputs.map(input => (
-                                    <ModalInput {...input} handleInput={handleInput} />
+                                    <ModalInput key={input.name} value={this.state[input.name]} {...input} handleInput={handleInput} />
                                 ))}
                             </div>
                         ))}

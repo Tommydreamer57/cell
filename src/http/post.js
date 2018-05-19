@@ -14,6 +14,7 @@ export function message(update, type, id, text) {
 }
 
 export function channel(update, organisation_id, name, _private) {
+    console.log({ organisation_id, name, _private });
     return axios.post(`/api/channel/${organisation_id}`, { name, _private })
         .then(({ data: channel }) => {
             update(model => {

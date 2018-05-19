@@ -1,16 +1,18 @@
 import React from 'react';
 import http from '../../http';
+import { Home } from '../../styles/components';
+import Login from './Login';
 
 export default function create(update) {
-    // INITIAL DATA
-    // CHILDREN
     // COMPONENT
     return {
         view(model) {
             return (
-                <div>
-
-                </div>
+                <Home id="home" >
+                    <h1>Welcome!</h1>
+                    <h3>Please Log In</h3>
+                    <Login />
+                </Home>
             );
         }
     };

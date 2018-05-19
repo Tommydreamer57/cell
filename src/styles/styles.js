@@ -13,6 +13,7 @@ const flexStart = 'flex-start';
 const flexEnd = 'flex-end';
 const center = 'center';
 const spaceBetween = 'space-between';
+const spaceEvenly = 'space-evenly';
 const scroll = 'scroll';
 const bold = 'bold';
 const width = 'width';
@@ -222,7 +223,16 @@ export default StyleSheet.create({
             height: '50vh',
             background: '#EEE',
             ...centerFlex,
-            flexDirection: column
+            justifyContent: spaceEvenly,
+            flexDirection: column,
+            '& .input-wrapper': {
+                ...xFlex
+            }
         }
+    },
+    home: {
+        ...centerFlex,
+        flexDirection: column,
+        height: '100%',
     }
 });
