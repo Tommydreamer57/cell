@@ -22,6 +22,7 @@ export default class Login extends Component {
         this.setState({ create: true });
     }
     onKeyDown({ key }) {
+        let { signup, login, history } = this.props;
         if (key === "Enter") {
             if (this.state.create) {
                 let first_name = this.first_name.current.value;
@@ -29,23 +30,36 @@ export default class Login extends Component {
                 let username = this.username.current.value;
                 let email = this.email.current.value;
                 let password = this.password.current.value;
-                this.props.signup({ first_name, last_name, username, email, password });
+                signup({ first_name, last_name, username, email, password })
+                    .then(user => {
+                        history.push('/dashboard');
+                        return user;
+                    })
+                    .catch(console.log);
             } else {
                 let username = this.username.current.value;
                 let password = this.password.current.value;
-                this.props.login(username, password);
+                login(username, password)
+                    .then(user => {
+                        history.push('/dashboard');
+                        return user;
+                    })
+                    .catch(console.log);
             }
         }
     }
     render() {
         let { onKeyDown, toggleLogin, toggleSignup, first_name, last_name, username, email, password } = this;
+        let { create } = this.state;
         return (
-            <div onKeyDown={onKeyDown} >
-                <button onClick={toggleLogin} >Log In</button>
-                <button onClick={toggleSignup} >Sign Up</button>
-                {this.state.create ?
-                    <div>
-                        <h4>SIGN UP</h4>
+            <div id="login-box" onKeyDown={onKeyDown} >
+                <div className="button-wrapper">
+                    <button className={create ? '' : 'selected'} onClick={toggleLogin} >Log In</button>
+                    <button className={create ? 'selected' : ''} onClick={toggleSignup} >Sign Up</button>
+                </div>
+                {create ?
+                    <div className="input-wrapper" >
+                        {/* SIGN UP */}
                         <input ref={first_name} type="text" placeholder="first name" />
                         <input ref={last_name} type="text" placeholder="last name" />
                         <input ref={email} type="text" placeholder="email" />
@@ -53,8 +67,8 @@ export default class Login extends Component {
                         <input ref={password} type="password" placeholder="password" />
                     </div>
                     :
-                    <div>
-                        <h4>LOG IN</h4>
+                    <div className="input-wrapper" >
+                        {/* LOG IN */}
                         <input ref={username} type="text" placeholder="username" />
                         <input ref={password} type="password" placeholder="password" />
                     </div>

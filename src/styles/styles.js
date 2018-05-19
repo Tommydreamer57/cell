@@ -13,6 +13,7 @@ const flexStart = 'flex-start';
 const flexEnd = 'flex-end';
 const center = 'center';
 const spaceBetween = 'space-between';
+const spaceAround = 'space-around';
 const spaceEvenly = 'space-evenly';
 const scroll = 'scroll';
 const bold = 'bold';
@@ -232,7 +233,29 @@ export default StyleSheet.create({
     },
     home: {
         ...centerFlex,
+        justifyContent: flexStart,
         flexDirection: column,
-        height: '100%',
+        height: 'calc(100% - 10vh)',
+        padding: '5vh',
+        '& h2': {
+            padding: 48
+        },
+        '& #login-box': {
+            ...yFlex,
+            padding: 12,
+        },
+        '& .button-wrapper': {
+            ...xFlex,
+            justifyContent: spaceEvenly,
+            width: '100%'
+        },
+        '& .input-wrapper': {
+            ...yFlex,
+            padding: 12,
+            '& input': {
+                padding: 8,
+                margin: 6
+            }
+        }
     }
 });

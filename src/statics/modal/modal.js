@@ -3,9 +3,6 @@ import { TransitionMotion, spring } from 'react-motion';
 import { ModalWrapper } from '../../styles/components';
 import ModalInput from './ModalInput';
 
-let inn = window.innerHeight * 0.25;
-let out = window.innerHeight * 1.5;
-
 export default class Modal extends Component {
     // CONSTRUCTOR
     constructor(props) {
@@ -38,15 +35,12 @@ export default class Modal extends Component {
             [prop]: val
         });
     }
-    // toggle() {
-    //     let { current, title } = this.props;
-    //     let open = current === title;
-    //     this.props.toggle(!open && title);
-    // }
     close() {
         this.props.toggle('null');
     }
-    stopPropagation = e => e.stopPropagation();
+    stopPropagation(e) {
+        e.stopPropagation();
+    }
     // RENDER
     render() {
         let { willEnter, willLeave, defaultStyles, styles, stopPropagation, onKeyDown, close, handleInput } = this;
@@ -54,6 +48,9 @@ export default class Modal extends Component {
         console.log(this.state);
 
         let open = current === title;
+
+        let inn = window.innerHeight * 0.25;
+        let out = window.innerHeight * 1.5;
 
         return (
             <TransitionMotion
@@ -102,7 +99,7 @@ export default class Modal extends Component {
                                 onKeyDown={onKeyDown}
                             >
                                 <h1>{title}</h1>
-                                <h5>{subtitle}</h5>
+                                {subtitle && <h5>{subtitle}</h5>}
                                 {inputs.map(input => (
                                     <ModalInput key={input.name} value={this.state[input.name]} {...input} handleInput={handleInput} />
                                 ))}

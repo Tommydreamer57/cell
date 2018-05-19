@@ -11,12 +11,10 @@ function assign(regex, obj, ...except) {
 
 module.exports = {
     convertUser(arr) {
-        console.log("CONVERTING USER FROM ARRAY");
-        console.log(arr);
         let user = assign(/^/, arr[0], 'organisation_id', 'channel_id');
         user.organisations = arr
             .reduce((organisations, obj) => {
-                if (!organisations.some(org => org === obj.organisation_id)) {
+                if (obj.organisation_id && !organisations.some(org => org === obj.organisation_id)) {
                     organisations.push(obj.organisation_id);
                 }
                 return organisations;
@@ -28,8 +26,6 @@ module.exports = {
                 }
                 return channels;
             }, []);
-        console.log("CONVERTED USER TO OBJECT");
-        console.log(user);
         return user;
     },
     convertEntireOrganisation(arr) {
