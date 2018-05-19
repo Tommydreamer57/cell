@@ -1,52 +1,26 @@
-function defaultQuery() {
-    return {
-        then(cb) {
-            cb();
-            return this;
-        },
-        catch(cb) {
-            cb();
-            return this;
-        }
-    };
-}
 
 module.exports = function addMessageEndpointsTo(app) {
-
-    app.get('/api/messages/:type/:id', read);
 
     app.post('/api/messages/:type/:id', create);
 
 }
 
-function read(req, res) {
-    let { type, id } = req.params;
-    let query = defaultQuery;
-    if (type === 'channel') query = req.db.read_channel_messages;
-    else if (type === 'direct') query = db.read_group_messages;
-    query({ id })
-        .then(messages => {
-            res.status(200).send(messages);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        })
-}
-
 function create(req, res) {
     let { type, id: channel_id } = req.params;
     let { text } = req.body;
-    let { id: author_id } = req.session.user;
-    // let query = defaultQuery;
-    // if (type === 'channel') query = req.db.create_channel_message;
-    // else if (type === 'direct') query = db.create_direct_message;
-    req.db.create_channel_message({ text, author_id, channel_id })
-        .then(messages => {
-            res.status(200).send(messages);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+    let { id: author_id } = req.user;
+    if (type === 'channel') {
+        if (!req.user.channels.includes(+channel_id)) {
+            res.status(403).json("User: " + author_id + " not a member of channel: " + channel_id);
+        } else {
+            req.db.create_channel_message({ text, author_id, channel_id })
+                .then(messages => {
+                    res.status(200).send(messages);
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).send(err);
+                });
+        }
+    } else res.status(400).json("can only send message to a channel");
 }

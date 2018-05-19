@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const { convertUser } = require('./utils/utils');
 
 module.exports = function addAuthEndpointsTo(app) {
 
@@ -20,9 +21,9 @@ function signup(req, res) {
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
             req.db.create_user({ first_name, last_name, username, email, hash })
-                .then(([user]) => {
-                    req.session.user = user;
-                    console.log(req.session);
+                .then(convertUser)
+                .then(user => {
+                    req.session.user = user.id;
                     res.status(200).send(user);
                 })
                 .catch(err => {
@@ -47,9 +48,10 @@ function login(req, res) {
                     res.status(500).send(err);
                 }
                 else if (result) {
-                    req.db.read_user({ username, hash })
-                        .then(([user]) => {
-                            req.session.user = user;
+                    req.db.read_user({ username, hash, user_id: null })
+                        .then(convertUser)
+                        .then(user => {
+                            req.session.user = user.id;
                             res.status(200).send(user);
                         })
                         .catch(err => {
@@ -75,7 +77,7 @@ function login(req, res) {
 }
 
 function getCurrentUser(req, res) {
-    res.status(200).send(req.session.user);
+    res.status(200).send(req.user);
 }
 
 function resetPassword(req, res) {

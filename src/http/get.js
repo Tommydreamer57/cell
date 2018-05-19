@@ -12,9 +12,10 @@ export function authenticate(update) {
         })
         .catch(console.log);
 }
+
 export function allOrganisations(update) {
     console.log("app getting ALL ORGANISATIONS");
-    return axios.get(`/api/organisation/all`)
+    return axios.get(`/api/organisation?all=true`)
         .then(({ data: allOrganisations }) => {
             update(model => ({
                 ...model,
@@ -23,10 +24,11 @@ export function allOrganisations(update) {
         })
         .catch(console.log);
 }
+
 export function organisation(update, id) {
     console.log("app getting ORGANISATION # " + id);
     if (!id) return null;
-    return axios.get(`/api/entire/organisation/${id}`)
+    return axios.get(`/api/organisation/${id}`)
         .then(({ data: organisation }) => {
             update(model => ({
                 ...model,
@@ -35,10 +37,11 @@ export function organisation(update, id) {
         })
         .catch(console.log);
 }
+
 export function organisationByChannel(update, id) {
     console.log("app getting ORGANISATION OF CHANNEL # " + id);
     if (!id) return null;
-    return axios.get(`/api/entire/organisation?channel_id=${id}`)
+    return axios.get(`/api/organisation?channel_id=${id}`)
         .then(({ data: organisation }) => {
             update(model => ({
                 ...model,
@@ -46,23 +49,3 @@ export function organisationByChannel(update, id) {
             }));
         });
 }
-// export function channel(update, id) {
-    // console.log("");
-//     return axios.get(`/api/channel/${id}`)
-//         .then(({ data: channel }) => {
-//             update(model => {
-//                 if (!model.organisation.id) organisation(update, channel.organisation_id);
-//                 return {
-//                     ...model,
-//                     channel
-//                 }
-//             });
-//         })
-//         .catch(console.log);
-// }
-// export function messages(update, type, id) {
-    // console.log("");
-//     return axios.get(`/api/messages/${type}/${id}`)
-//         .then(console.log)
-//         .catch(console.log);
-// }

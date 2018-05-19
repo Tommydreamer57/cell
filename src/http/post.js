@@ -35,14 +35,25 @@ export function message(update, type, id, text) {
         .catch(console.log);
 }
 
-export function channel(update, organisation_id, name, _private) {
+export function newChannel(update, organisation_id, name, _private) {
     console.log({ organisation_id, name, _private });
-    return axios.post(`/api/channel/${organisation_id}`, { name, _private })
+    return axios.post(`/api/create/channel/${organisation_id}`, { name, _private })
         .then(({ data: channel }) => {
             update(model => {
                 if (model.organisation.id === organisation_id) model.organisation.channels.push(channel);
                 return model;
             });
+        })
+        .catch(console.log);
+}
+
+export function joinChannel(update, channel_id) {
+    return axios.post(`/api/join/channel/${channel_id}`)
+        .then(({ data: organisation }) => {
+            update(model => ({
+                ...model,
+                organisation
+            }));
         })
         .catch(console.log);
 }

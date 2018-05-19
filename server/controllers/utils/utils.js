@@ -10,6 +10,28 @@ function assign(regex, obj, ...except) {
 }
 
 module.exports = {
+    convertUser(arr) {
+        console.log("CONVERTING USER FROM ARRAY");
+        console.log(arr);
+        let user = assign(/^/, arr[0], 'organisation_id', 'channel_id');
+        user.organisations = arr
+            .reduce((organisations, obj) => {
+                if (!organisations.some(org => org === obj.organisation_id)) {
+                    organisations.push(obj.organisation_id);
+                }
+                return organisations;
+            }, []);
+        user.channels = arr
+            .reduce((channels, obj) => {
+                if (obj.channel_id && !channels.some(channel => channel === obj.channel_id)) {
+                    channels.push(obj.channel_id);
+                }
+                return channels;
+            }, []);
+        console.log("CONVERTED USER TO OBJECT");
+        console.log(user);
+        return user;
+    },
     convertEntireOrganisation(arr) {
         // ORGANISATION
         let organisation = assign(/^organisation_/, arr[0], 'channel_id', 'member_id');
@@ -28,19 +50,21 @@ module.exports = {
                 if (obj.channel_id && !channels.some(channel => channel.id === obj.channel_id)) {
                     let newChannel = assign(/^channel_/, obj, 'member_id');
                     // MEMBERS
-                    newChannel.members = arr // organisation.members.map(({ id }) => id);
+                    newChannel.members = arr
                         .reduce((members, { channel_id, member_id }) => {
                             if (!members.includes(member_id) && channel_id === newChannel.id) {
                                 members.push(member_id);
                             }
                             return members;
                         }, []);
-                        // .filter(({ channel_id }) => channel_id === newChannel.id)
-                        // .map(({ member_id }) => member_id);
                     // MESSAGES
                     newChannel.messages = arr
-                        .filter(({ message_channel_id }) => message_channel_id === newChannel.id)
-                        .map(obj => assign(/^message_/, obj, 'channel_id'));
+                        .reduce((messages, obj) => {
+                            if (obj.channel_id === newChannel.id && obj.message_id && !messages.some(message => message.id === obj.message_id)) {
+                                messages.push(assign(/^message_/, obj, 'channel_id'));
+                            }
+                            return messages;
+                        }, []);
                     channels.push(newChannel);
                 }
                 return channels;
