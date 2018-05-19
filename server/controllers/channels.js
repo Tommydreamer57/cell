@@ -1,10 +1,11 @@
 const { convertChannel } = require('./utils/utils');
+const { requireAuthentication, requireAdmin } = require('../middlewares');
 
 module.exports = function addChannelEndpointsTo(app) {
 
-    app.get('/api/channel/:channel_id', read);
+    app.get('/api/channel/:channel_id', requireAuthentication, read);
 
-    app.post('/api/channel/:organisation_id', create);
+    app.post('/api/channel/:organisation_id', requireAuthentication, create);
 
 }
 

@@ -50,7 +50,7 @@ SELECT *
 -- ORGANISATIONS
 FROM organisations
 -- CHANNELS
-JOIN channels
+LEFT OUTER JOIN channels
 ON channels.channel_id = organisations.organisation_channel_id
 AND channels.channel_member_id = organisations.organisation_member_id
 -- MESSAGES
@@ -63,40 +63,3 @@ ON members.member_id = organisations.organisation_member_id
 WHERE organisation_id = ${organisation_id}
 OR organisation_id IN (SELECT organisation_id FROM cell_channels WHERE cell_channels.id = ${channel_id})
 ORDER BY messages.message_timestamp;
-
-
-
-
-
--- WITH organisation_count AS (
---     SELECT organisation_id AS id, count(*) AS organisation_count FROM cell_organisation_memberships
---     GROUP BY organisation_id
--- ), channel_count AS (
---     SELECT channel_id AS id, count(*) AS channel_count FROM cell_channel_memberships
---     GROUP BY channel_id
--- ), channel_message_count AS (
---     SELECT channel_id AS id, count(*) AS message_count FROM cell_channel_messages
---     GROUP BY channel_id
--- )
--- SELECT
--- cell_organisations.id AS organisation_id,
--- cell_organisations.name AS organisation_name,
--- cell_organisations.created_by AS organisation_owner_id,
--- cell_organisations.created_on AS organisation_timestamp,
--- cell_channels.id AS channel_id,
--- cell_channels.name AS channel_name,
--- cell_channels.created_on AS channel_timestamp,
--- cell_channels.created_by AS channel_owner_id,
--- cell_channel_messages.id AS message_id,
--- cell_users.id AS user_id,
--- private, admin, email, first_name, last_name, username, text, timestamp, organisation_count, channel_count, message_count
--- FROM cell_organisations
--- LEFT OUTER JOIN cell_organisation_memberships ON cell_organisation_memberships.organisation_id = cell_organisations.id
--- JOIN organisation_count ON organisation_count.id = cell_organisations.id
--- JOIN cell_channels ON cell_channels.organisation_id = cell_organisations.id
--- JOIN channel_count ON channel_count.id = cell_channels.id
--- LEFT OUTER JOIN cell_channel_memberships ON cell_channel_memberships.channel_id = cell_channels.id
--- LEFT OUTER JOIN cell_users ON cell_organisation_memberships.member_id = cell_users.id -- OR cell_channel_memberships.member_id = cell_users.id
--- LEFT OUTER JOIN cell_channel_messages ON cell_channel_messages.author_id = cell_users.id AND cell_channel_messages.channel_id = cell_channels.id
--- JOIN channel_message_count ON channel_message_count.id = cell_channels.id
--- WHERE cell_organisations.id = ${organisation_id};

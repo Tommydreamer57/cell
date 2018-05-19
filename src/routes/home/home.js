@@ -8,6 +8,9 @@ export default function create(update) {
     function login(username, password) {
         POST.login(update, username, password).then(console.log).catch(console.log);
     }
+    function signup({ first_name, last_name, username, email, password }) {
+        POST.signup(update, { first_name, last_name, username, email, password }).then(console.log).catch(console.log);
+    }
     // COMPONENT
     return {
         view(model) {
@@ -15,7 +18,7 @@ export default function create(update) {
                 <Home id="home" >
                     <h1>Welcome!</h1>
                     <h3>Please Log In</h3>
-                    <Login login={login} />
+                    <Login login={login} signup={signup} />
                 </Home>
             );
         }

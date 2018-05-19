@@ -1,12 +1,15 @@
 const { convertEntireOrganisation, convertOrganisation } = require('./utils/utils');
+const { requireAuthentication, requireAdmin } = require('../middlewares');
 
 module.exports = function addOrganisationEndpointsTo(app) {
 
-    app.get('/api/organisation/:organisation_id', read);
+    app.get('/api/organisation/:organisation_id', requireAuthentication, read);
 
-    app.get('/api/entire/organisation', readEntire);
+    app.get('/api/entire/organisation', requireAuthentication, readEntire);
 
-    app.get('/api/entire/organisation/:organisation_id', readEntire);
+    app.get('/api/entire/organisation/:organisation_id', requireAuthentication, readEntire);
+
+    app.post('/api/join/organisation/:organisation_id', requireAuthentication, join);
 
 }
 
@@ -45,5 +48,19 @@ function readEntire(req, res) {
         .catch(err => {
             console.log(err);
             res.status(200).send(err);
+        });
+}
+
+function join(req, res) {
+    let { organisation_id } = req.params;
+    let { id: user_id } = req.session.user;
+    req.db.create_org_membership({ organisation_id, user_id })
+        .then(() => {
+            console.log("successfully joined");
+            res.redirect(`/api/organisation/${organisation_id}`);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
         });
 }

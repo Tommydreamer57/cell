@@ -1,7 +1,7 @@
 // DEPENDENCIES
 const express = require('express');
 // MIDDLEWARES
-const addMiddlewaresTo = require('./middlewares');
+const { default: addMiddlewaresTo } = require('./middlewares');
 // CONTROLLERS
 const addAllEndpointsTo = require('./endpoints');
 // DATABASE

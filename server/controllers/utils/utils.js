@@ -25,7 +25,7 @@ module.exports = {
         // CHANNELS
         organisation.channels = arr
             .reduce((channels, obj) => {
-                if (!channels.some(channel => channel.id === obj.channel_id)) {
+                if (obj.channel_id && !channels.some(channel => channel.id === obj.channel_id)) {
                     let newChannel = assign(/^channel_/, obj, 'member_id');
                     // MEMBERS
                     newChannel.members = arr // organisation.members.map(({ id }) => id);
