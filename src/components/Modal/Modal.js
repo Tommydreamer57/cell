@@ -22,12 +22,14 @@ export default class Modal extends Component {
     }
     // EVENTS
     onKeyDown({ key }) {
-        if (key === 'Escape') this.props.toggle(false);
         if (key === 'Enter') {
-            this.props.submit(this.state, this.props.organisation_id).then(() => {
-                this.setState(this.initialState);
-            })
-         }
+            if (typeof this.props.submit === 'function') {
+                this.props.submit(this.state, this.props.organisation_id)
+                    .then(() => {
+                        this.setState(this.initialState);
+                    })
+            }
+        }
     }
     handleInput(prop, val) {
         this.setState({
@@ -42,9 +44,17 @@ export default class Modal extends Component {
     }
     // RENDER
     render() {
-        let { willEnter, willLeave, defaultStyles, styles, stopPropagation, onKeyDown, close, handleInput } = this;
-        let { current, title, subtitle, inputs } = this.props
-        // console.log(this.state);
+        let {
+            willEnter,
+            willLeave,
+            defaultStyles,
+            styles,
+            stopPropagation,
+            onKeyDown,
+            close,
+            handleInput,
+            props: { current, title, subtitle, inputs }
+        } = this;
 
         let open = current === title;
 
@@ -100,7 +110,13 @@ export default class Modal extends Component {
                                 <h1>{title}</h1>
                                 {subtitle && <h5>{subtitle}</h5>}
                                 {inputs.map(input => (
-                                    <ModalInput key={input.name} value={this.state[input.name]} {...input} handleInput={handleInput} />
+                                    <ModalInput
+                                        key={input.name}
+                                        value={this.state[input.name]}
+                                        handleInput={handleInput}
+                                        close={close}
+                                        {...input}
+                                    />
                                 ))}
                             </div>
                         ))}

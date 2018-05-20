@@ -31,15 +31,17 @@ function deepCopy(obj) {
     return newObj;
 }
 
-// WATCH CHANGES IN MODEL IN CONSOLE
-export function watch(oldModel) {
-    let currentModel = oldModel;
+// WATCH CHANGES IN MODEL
+export function watch() {
+    let oldCopy, currentCopy;
     return function (newModel) {
         console.log("NEW MODEL");
-        [oldModel, currentModel] = [currentModel, newModel];
-        let oldCopy = deepCopy(oldModel);
-        let newCopy = deepCopy(newModel);
-        let differences = compare(oldModel, newModel);
+        console.log(newModel);
+        // TRACK PREVIOUS MODELS - COPY NEW MODELS TO MAINTAIN IMMUTABILITY
+        [oldCopy, currentCopy] = [currentCopy, deepCopy(newModel)];
+        // COMPUTE DIFFERENCES
+        let differences = compare(oldCopy, currentCopy);
+        // TRACE SOURCE OF UPDATE IF NO DIFFERENCES MADE
         if (Object.keys(differences).length) {
             console.log("DIFFERENCES:");
             console.log(differences);

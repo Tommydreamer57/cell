@@ -27,6 +27,16 @@ export default function create(update) {
     // LISTEN TO ROUTES
     listen(update);
 
+    // TOGGLE MODAL OFF
+    window.addEventListener('keydown', ({ key }) => {
+        if (key === 'Escape') {
+            update(model => (model.currentModal) && {
+                ...model,
+                currentModal: false
+            });
+        }
+    })
+
     // CHILDREN
     let routes = createRoutes(update);
     let statics = createStatics(update);

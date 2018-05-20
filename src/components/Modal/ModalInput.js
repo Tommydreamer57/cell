@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { link } from '../../meiosis-router';
 
 export default class ModalInput extends Component {
     constructor(props) {
@@ -15,11 +16,17 @@ export default class ModalInput extends Component {
         this.props.handleInput(name, !value);
     }
     render() {
-        let { handleInput, handleBooleanInput } = this;
-        let { name, placeholder, type, value } = this.props;
+        let {
+            handleInput,
+            handleBooleanInput,
+            props: { name, placeholder, type, value, onClick, model, to, close }
+        } = this;
         return (
             <div className="input-wrapper" >
-                <h4>{name}</h4>
+                {(type !== 'button' && type !== 'link')
+                    &&
+                    <h4>{name}</h4>
+                }
                 {(!type || type === 'text')
                     &&
                     <input
@@ -38,6 +45,17 @@ export default class ModalInput extends Component {
                         onClick={handleBooleanInput}
                     />
                 }
+                {(type === 'button')
+                    &&
+                    <button
+                        onClick={onClick}
+                    >
+                        {name}
+                    </button>
+                }
+                {(type === 'link')
+                    &&
+                    link(model, to, <div onClick={close} >{name}</div>)}
             </div>
         );
     }

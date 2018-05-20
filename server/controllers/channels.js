@@ -16,7 +16,7 @@ function create(req, res) {
     _private = !!_private;
     console.log('CREATING NEW CHANNEL');
     console.log({ organisation_id, name, _private, created_by });
-    if (!res.user.organisations.includes(+organisation_id)) {
+    if (!req.user.organisations.includes(+organisation_id)) {
         res.status(403).send("user: " + user_id + " not a member of organisation: " + organisation_id);
     } else {
         req.db.create_channel({ organisation_id, created_by, name, _private })

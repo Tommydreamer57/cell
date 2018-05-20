@@ -105,14 +105,17 @@ export default StyleSheet.create({
         justifyContent: flexStart,
         alignItems: flexStart,
         resize: horizontal,
+        '& .dropdown': {
+            width: '100%'
+        },
         '& .header': {
-            width: 'calc(100% - 36px)',
-            padding: '14px 18px',
+            width: '100%',
             background: '#CCC',
             '& button': {
                 ...reset,
                 ...startFlex,
                 width: '100%',
+                padding: '14px 18px',
             },
             '&:hover': {
                 background: '#BBB'
