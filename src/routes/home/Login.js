@@ -22,7 +22,7 @@ export default class Login extends Component {
         this.setState({ create: true });
     }
     onKeyDown({ key }) {
-        let { signup, login, history } = this.props;
+        let { signup, login } = this.props;
         if (key === "Enter") {
             if (this.state.create) {
                 let first_name = this.first_name.current.value;
@@ -30,21 +30,11 @@ export default class Login extends Component {
                 let username = this.username.current.value;
                 let email = this.email.current.value;
                 let password = this.password.current.value;
-                signup({ first_name, last_name, username, email, password })
-                    .then(user => {
-                        history.push('/dashboard');
-                        return user;
-                    })
-                    .catch(console.log);
+                signup({ first_name, last_name, username, email, password });
             } else {
                 let username = this.username.current.value;
                 let password = this.password.current.value;
-                login(username, password)
-                    .then(user => {
-                        history.push('/dashboard');
-                        return user;
-                    })
-                    .catch(console.log);
+                login(username, password);
             }
         }
     }

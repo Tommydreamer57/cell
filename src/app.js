@@ -21,8 +21,6 @@ export default function create(update) {
     GET.allOrganisations(update);
     let MATCH = getMatch();
     let ID = getId();
-    console.log(MATCH);
-    console.log(ID);
     if (MATCH === 'organisation') GET.organisation(update, ID);
     else if (MATCH === 'channel') GET.organisationByChannel(update, ID);
 
@@ -41,8 +39,6 @@ export default function create(update) {
         },
         // TOP LEVEL VIEW
         view(model) {
-            console.log("APP MODEL");
-            console.log(model);
             return (
                 <App id="app">
                     {routes.view(model)}

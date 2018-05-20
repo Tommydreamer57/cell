@@ -1,10 +1,13 @@
 import React from 'react';
-import { Link, link } from '../../meiosis-router';
-import http from '../../http';
+import { link } from '../../meiosis-router';
+import { GET } from '../../http';
 
 export default function create(update) {
     // COMPONENT
     return {
+        data(model) {
+            GET.allOrganisations(update);
+        },
         view(model) {
             let { allOrganisations: orgs } = model;
             return (

@@ -26,19 +26,19 @@ export default function create(update) {
     };
     // FUNCTIONS
     function toggleModal() {
-        console.log(arguments);
+        // console.log(arguments);
         update(model => ({
             ...model,
             currentModal: typeof arguments[0] === 'string' ? arguments[0] : null,
         }));
     }
     function submit(data, organisation_id) {
-        console.log(data);
-        console.log(organisation_id);
+        // console.log(data);
+        // console.log(organisation_id);
         let [nameKey, _privateKey] = modalProps.inputs.map(({ name }) => name);
         let name = data[nameKey];
         let _private = data[_privateKey];
-        console.log({ organisation_id, name, _private });
+        // console.log({ organisation_id, name, _private });
         return POST.channel(update, organisation_id, name, _private)
             .then(res => {
                 update(model => ({
@@ -47,7 +47,7 @@ export default function create(update) {
                 }));
                 return res;
             })
-            .catch(console.log);
+            // .catch(console.log);
     }
     // CHILDREN
     let drag = createDrag(update);

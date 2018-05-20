@@ -2,7 +2,6 @@ import axios from 'axios';
 import defaultModel from '../model';
 
 export function authenticate(update) {
-    console.log("app AUTHENTICATING");
     return axios.get('/auth/me')
         .then(({ data: user }) => {
             update(model => ({
@@ -14,7 +13,6 @@ export function authenticate(update) {
 }
 
 export function allOrganisations(update) {
-    console.log("app getting ALL ORGANISATIONS");
     return axios.get(`/api/organisation?all=true`)
         .then(({ data: allOrganisations }) => {
             update(model => ({
@@ -26,7 +24,6 @@ export function allOrganisations(update) {
 }
 
 export function organisation(update, id) {
-    console.log("app getting ORGANISATION # " + id);
     if (!id) return null;
     return axios.get(`/api/organisation/${id}`)
         .then(({ data: organisation }) => {
@@ -39,7 +36,6 @@ export function organisation(update, id) {
 }
 
 export function organisationByChannel(update, id) {
-    console.log("app getting ORGANISATION OF CHANNEL # " + id);
     if (!id) return null;
     return axios.get(`/api/organisation?channel_id=${id}`)
         .then(({ data: organisation }) => {
@@ -47,5 +43,6 @@ export function organisationByChannel(update, id) {
                 ...model,
                 organisation
             }));
-        });
+        })
+        .catch(console.log);
 }

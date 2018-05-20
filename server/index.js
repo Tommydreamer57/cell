@@ -23,8 +23,14 @@ connectDbTo(app);
 // ENDPOINTS
 addAllEndpointsTo(app);
 
+// SERVE REACT
+const path = require('path');
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+});
+
 // LISTEN
 const server = app.listen(3021, () => console.log('Cells on 3021!'));
 
-// SOCKET
+// SOCKETS
 connectSocketsTo(server);

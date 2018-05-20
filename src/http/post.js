@@ -15,7 +15,6 @@ export function signup(update, { first_name, last_name, username, email, passwor
 export function login(update, username, password) {
     return axios.post(`/auth/login`, { username, password })
         .then(({ data: user }) => {
-            console.log(user);
             update(model => ({
                 ...model,
                 user
@@ -36,7 +35,6 @@ export function message(update, type, id, text) {
 }
 
 export function newChannel(update, organisation_id, name, _private) {
-    console.log({ organisation_id, name, _private });
     return axios.post(`/api/create/channel/${organisation_id}`, { name, _private })
         .then(({ data: channel }) => {
             update(model => {

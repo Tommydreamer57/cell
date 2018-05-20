@@ -7,10 +7,9 @@ export default class Modal extends Component {
     // CONSTRUCTOR
     constructor(props) {
         super(props);
-        this.state = this.initialState
+        this.state = this.initialState;
         this.onKeyDown = this.onKeyDown.bind(this);
         this.handleInput = this.handleInput.bind(this);
-        // this.toggle = this.toggle.bind(this);
         this.close = this.close.bind(this);
     }
     // STATE
@@ -45,7 +44,7 @@ export default class Modal extends Component {
     render() {
         let { willEnter, willLeave, defaultStyles, styles, stopPropagation, onKeyDown, close, handleInput } = this;
         let { current, title, subtitle, inputs } = this.props
-        console.log(this.state);
+        // console.log(this.state);
 
         let open = current === title;
 

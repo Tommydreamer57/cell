@@ -23,7 +23,7 @@ export default function listen(update) {
 
     setTimeout(updateHistory, 0);
 
-    window.onload = () => { console.log("WINDOW LOADED"); updateHistory() };
+    window.onload = () => updateHistory();
 
     history.listen(updateHistory);
 
