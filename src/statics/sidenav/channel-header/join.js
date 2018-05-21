@@ -31,19 +31,22 @@ export default function create(update) {
                     current={model.currentModal}
                     organisation_id={model.organisation.id}
                     {...modalProps}
-                    inputs={model.organisation.channels
-                        .reduce((inputs, { id, name, members }) => {
-                            if (!members.includes(model.user.id)) {
-                                inputs.push({
-                                    name,
-                                    id,
-                                    type: 'link',
-                                    to: `/messages/channel/${id}`,
-                                    model,
-                                });
-                            }
-                            return inputs;
-                        }, [])}
+                    inputs={[{
+                        name: "search",
+                        type: "filter",
+                        filter({name}) {return name.match(new RegExp())}
+                    },
+                    ...model.organisation.channels
+                        .filter(({ members }) => !members.includes(model.user.id))
+                        .map(({ id, name }) => ({
+                            name,
+                            id,
+                            type: 'link',
+                            to: `/messages/channel/${id}`,
+                            model
+                        }))
+                        // .filter(({ name }) => name.match(search))
+                    ]}
                 />
             );
         }

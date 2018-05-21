@@ -113,7 +113,7 @@ export default class Modal extends Component {
                                     <ModalInput
                                         key={input.name}
                                         value={this.state[input.name]}
-                                        handleInput={handleInput}
+                                        handleInput={input.onChange || handleInput}
                                         close={close}
                                         {...input}
                                     />
