@@ -31,3 +31,9 @@ export default function link(model, href, children) {
         </Link>
     );
 }
+
+// different ways to create a link
+// // export a function to create a link as a normal meiosis component
+// // export a class component Link to use like react router dom -- or export a function to register the `update`, that returns a Link component that can be used like react-router-dom's
+// // save the link component on the model for access directly in any component's view
+// //

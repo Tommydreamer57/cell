@@ -1,6 +1,6 @@
 import React from 'react';
 // LISTEN TO WINDOW HREF
-import listen from './meiosis-router';
+import Router from './meiosis-router';
 // ROUTES & STATICS
 import createRoutes from './routes/routes';
 import createStatics from './statics/statics';
@@ -23,9 +23,6 @@ export default function create(update) {
     let ID = getId();
     if (MATCH === 'organisation') GET.organisation(update, ID);
     else if (MATCH === 'channel') GET.organisationByChannel(update, ID);
-
-    // LISTEN TO ROUTES
-    listen(update);
 
     // TOGGLE MODAL OFF
     window.addEventListener('keydown', ({ key }) => {
@@ -50,10 +47,12 @@ export default function create(update) {
         // TOP LEVEL VIEW
         view(model) {
             return (
-                <App id="app">
-                    {routes.view(model)}
-                    {statics.view(model)}
-                </App>
+                <Router update={update} >
+                    <App id="app" >
+                        {routes.view(model)}
+                        {statics.view(model)}
+                    </App>
+                </Router>
             );
         }
     };
