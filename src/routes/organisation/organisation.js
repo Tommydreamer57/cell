@@ -25,7 +25,7 @@ export default function create(update) {
                     <div>
                         <h2>Channels</h2>
                         {org.channels.map(channel => (
-                            <Link to={`/messages/channel/${channel.id}`} >
+                            <Link key={channel.id} to={`/messages/channel/${channel.id}`} >
                                 <h3>{channel.name}</h3>
                             </Link>
                         ))}

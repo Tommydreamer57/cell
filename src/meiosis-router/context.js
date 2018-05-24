@@ -20,7 +20,6 @@ export default class Router extends Component {
 
     }
     updateHistory(location = window.location, action) {
-        console.log("UPDATING HISTORY");
         this.props.update(model => {
             const match = matchAndParse(location.pathname, model.router.routes);
             return {

@@ -12,7 +12,7 @@ export default function create(update) {
                     title={model.organisation.name}
                 >
                     {model.allOrganisations.filter(({ id }) => id !== model.organisation.id).map(org => (
-                        <Link to={`/organisations/${org.id}`}>
+                        <Link key={org.id} to={`/organisations/${org.id}`}>
                             <button key={org.id} >
                                 <h4>{org.name}</h4>
                             </button>

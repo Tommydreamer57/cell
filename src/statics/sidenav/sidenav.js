@@ -29,7 +29,7 @@ export default function create(update) {
 
                     {/* CHANNEL LIST */}
                     {channels.filter(channel => channel.members.some(id => id === model.user.id)).map(channel => (
-                        <Link to={`/messages/channel/${channel.id}`} >
+                        <Link key={channel.id} to={`/messages/channel/${channel.id}`} >
                             <div className={`channel-link ${match === 'channel' && channel.id === currentId ? 'selected' : ''}`} >
                                 {channel.private ? '$' : '#'} {channel.name}
                             </div>

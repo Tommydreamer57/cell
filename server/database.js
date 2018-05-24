@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = function (app) {
     massive(process.env.CONNECTION_STRING)
         .then(db => {
-            // reset(db);
+            reset(db);
             console.log("Connected To Database");
             app.set('db', db);
         })

@@ -6,15 +6,13 @@ function registerRoute(update, route, exact = false) {
         route,
         exact
     };
-    setTimeout(() => {
-        update(model => ({
-            ...model,
-            router: {
-                ...model.router,
-                routes: [...model.router.routes, route]
-            }
-        }));
-    }, 0);
+    update(model => ({
+        ...model,
+        router: {
+            ...model.router,
+            routes: [...model.router.routes, route]
+        }
+    }));
 }
 
 // CREATE SINGLE ROUTE
@@ -32,15 +30,13 @@ function registerMultiple(update, routes) {
     for (let route of routes) {
         if (!route.exact) route.exact = false;
     }
-    setTimeout(() => {
-        update(model => ({
-            ...model,
-            router: {
-                ...model.router,
-                routes: [...model.router.routes, ...routes]
-            }
-        }))
-    }, 0);
+    update(model => ({
+        ...model,
+        router: {
+            ...model.router,
+            routes: [...model.router.routes, ...routes]
+        }
+    }))
 }
 
 // CREATE MULTIPLE ROUTES

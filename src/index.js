@@ -12,6 +12,9 @@ let render = app => model => ReactDOM.render(app.view(model), $root);
 // MEIOSIS
 initialize(createApp, render, watch());
 
+
+
+
 // import ReactDOM from 'react-dom';
 // import meiosis from './meiosis';
 // import createApp from './app';
