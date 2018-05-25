@@ -52,10 +52,10 @@ export default function create(update) {
         view(model) {
             return (
                 // <Router update={update} >
-                    <App id="app" >
-                        {routes.view(model)}
-                        {statics.view(model)}
-                    </App>
+                <App id="app" >
+                    {routes.view(model)}
+                    {statics.view(model)}
+                </App>
                 // </Router>
             );
         }

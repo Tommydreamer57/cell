@@ -1,5 +1,7 @@
+import { createMultiple } from './route';
 
-export default function create(update, ...children) {
+export default function create(update, ...routes) {
+    let children = createMultiple(update, ...routes);
     let previous = {};
     let current = {};
     let previousLocation = "";
@@ -19,8 +21,12 @@ export default function create(update, ...children) {
             // if changing pathnames or locations
             if (previous !== current || previousLocation !== currentLocation) {
                 // settimeout to wait for components to finish mounting
-                if (typeof current.data === 'function') setTimeout(() => current.data(model), 0);
-                if (typeof previous.clear === 'function') setTimeout(() => previous.clear(model), 0);
+                if (typeof current.data === 'function') // setTimeout(() => {
+                    current.data(model)
+                // }, 0);
+                if (typeof previous.clear === 'function') // setTimeout(() => {
+                    previous.clear(model)
+                // }, 0);
             }
             // return view of correct child
             return currentChild.view(model);
