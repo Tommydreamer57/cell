@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '../../meiosis-router';
+import { link } from '../../meiosis-router';
 import { GET, POST } from '../../http';
 import defaultModel from '../../model';
 import { getId, getMatch } from '../url-parser';
@@ -24,10 +24,8 @@ export default function create(update) {
                     </header>
                     <div>
                         <h2>Channels</h2>
-                        {org.channels.map(channel => (
-                            <Link key={channel.id} to={`/messages/channel/${channel.id}`} >
-                                <h3>{channel.name}</h3>
-                            </Link>
+                        {org.channels.map(channel => link(model, `/messages/channel/${channel.id}`,
+                            <h3>{channel.name}</h3>
                         ))}
                         <h2>Members</h2>
                         {org.members.map(member => (

@@ -7,6 +7,8 @@ export default function create(update, ...children) {
     let emptyChild = { view() { return null; } };
     return {
         view(model) {
+            // console.log("SWITCH CHILDREN");
+            // console.log(children);
             // find correct child
             let currentChild = children.find(child => child.path === model.router.match.route) || emptyChild;
             // track previous children

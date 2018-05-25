@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from '../../meiosis-router';
+// import { Link } from '../../meiosis-router';
+import { link } from '../../meiosis-router';
 
 export default class ModalInput extends Component {
     constructor(props) {
@@ -55,7 +56,7 @@ export default class ModalInput extends Component {
                 }
                 {(type === 'link')
                     &&
-                    <Link to={to} ><div onClick={close} >{name}</div></Link>}
+                    link(model, to, <div onClick={close} >{name}</div>)}
             </div>
         );
     }

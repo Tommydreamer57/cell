@@ -1,6 +1,6 @@
 import React from 'react';
 import Dropdown from '../../components/Dropdown/Dropdown';
-import { Link } from '../../meiosis-router';
+import { link } from '../../meiosis-router';
 
 export default function create(update) {
     return {
@@ -11,12 +11,10 @@ export default function create(update) {
                     type="header"
                     title={model.organisation.name}
                 >
-                    {model.allOrganisations.filter(({ id }) => id !== model.organisation.id).map(org => (
-                        <Link key={org.id} to={`/organisations/${org.id}`}>
-                            <button key={org.id} >
-                                <h4>{org.name}</h4>
-                            </button>
-                        </Link>
+                    {model.allOrganisations.filter(({ id }) => id !== model.organisation.id).map(org => link(model, `/organisations/${org.id}`,
+                        <button key={org.id} >
+                            <h4>{org.name}</h4>
+                        </button>
                     ))}
                 </Dropdown>
             );

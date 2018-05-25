@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '../../meiosis-router';
+import { link } from '../../meiosis-router';
 import { GET } from '../../http';
 
 export default function create(update) {
@@ -13,7 +13,7 @@ export default function create(update) {
             console.log(model);
             return (
                 <div>
-                    {orgs.map(org => <Link to={`/organisation/${org.id}`} >{org.name}</Link>)}
+                    {orgs.map(org => link(model, `/organisation/${org.id}`, org.name))}
                 </div>
             );
         }

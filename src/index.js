@@ -10,7 +10,11 @@ let $root = document.getElementById('root');
 let render = app => model => ReactDOM.render(app.view(model), $root);
 
 // MEIOSIS
-initialize(createApp, render, watch());
+initialize(
+    createApp,
+    render,
+    watch()
+);
 
 
 

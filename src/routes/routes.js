@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 // ROUTING
 import { createRoute, createSwitch, createMultiple } from '../meiosis-router';
 // ROUTES
@@ -14,7 +13,7 @@ import { RouterView } from '../styles/components';
 export default function create(update) {
 
     // VIEWS
-    let routes = createMultiple(
+    let routes = createMultiple(update,
         ['/', createHome, update, true],
         ['/dashboard', createDashboard, update],
         ['/messages/:type/:id', createMessages, update],
@@ -24,8 +23,6 @@ export default function create(update) {
 
     // SWITCH
     let switchh = createSwitch(update, ...routes);
-
-    console.log(ReactDOM);
     
     // COMPONENT
     return {

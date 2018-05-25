@@ -21,7 +21,7 @@ export default class Dropdown extends Component {
             props: { className, title, type, children },
             state: { open },
         } = this;
-        console.log(this.props);
+        // console.log(this.props);
         return (
             <div className={"dropdown " + className} >
                 <button onClick={toggle} >

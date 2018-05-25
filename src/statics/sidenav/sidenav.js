@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '../../meiosis-router';
+import { link } from '../../meiosis-router';
 import { SideNav } from '../../styles/components';
 import { getId, getMatch } from '../../routes/url-parser';
 import { POST } from '../../http';
@@ -28,12 +28,10 @@ export default function create(update) {
                     {chanHeader.view(model)}
 
                     {/* CHANNEL LIST */}
-                    {channels.filter(channel => channel.members.some(id => id === model.user.id)).map(channel => (
-                        <Link key={channel.id} to={`/messages/channel/${channel.id}`} >
-                            <div className={`channel-link ${match === 'channel' && channel.id === currentId ? 'selected' : ''}`} >
-                                {channel.private ? '$' : '#'} {channel.name}
-                            </div>
-                        </Link>
+                    {channels.filter(channel => channel.members.some(id => id === model.user.id)).map(channel => link(model, `/messages/channel/${channel.id}`,
+                        <div className={`channel-link ${match === 'channel' && channel.id === currentId ? 'selected' : ''}`} >
+                            {channel.private ? '$' : '#'} {channel.name}
+                        </div>
                     ))}
                     {/* DRAGGABLE SIDE */}
                     {drag.view(model)}

@@ -1,6 +1,7 @@
 import React from 'react';
 // LISTEN TO WINDOW HREF
-import Router from './meiosis-router';
+// import Router from './meiosis-router';
+import listen from './meiosis-router';
 // ROUTES & STATICS
 import createRoutes from './routes/routes';
 import createStatics from './statics/statics';
@@ -15,6 +16,9 @@ import { App } from './styles/components';
 
 // APP
 export default function create(update) {
+
+    // ROUTER
+    listen(update);
 
     // INITIAL DATA
     GET.authenticate(update);
@@ -47,12 +51,12 @@ export default function create(update) {
         // TOP LEVEL VIEW
         view(model) {
             return (
-                <Router update={update} >
+                // <Router update={update} >
                     <App id="app" >
                         {routes.view(model)}
                         {statics.view(model)}
                     </App>
-                </Router>
+                // </Router>
             );
         }
     };
