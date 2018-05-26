@@ -3,20 +3,22 @@
 // -- initial
 export function stream(initial) {
     console.log("STREAM WAS INVOKED");
-    console.log([...arguments]);
+    console.log([...arguments].map(arg => typeof arg === 'function' ? console.log(arg) || arg : arg));
     // LIST OF FUNCTIONS TO INVOKE WHEN THE CREATED STREAM IS INVOKED
     let mapFunctions = [];
     // CREATED STREAM TO RETURN
     function createdStream(value) {
         console.log("CREATED STREAM WAS INVOKED");
-        console.log([...arguments]);
+        console.log([...arguments].map(arg => typeof arg === 'function' ? console.log(arg) || arg : arg));
+        console.log(mapFunctions.length);
+        mapFunctions.forEach(console.log);
         // INVOKE ALL FUNCTIONS
         for (let fn of mapFunctions) fn(value);
     }
     // METHOD OF ADDING FUNCTIONS TO THE LIST
     createdStream.map = function (mapFn) {
         console.log("STREAM.MAP() WAS INVOKED");
-        console.log([...arguments]);
+        console.log([...arguments].map(arg => typeof arg === 'function' ? console.log(arg) || arg : arg));
         let newInitial;
         if (initial !== undefined) newInitial = mapFn(initial);
         let newStream = stream(newInitial);
@@ -34,13 +36,13 @@ export function stream(initial) {
 // -- accumulator merges the old model to the new model -- initialModel of the application -- sourceStream = update function
 export function scan(accumulator, initialModel, sourceStream) {
     console.log("SCAN WAS INVOKED");
-    console.log([...arguments]);
+    console.log([...arguments].map(arg => typeof arg === 'function' ? console.log(arg) || arg : arg));
     let newStream = stream(initialModel);
     // ACCUMULATED IS THE MODEL OF THE APP
     let accumulated = initialModel;
     sourceStream.map(function (callback) {
         console.log("SOURCESTREAM.MAP() CALLBACK WAS INVOKED");
-        console.log([...arguments]);
+        console.log([...arguments].map(arg => typeof arg === 'function' ? console.log(arg) || arg : arg));
         // COPY ACCUMULATED VALUE
         let oldAccumulated = accumulated;
         // INVOKE ACCUMULATOR & CAPTURE RESULT

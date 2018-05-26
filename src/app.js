@@ -20,6 +20,8 @@ export default function create(update) {
     // ROUTER
     listen(update);
 
+    setTimeout(() => update(model => console.log(model)), 100);
+
     // INITIAL DATA
     GET.authenticate(update);
     GET.allOrganisations(update);
