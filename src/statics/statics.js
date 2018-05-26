@@ -4,6 +4,7 @@ import createHeader from './header/header';
 
 export default function create(update) {
     // CHILDREN
+    // sidenav = createRoute(['/messages/*', '/organisation/*', '/channels/*'], createSidenav, update)
     let sidenav = createSidenav(update);
     let header = createHeader(update);
     // COMPONENT

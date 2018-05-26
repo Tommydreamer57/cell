@@ -2,8 +2,9 @@
 
 Routing of all view setup first
 
-then this |
-          V
+then this |||
+          VVV
+           V
 
  - Home (/)
     - Clone 'slack.com' landing page
@@ -21,6 +22,7 @@ then this |
         - on create organisation, create 'lobby' channel
         - on join organisation, join 'lobby' channel
 =========================================================================================
+ - **Organisation, Channel, Messages = all nested inside higher order component that renders switch of them, and the sidenav**
  - Organisation (/organisation/:id)
     - buttons to create or join a channel
     - list of members

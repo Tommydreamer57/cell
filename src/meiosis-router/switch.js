@@ -9,8 +9,8 @@ export default function create(update, ...routes) {
     let emptyChild = { view() { return null; } };
     return {
         view(model) {
-            // console.log("SWITCH CHILDREN");
-            // console.log(children);
+            console.log("SWITCH CHILDREN");
+            console.log(children);
             // find correct child
             let currentChild = children.find(child => child.path === model.router.match.route) || emptyChild;
             // track previous children
@@ -21,12 +21,8 @@ export default function create(update, ...routes) {
             // if changing pathnames or locations
             if (previous !== current || previousLocation !== currentLocation) {
                 // settimeout to wait for components to finish mounting
-                if (typeof current.data === 'function') // setTimeout(() => {
-                    current.data(model)
-                // }, 0);
-                if (typeof previous.clear === 'function') // setTimeout(() => {
-                    previous.clear(model)
-                // }, 0);
+                if (typeof current.data === 'function') current.data(model);
+                if (typeof previous.clear === 'function') previous.clear(model);
             }
             // return view of correct child
             return currentChild.view(model);

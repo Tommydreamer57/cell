@@ -1,6 +1,6 @@
 import React from 'react';
 // ROUTING
-import { createRoute, createSwitch } from '../meiosis-router';
+import { createSwitch } from '../meiosis-router';
 // ROUTES
 import createHome from './home/home';
 import createDashboard from './dashboard/dashboard';
