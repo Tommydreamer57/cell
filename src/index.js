@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import initialize from './meiosis';
+import meiosis, { initialize } from './meiosis';
 import createApp from './app';
 import { watch } from './meiosis/middlewares';
 
@@ -9,17 +9,13 @@ setTimeout(() => console.log("INITIAL LOAD IS DONE, TIMEOUT HAS FIRED"), 0);
 let $root = document.getElementById('root');
 
 // RENDER
+// STREAM
 // let render = app => model => ReactDOM.render(app.view(model), $root);
-function render(app) {
-    return function (model) {
-        // console.log("RENDERING");
-        // console.log(model);
-        ReactDOM.render(app.view(model), $root);
-    }
-}
+// CUSTOM
+let render = view => ReactDOM.render(view, $root);
 
 // MEIOSIS
-initialize(
+meiosis(
     createApp,
     render,
     watch()

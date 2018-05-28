@@ -44,8 +44,8 @@ function compare(old, neww) {
 export function watch() {
     let oldCopy, currentCopy;
     return function (newModel) {
-        // console.log("NEW MODEL");
-        // console.log(newModel);
+        console.log("NEW MODEL");
+        console.log(newModel);
         // TRACK PREVIOUS MODELS - COPY NEW MODELS TO MAINTAIN IMMUTABILITY
         [oldCopy, currentCopy] = [currentCopy, deepCopy(newModel)];
         // COMPUTE DIFFERENCES
@@ -56,7 +56,8 @@ export function watch() {
             console.log(differences);
         } else {
             console.log("NO DIFFERENCES:");
-            // console.trace(newModel);
+            console.trace(newModel);
         }
+        return newModel;
     }
 }

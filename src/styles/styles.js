@@ -234,7 +234,8 @@ export default StyleSheet.create({
             }
         }
     },
-    home: {
+    home: {},
+    login: {
         ...centerFlex,
         justifyContent: flexStart,
         flexDirection: column,

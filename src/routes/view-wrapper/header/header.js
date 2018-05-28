@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header } from '../../styles/components';
+import { Header } from '../../../styles/components';
 
 export default function create(update) {
     function getId() {

@@ -12,4 +12,5 @@ export const Header = wrapper('header', styles.nav, styles.header);
 export const RouterView = wrapper('div', styles.routerview);
 export const Messages = wrapper('div', styles.messages);
 export const ModalWrapper = wrapper('div', styles.modalwrapper);
+export const LoginWrapper = wrapper('div', styles.login);
 export const Home = wrapper('div', styles.home);

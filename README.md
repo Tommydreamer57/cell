@@ -9,10 +9,12 @@ then this |||
  - Home (/)
     - Clone 'slack.com' landing page
     - 'Get Started' link
- - Create User (/signup)
+ - Create User (/login)
     - Input user info
     - Link to next view
- - Create or Join Organisation (/join)
+ - Login (/login)
+    - Input username & password
+ - Create or Join Organisation (/dashboard)
     - Clone 'slack.com/get-started' page
     - Search input for organisation name - just like creating a Direct Message in Slack
     - Click an organisation to add it

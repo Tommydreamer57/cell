@@ -1,6 +1,6 @@
 import React from 'react';
-import { POST } from '../../../http';
-import Modal from '../../../components/Modal/Modal';
+import { POST } from '../../../../http';
+import Modal from '../../../../components/Modal/Modal';
 
 export default function create(update) {
     // MODAL

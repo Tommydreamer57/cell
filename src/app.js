@@ -4,7 +4,6 @@ import React from 'react';
 import listen from './meiosis-router';
 // ROUTES & STATICS
 import createRoutes from './routes/routes';
-import createStatics from './statics/statics';
 // URL PARSER
 import { getId, getMatch } from './routes/url-parser';
 // HTTP
@@ -42,7 +41,6 @@ export default function create(update) {
 
     // CHILDREN
     let routes = createRoutes(update);
-    let statics = createStatics(update);
 
     // COMPONENT
     return {
@@ -56,7 +54,6 @@ export default function create(update) {
                 // <Router update={update} >
                 <App id="app" >
                     {routes.view(model)}
-                    {statics.view(model)}
                 </App>
                 // </Router>
             );

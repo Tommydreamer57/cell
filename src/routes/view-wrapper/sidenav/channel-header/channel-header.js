@@ -1,5 +1,5 @@
 import React from 'react';
-import Dropdown from '../../../components/Dropdown/Dropdown';
+import Dropdown from '../../../../components/Dropdown/Dropdown';
 import createCreate from './create';
 import createJoin from './join';
 
