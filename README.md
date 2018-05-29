@@ -2,14 +2,13 @@
 
 Routing of all view setup first
 
-then this |||
-          VVV
-           V
-
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^     STYLED    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ - Organisation, Channel, Messages = all nested inside higher order component that renders switch of them, and the sidenav
  - Home (/)
     - Clone 'slack.com' landing page
     - 'Get Started' link
- - Create User (/login)
+ - Create User & Login are same component, different routes
+ - Create User (/signup)
     - Input user info
     - Link to next view
  - Login (/login)
@@ -18,13 +17,13 @@ then this |||
     - Clone 'slack.com/get-started' page
     - Search input for organisation name - just like creating a Direct Message in Slack
     - Click an organisation to add it
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   FUNCTIONAL   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     - Joined organisation list below - click 'Launch' - _target = blank
     - Create organisation form
         - input info
         - on create organisation, create 'lobby' channel
         - on join organisation, join 'lobby' channel
-=========================================================================================
- - **Organisation, Channel, Messages = all nested inside higher order component that renders switch of them, and the sidenav**
+===========================================================================================
  - Organisation (/organisation/:id)
     - buttons to create or join a channel
     - list of members

@@ -60,3 +60,14 @@ export function joinChannel(update, channel_id) {
         })
         .catch(console.log);
 }
+
+export function joinOrganisation(update, organisation_id) {
+    return axios.post(`/api/join/organisation/${organisation_id}`)
+        .then(({ data: user }) => {
+            update(model => ({
+                ...model,
+                user
+            }));
+        })
+        .catch(console.log);
+}

@@ -14,6 +14,7 @@ export default function create(update) {
         ['/', createHome, update, true],
         ['/dashboard', createDashboard, update],
         ['/login', createSignup, update],
+        ['/signup', createSignup, update],
     );
 
     let viewWrapper = createViewWrapper(update);

@@ -4,7 +4,7 @@ export default class Login extends Component {
     constructor() {
         super();
         this.state = {
-            create: false
+            create: window.location.pathname.includes('signup')
         };
         this.first_name = createRef();
         this.last_name = createRef();
@@ -16,9 +16,11 @@ export default class Login extends Component {
         this.onKeyDown = this.onKeyDown.bind(this);
     }
     toggleLogin() {
+        this.props.history.replace('/login');
         this.setState({ create: false });
     }
     toggleSignup() {
+        this.props.history.replace('/signup');
         this.setState({ create: true });
     }
     onKeyDown({ key }) {

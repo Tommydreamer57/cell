@@ -1,4 +1,4 @@
-import { StyleSheet, css } from 'aphrodite-jss';
+import { StyleSheet } from 'aphrodite-jss';
 
 const none = 'none';
 const inherit = 'inherit';
@@ -234,7 +234,15 @@ export default StyleSheet.create({
             }
         }
     },
-    home: {},
+    home: {
+        ...centerFlex,
+        flexDirection: column,
+        padding: '5vh',
+        '& div': {
+            padding: 48,
+            ...xFlex
+        }
+    },
     login: {
         ...centerFlex,
         justifyContent: flexStart,

@@ -17,7 +17,7 @@ export default function create(update) {
             return (
                 <LoginWrapper id="login" >
                     <h2>Log in or Sign up</h2>
-                    <Login login={login} signup={signup} />
+                    <Login history={model.router.history} login={login} signup={signup} />
                 </LoginWrapper>
             );
         }
