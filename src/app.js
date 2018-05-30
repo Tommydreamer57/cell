@@ -3,7 +3,8 @@ import React from 'react';
 // import Router from './meiosis-router';
 import listen from './meiosis-router';
 // ROUTES & STATICS
-import createRoutes from './routes/routes';
+import createGeneralWrapper from './routes/general-wrapper/general-wrapper';
+import createMessagesWrapper from './routes/messages-wrapper/messages-wrapper';
 // URL PARSER
 import { getId, getMatch } from './routes/url-parser';
 // HTTP
@@ -42,7 +43,8 @@ export default function create(update) {
     })
 
     // CHILDREN
-    let routes = createRoutes(update);
+    let generalWrapper = createGeneralWrapper(update);
+    let messagesWrapper = createMessagesWrapper(update);
 
     // COMPONENT
     return {
@@ -54,7 +56,8 @@ export default function create(update) {
         view(model) {
             return (
                 <App id="app" >
-                    {routes.view(model)}
+                    {generalWrapper.view(model)}
+                    {messagesWrapper.view(model)}
                 </App>
             );
         }
@@ -88,7 +91,10 @@ const style = StyleSheet.create({
         '& p': {
             fontSize: 14
         },
-        '& button': p.reset
+        '& button': {
+            ...p.reset,
+            transition: '0.2s'
+        }
     }
 });
 
