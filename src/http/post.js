@@ -18,13 +18,13 @@ function gotUser(update) {
 export function signup(update, { first_name, last_name, username, email, password }) {
     return axios.post(`/auth/signup`, { first_name, last_name, username, email, password })
         .then(gotUser(update))
-        .catch(console.log);
+        .catch(console.error);
 }
 
 export function login(update, username, password) {
     return axios.post(`/auth/login`, { username, password })
         .then(gotUser(update))
-        .catch(console.log);
+        .catch(console.error);
 }
 
 export function message(update, type, id, text) {
@@ -36,7 +36,7 @@ export function message(update, type, id, text) {
                 return model;
             });
         })
-        .catch(console.log);
+        .catch(console.error);
 }
 
 export function newChannel(update, organisation_id, name, _private) {
@@ -47,7 +47,7 @@ export function newChannel(update, organisation_id, name, _private) {
                 return model;
             });
         })
-        .catch(console.log);
+        .catch(console.error);
 }
 
 export function joinChannel(update, channel_id) {
@@ -58,7 +58,7 @@ export function joinChannel(update, channel_id) {
                 organisation
             }));
         })
-        .catch(console.log);
+        .catch(console.error);
 }
 
 export function joinOrganisation(update, organisation_id) {
@@ -69,5 +69,5 @@ export function joinOrganisation(update, organisation_id) {
                 user
             }));
         })
-        .catch(console.log);
+        .catch(console.error);
 }

@@ -11,8 +11,8 @@ organisations AS (
     -- MEMBERS
     cell_organisation_memberships.member_id AS organisation_member_id
     FROM cell_organisations
-    JOIN cell_channels ON cell_channels.organisation_id = cell_organisations.ID
-    JOIN cell_organisation_memberships ON cell_organisation_memberships.organisation_id = cell_organisations.id
+    LEFT JOIN cell_channels ON cell_channels.organisation_id = cell_organisations.ID
+    LEFT JOIN cell_organisation_memberships ON cell_organisation_memberships.organisation_id = cell_organisations.id
 ),
 channels AS (
     SELECT
@@ -25,7 +25,7 @@ channels AS (
     -- MEMBERS
     cell_channel_memberships.member_id AS channel_member_id
     FROM cell_channels
-    JOIN cell_channel_memberships ON cell_channel_memberships.channel_id = cell_channels.id
+    LEFT JOIN cell_channel_memberships ON cell_channel_memberships.channel_id = cell_channels.id
     WHERE cell_channels.private = false OR cell_channels.id IN (SELECT channel_id FROM cell_channel_memberships WHERE member_id = ${user_id})
 ),
 messages AS (

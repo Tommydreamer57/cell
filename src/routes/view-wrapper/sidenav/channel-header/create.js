@@ -38,7 +38,7 @@ export default function create(update) {
                 }));
                 return res;
             })
-            .catch(console.log);
+            .catch(console.error);
     }
     return {
         buttonView(model) {
