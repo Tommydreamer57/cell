@@ -25,7 +25,7 @@ CREATE TABLE cell_users (
 
 CREATE TABLE cell_organisations (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(40),
+    name VARCHAR(40) UNIQUE,
     created_by INTEGER REFERENCES cell_users(id) NOT NULL,
     created_on DATE DEFAULT CURRENT_TIMESTAMP
 );
@@ -119,7 +119,9 @@ VALUES
 (1, 'bros', 2, true),
 (1, 'the-fam', 6, false),
 (2, 'wpr36', 1, false),
-(2, 'wpr36-crew', 8, true);
+(2, 'wpr36-crew', 8, true),
+(1, 'lobby', 5, false),
+(2, 'lobby', 1, false);
 
 INSERT INTO cell_channel_memberships
 (channel_id, member_id)

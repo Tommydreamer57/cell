@@ -71,3 +71,18 @@ export function joinOrganisation(update, organisation_id) {
         })
         .catch(console.error);
 }
+
+export function createOrganisation(update, name) {
+    return axios.post('/api/create/organisation', { name })
+        .then(({ data: organisation }) => {
+            update(model => ({
+                ...model,
+                allOrganisations: [...model.allOrganisations, organisation],
+                user: {
+                    ...model.user,
+                    organisations: [...model.user.organisations, organisation.id]
+                }
+            }));
+        })
+        .catch(console.error);
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Search from './Search';
+import Create from './Create';
 
 export default class CreateOrJoin extends Component {
     constructor() {
@@ -7,24 +8,9 @@ export default class CreateOrJoin extends Component {
         this.state = {
             currentModal: null
         };
-        this.toggleJoin = this.toggleJoin.bind(this);
-        this.toggleCreate = this.toggleCreate.bind(this);
-        this.toggleOff = this.toggleOff.bind(this);
-    }
-    toggleJoin() {
-        this.setState({
-            currentModal: 'join'
-        });
-    }
-    toggleCreate() {
-        this.setState({
-            currentModal: 'create'
-        });
-    }
-    toggleOff() {
-        this.setState({
-            currentModal: null
-        });
+        this.toggleJoin = () => this.setState({ currentModal: 'join' });
+        this.toggleCreate = () => this.setState({ currentModal: 'create' });
+        this.toggleOff = () => this.setState({ currentModal: null });
     }
     render() {
         let {
@@ -32,7 +18,10 @@ export default class CreateOrJoin extends Component {
             toggleCreate,
             toggleOff,
             state: { currentModal },
-            props: { organisations: orgs, join: joinOrganisation }
+            props: { organisations: orgs,
+                join: joinOrganisation,
+                create: createOrganisation
+            }
         } = this;
         return (
             <div id="create-or-join">
@@ -40,11 +29,13 @@ export default class CreateOrJoin extends Component {
                     <button onClick={toggleJoin} >Join an Organisation</button>
                     <button onClick={toggleCreate} >Create an Organisation</button>
                 </div>
+                {/* JOIN */}
                 <div className={`modal ${currentModal === 'join' ? 'current' : 'out'}`} >
                     <Search organisations={orgs} join={joinOrganisation} />
                 </div>
+                {/* CREATE */}
                 <div className={`modal ${currentModal === 'create' ? 'current' : 'out'}`} >
-                    
+                    <Create create={createOrganisation} />
                 </div>
             </div>
         );
