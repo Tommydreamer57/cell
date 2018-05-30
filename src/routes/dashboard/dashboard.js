@@ -2,7 +2,8 @@ import React from 'react';
 import { link } from '../../meiosis-router';
 import { GET, POST } from '../../http';
 import CreateOrJoin from './CreateOrJoin';
-import { Dashboard } from '../../styles/components';
+import wrapper from '../../styles/components';
+import { StyleSheet } from 'aphrodite-jss';
 
 export default function create(update) {
     function joinOrganisation(id) {
@@ -45,3 +46,22 @@ export default function create(update) {
         }
     };
 }
+
+const styles = StyleSheet.create({
+    dashboard: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        '& #create-or-join': {
+            '& .current': {
+
+            },
+            '& .out': {
+                display: 'none'
+            }
+        }
+    }
+});
+
+const Dashboard = wrapper('div', styles.dashboard);

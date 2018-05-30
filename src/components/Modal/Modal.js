@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { TransitionMotion, spring } from 'react-motion';
-import { ModalWrapper } from '../../styles/components';
 import ModalInput from './ModalInput';
+import { StyleSheet } from 'aphrodite-jss';
+import wrapper from '../../styles/components';
 
 export default class Modal extends Component {
     // CONSTRUCTOR
@@ -126,3 +127,26 @@ export default class Modal extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    modalwrapper: {
+        '& .modal': {
+            position: 'fixed',
+            left: '25vw',
+            width: '50vw',
+            height: '50vh',
+            background: '#EEE',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+            flexDirection: 'column',
+            '& .input-wrapper': {
+                display: 'flex',
+                justifyContent: 'space-between'
+            }
+        }
+    }
+});
+
+const ModalWrapper = wrapper('div', styles.modalwrapper);

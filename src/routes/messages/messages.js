@@ -1,12 +1,11 @@
 import React from 'react';
 import { GET, POST } from '../../http';
 import initialModel from '../../model';
-import { css } from 'aphrodite-jss';
-import styles from '../../styles/styles';
-import { Messages } from '../../styles/components';
 import Message from './Message/Message';
 import MessageInput from './MessageInput/MessageInput';
 import { getId, getMatch } from '../url-parser';
+import wrapper from '../../styles/components';
+import { StyleSheet } from 'aphrodite-jss';
 
 export default function create(update) {
     // EVENT HANDLERS
@@ -44,3 +43,62 @@ export default function create(update) {
         }
     };
 }
+
+const centerFlex = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+};
+
+const styles = StyleSheet.create({
+    messages: {
+        padding: 24,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        minHeight: '100%',
+        zIndex: 1,
+        '& .message': {
+            padding: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            '& div': {
+                display: 'flex',
+                flexDirection: 'column'
+            },
+            '& span': {
+                display: 'flex'
+            }
+        },
+        '& .message-input': {
+            ...centerFlex,
+            position: 'fixed',
+            bottom: 0,
+            left: '20vw',
+            right: 0,
+            width: '80vw',
+            height: 96,
+            paddingBottom: 8,
+            '& .input-wrapper': {
+                ...centerFlex,
+                width: 'calc(100% - 56px)',
+                border: '3px solid #DDD',
+                borderRadius: 8,
+                '& button': {
+                    fontSize: 36,
+                    color: '#CCC',
+                    height: 50,
+                    width: 50,
+                    borderRight: '3px solid #DDD',
+                },
+                '& input': {
+                    padding: 12,
+                    width: 'calc(100% - 18px)',
+                    fontSize: 18,
+                }
+            }
+        }
+    }
+});
+
+const Messages = wrapper('div', styles.messages);

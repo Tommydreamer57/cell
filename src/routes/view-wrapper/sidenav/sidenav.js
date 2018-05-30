@@ -1,11 +1,13 @@
 import React from 'react';
 import { link } from '../../../meiosis-router';
-import { SideNav } from '../../../styles/components';
 import { getId, getMatch } from '../../url-parser';
 import { POST } from '../../../http';
 import createDrag from './drag';
 import createOrgHeader from './organisation-header';
 import createChanHeader from './channel-header/channel-header';
+// STYLES
+import { StyleSheet } from 'aphrodite-jss';
+import wrapper from '../../../styles/components';
 
 export default function create(update) {
 
@@ -40,3 +42,69 @@ export default function create(update) {
         }
     };
 }
+
+const styles = StyleSheet.create({
+    sidenav: {
+        position: 'fixed',
+        top: 0,
+        display: 'flex',
+        background: '#DDD',
+        left: 0,
+        bottom: 0,
+        minWidth: '20vw',
+        overflowY: 'auto',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        resize: 'horizontal',
+        '& .dropdown': {
+            width: '100%'
+        },
+        '& .header': {
+            width: '100%',
+            background: '#CCC',
+            '& button': {
+                width: '100%',
+                padding: '14px 18px',
+            },
+            '&:hover': {
+                background: '#BBB'
+            }
+        },
+        '& .selected': {
+            fontWeight: 'bold',
+        },
+        '& a, & button': {
+            width: '100%',
+            fontSize: 18,
+            '& .channel-link, & .channel-header': {
+                width: 'calc(100% - 36px)',
+                padding: '6px 18px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                '&:hover': {
+                    background: '#BBB'
+                }
+            }
+        },
+        '& #sidenav-drag': {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            top: '20vh',
+            right: 0,
+            bottom: '20vh',
+            width: 10,
+            cursor: 'ew-resize',
+            '& div': {
+                background: 'rgba(0, 0, 0, 0.2)',
+                borderRadius: 2,
+                height: 24,
+                width: 4
+            }
+        }
+    }
+});
+
+const SideNav = wrapper('nav', styles.sidenav);

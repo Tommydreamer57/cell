@@ -1,7 +1,8 @@
 import React from 'react';
 import { POST } from '../../http';
 import Login from './Login';
-import { LoginWrapper } from '../../styles/components';
+import wrapper from '../../styles/components';
+import { StyleSheet } from 'aphrodite-jss';
 
 export default function create(update) {
     // FUNCTIONS
@@ -23,3 +24,39 @@ export default function create(update) {
         }
     };
 }
+
+const styles = StyleSheet.create({
+    login: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        flexDirection: 'column',
+        height: 'calc(100% - 10vh)',
+        padding: '5vh',
+        '& h2': {
+            padding: 48
+        },
+        '& #login-box': {
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            padding: 12,
+        },
+        '& .button-wrapper': {
+            display: 'flex',
+            justifyContent: 'space-evenly',
+            width: '100%'
+        },
+        '& .input-wrapper': {
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            padding: 12,
+            '& input': {
+                padding: 8,
+                margin: 6
+            }
+        }
+    }
+});
+
+const LoginWrapper = wrapper('div', styles.login);

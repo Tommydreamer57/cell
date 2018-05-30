@@ -1,5 +1,6 @@
 import React from 'react';
-import { Header } from '../../../styles/components';
+import wrapper from '../../../styles/components';
+import { StyleSheet } from 'aphrodite-jss';
 
 export default function create(update) {
     function getId() {
@@ -31,3 +32,19 @@ export default function create(update) {
         }
     };
 }
+
+const styles = StyleSheet.create({
+    header: {
+        position: 'fixed',
+        top: 0,
+        display: 'flex',
+        left: '20vw',
+        width: 'calc(80vw - 48px)',
+        padding: '14px 24px',
+        background: '#EEE',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }
+});
+
+const Header = wrapper('header', styles.header);

@@ -11,7 +11,9 @@ import { GET } from './http';
 // DEFAULT MODEL
 import defaultModel from './model';
 // STYLES
-import { App } from './styles/components';
+import { StyleSheet } from 'aphrodite-jss';
+import wrapper from './styles/components';
+import p from './styles/presets';
 
 // APP
 export default function create(update) {
@@ -51,12 +53,43 @@ export default function create(update) {
         // TOP LEVEL VIEW
         view(model) {
             return (
-                // <Router update={update} >
                 <App id="app" >
                     {routes.view(model)}
                 </App>
-                // </Router>
             );
         }
     };
 }
+
+const none = 'none';
+
+const style = StyleSheet.create({
+    app: {
+        fontFamily: 'calibri',
+        color: p.color,
+        '& h1': {
+            fontSize: 48
+        },
+        '& h2': {
+            fontSize: 36
+        },
+        '& h3': {
+            fontSize: 24
+        },
+        '& h4': {
+            fontSize: 20
+        },
+        '& h5': {
+            fontSize: 18
+        },
+        '& h6': {
+            fontSize: 16
+        },
+        '& p': {
+            fontSize: 14
+        },
+        '& button': p.reset
+    }
+});
+
+const App = wrapper('div', style.app);
