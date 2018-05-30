@@ -269,5 +269,17 @@ export default StyleSheet.create({
                 margin: 6
             }
         }
+    },
+    dashboard: {
+        ...centerFlex,
+        flexDirection: column,
+        '& #create-or-join': {
+            '& .current': {
+
+            },
+            '& .out': {
+                display: none
+            }
+        }
     }
 });

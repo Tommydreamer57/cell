@@ -14,3 +14,4 @@ export const Messages = wrapper('div', styles.messages);
 export const ModalWrapper = wrapper('div', styles.modalwrapper);
 export const LoginWrapper = wrapper('div', styles.login);
 export const Home = wrapper('div', styles.home);
+export const Dashboard = wrapper('div', styles.dashboard);

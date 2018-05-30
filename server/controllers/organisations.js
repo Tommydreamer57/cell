@@ -9,6 +9,8 @@ module.exports = function addOrganisationEndpointsTo(app) {
 
     app.post('/api/join/organisation/:organisation_id', requireAuthentication, join);
 
+    app.post('/api/create/organisation', requireAuthentication, create);
+
 }
 
 function read(req, res) {
@@ -53,4 +55,17 @@ function join(req, res) {
             console.log(err);
             res.status(500).send(err);
         });
+}
+
+function create(req, res) {
+    let { name } = req.body;
+    let { id: user_id } = req.user;
+    req.db.create_organisation({ name, user_id })
+        .then(allOrganisations => {
+            res.status(200).send(allOrganisations);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        })
 }
