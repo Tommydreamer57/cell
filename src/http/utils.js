@@ -40,7 +40,7 @@ export default function cache(update) {
             id++;
             let found = findRequest(request);
             if (found) return found.promise;
-            let promise = axios[method.toLowerCase()](url, body).then(removeRequest(id)).catch(console.log);
+            let promise = axios[method.toLowerCase()](url, body).then(removeRequest(id)).catch(console.error);
             currentRequests.push({
                 method,
                 url,

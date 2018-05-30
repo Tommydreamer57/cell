@@ -111,7 +111,7 @@ export default class Modal extends Component {
                                 {subtitle && <h5>{subtitle}</h5>}
                                 {inputs.map(input => (
                                     <ModalInput
-                                        key={input.name}
+                                        key={input.id}
                                         value={this.state[input.name]}
                                         handleInput={input.onChange || handleInput}
                                         close={close}

@@ -23,7 +23,7 @@ exports.default = function addMiddlewaresTo(app) {
 
     // DESERIALIZE
     app.use((req, res, next) => {
-        let user_id = req.session.user
+        let user_id = req.session.user || 1;
         if (user_id) {
             console.log("GETTING USER: " + user_id);
             req.db.read_user({ user_id, username: null, hash: null })
@@ -42,13 +42,14 @@ exports.default = function addMiddlewaresTo(app) {
 }
 
 exports.requireAuthentication = function requireAuthentication(req, res, next) {
-    if (!req.session.user) {
+    // if (!req.session.user) {
+    if (!req.user || !req.user.id) {
         res.status(401).json("unauthorized");
     } else next();
 }
 
 exports.requireAdmin = function requireAdmin(req, res, next) {
-    if (!req.session.user || !req.session.user.admin) {
+    if (!req.session.user || !req.user || !req.user.admin) {
         res.status(403).json("forbidden");
     } else next();
 }

@@ -10,6 +10,11 @@
 <body>
     <div id="root"></div>
     <!-- REMOVE THIS LINE BEFORE PRODUCTION -->
-    <script>console.warn = () => console.log("warning - remove this update before production")</script>
+    <script>
+        (function(){
+            let warn = console.warn;
+            console.warn = () => warn("console.warn() was reassigned, update before production");
+        })()
+    </script>
 </body>
 </html>

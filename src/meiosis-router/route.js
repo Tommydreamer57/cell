@@ -12,7 +12,8 @@ function registerRoute(update, route, exact = false) {
         router: {
             ...model.router,
             routes: [...model.router.routes, route]
-        }
+        },
+        log: console.log("UPDATED -- REGISTERED ROUTE: " + route, model)
     }));
 }
 
@@ -23,7 +24,8 @@ export default function createRoute(path, createComponent, update, exact, regist
     if (register) registerRoute(update, path, exact);
     return {
         path,
-        ...component
+        ...component,
+        log: console.log("CREATED ROUTE: " + path)
     };
 }
 
@@ -39,7 +41,8 @@ function registerMultiple(update, routes) {
         router: {
             ...model.router,
             routes: [...model.router.routes, ...routes]
-        }
+        },
+        log: console.log("UPDATED -- REGISTERED MULTIPLE ROUTES: ", model)
     }));
 }
 
@@ -53,10 +56,6 @@ export function createMultiple(update, ...args) {
         components.push(createRoute(path, createComponent, update, exact, false));
         routes.push({ path, exact });
     }
-    update(model => {
-        console.log(model);
-        return model;
-    });
     setTimeout(() => (
         registerMultiple(update, routes)
         , 0));

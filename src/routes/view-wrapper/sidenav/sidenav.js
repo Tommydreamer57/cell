@@ -1,8 +1,8 @@
 import React from 'react';
-import { link } from '../../meiosis-router';
-import { SideNav } from '../../styles/components';
-import { getId, getMatch } from '../../routes/url-parser';
-import { POST } from '../../http';
+import { link } from '../../../meiosis-router';
+import { SideNav } from '../../../styles/components';
+import { getId, getMatch } from '../../url-parser';
+import { POST } from '../../../http';
 import createDrag from './drag';
 import createOrgHeader from './organisation-header';
 import createChanHeader from './channel-header/channel-header';

@@ -4,7 +4,6 @@ import React from 'react';
 import listen from './meiosis-router';
 // ROUTES & STATICS
 import createRoutes from './routes/routes';
-import createStatics from './statics/statics';
 // URL PARSER
 import { getId, getMatch } from './routes/url-parser';
 // HTTP
@@ -20,12 +19,14 @@ export default function create(update) {
     // ROUTER
     listen(update);
 
+    setTimeout(() => update(model => console.log(model)), 100);
+
     // INITIAL DATA
     GET.authenticate(update);
     GET.allOrganisations(update);
     let MATCH = getMatch();
     let ID = getId();
-    if (MATCH === 'organisation') GET.organisation(update, ID);
+    if (MATCH === 'organisation') GET.organisation(ID);
     else if (MATCH === 'channel') GET.organisationByChannel(update, ID);
 
     // TOGGLE MODAL OFF
@@ -40,7 +41,6 @@ export default function create(update) {
 
     // CHILDREN
     let routes = createRoutes(update);
-    let statics = createStatics(update);
 
     // COMPONENT
     return {
@@ -52,10 +52,9 @@ export default function create(update) {
         view(model) {
             return (
                 // <Router update={update} >
-                    <App id="app" >
-                        {routes.view(model)}
-                        {statics.view(model)}
-                    </App>
+                <App id="app" >
+                    {routes.view(model)}
+                </App>
                 // </Router>
             );
         }

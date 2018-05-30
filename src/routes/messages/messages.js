@@ -19,7 +19,7 @@ export default function create(update) {
     // FUNCTIONS
     function scrollToBottom() {
         let $messages = document.querySelector("#router-view");
-        $messages.scrollTop = $messages.scrollHeight;
+        if ($messages) $messages.scrollTop = $messages.scrollHeight;
     }
     // COMPONENT
     return {

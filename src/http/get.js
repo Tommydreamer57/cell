@@ -9,7 +9,7 @@ export function authenticate(update) {
                 user
             }));
         })
-        .catch(console.log);
+        .catch(console.error);
 }
 
 export function allOrganisations(update) {
@@ -20,7 +20,7 @@ export function allOrganisations(update) {
                 allOrganisations
             }));
         })
-        .catch(console.log);
+        .catch(console.error);
 }
 
 export function organisation(update, id) {
@@ -32,7 +32,7 @@ export function organisation(update, id) {
                 organisation
             }));
         })
-        .catch(console.log);
+        .catch(console.error);
 }
 
 export function organisationByChannel(update, id) {
@@ -44,5 +44,5 @@ export function organisationByChannel(update, id) {
                 organisation
             }));
         })
-        .catch(console.log);
+        .catch(console.error);
 }

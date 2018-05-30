@@ -1,6 +1,9 @@
 export default {
     // USER OBJECT
-    user: {},
+    user: {
+        organisations: [],
+        channels: []
+    },
     // ARRAY OF ORGANISATIONS USER IS A MEMBER OF
     allOrganisations: [],
     // SELECTED ORGANISATION

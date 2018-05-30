@@ -1,6 +1,6 @@
 import React from 'react';
-import { POST } from '../../../http';
-import Modal from '../../../components/Modal/Modal';
+import { POST } from '../../../../http';
+import Modal from '../../../../components/Modal/Modal';
 
 export default function create(update) {
     // MODAL
@@ -38,7 +38,7 @@ export default function create(update) {
                 }));
                 return res;
             })
-            .catch(console.log);
+            .catch(console.error);
     }
     return {
         buttonView(model) {
