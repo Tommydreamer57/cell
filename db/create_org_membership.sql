@@ -3,6 +3,11 @@ INSERT INTO cell_organisation_memberships
 VALUES
 (${organisation_id}, ${user_id});
 
+INSERT INTO cell_channel_memberships
+(channel_id, member_id)
+SELECT id, ${user_id} AS member_id FROM cell_channels
+WHERE organisation_id = ${organisation_id} AND name = 'lobby';
+
 WITH organisations AS (
     SELECT organisation_id, member_id AS user_id
     FROM cell_organisation_memberships

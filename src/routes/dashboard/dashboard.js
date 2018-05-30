@@ -19,7 +19,6 @@ export default function create(update) {
         view(model) {
             // DESTRUCTURING
             let { allOrganisations: orgs, user } = model;
-            console.log(model);
             return (
                 <Dashboard id="dashboard" >
 

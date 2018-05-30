@@ -61,8 +61,8 @@ function create(req, res) {
     let { name } = req.body;
     let { id: user_id } = req.user;
     req.db.create_organisation({ name, user_id })
-        .then(allOrganisations => {
-            res.status(200).send(allOrganisations);
+        .then(([organisation]) => {
+            res.status(200).send(organisation);
         })
         .catch(err => {
             console.log(err);

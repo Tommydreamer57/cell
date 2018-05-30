@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = function (app) {
     massive(process.env.CONNECTION_STRING)
         .then(db => {
-            // reset(db);
+            reset(db);
             console.log("Connected To Database");
             app.set('db', db);
         })
@@ -17,9 +17,11 @@ module.exports = function (app) {
 function reset(db) {
     db.seed()
         .then(users => {
-            users.forEach(({ username }) => {
-                axios.put('http://localhost:3021/auth/reset', { username, newPassword: username });
-            });
+            Promise.all(users.map(({ username }) => {
+                return axios.put('http://localhost:3021/auth/reset', { username, newPassword: username });
+            }))
+                .then(() => console.log("done refreshing db"))
+                .catch(console.log);
         })
         .catch(console.error);
 }

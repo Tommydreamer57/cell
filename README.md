@@ -19,14 +19,12 @@ Routing of all view setup first
     - Search input for organisation name - just like creating a Direct Message in Slack
     - Click an organisation to add it
     - Joined organisation list below - click 'Launch' - _target = blank
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   FUNCTIONAL   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
     - Create organisation form
         - input info
         - on create organisation, create 'lobby' channel
         - on join organisation, join 'lobby' channel
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   FUNCTIONAL   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ==================================   END OF WEEK GOAL   ==========================================
 
  - Organisation (/organisation/:id)
