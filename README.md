@@ -2,8 +2,6 @@
 
 Routing of all view setup first
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^     STYLED    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
  - Organisation, Channel, Messages = all nested inside higher order component that renders switch of them, and the sidenav
  - Home (/)
     - Clone 'slack.com' landing page
@@ -24,6 +22,7 @@ Routing of all view setup first
         - on create organisation, create 'lobby' channel
         - on join organisation, join 'lobby' channel
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    STYLED    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   FUNCTIONAL   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ==================================   END OF WEEK GOAL   ==========================================
 

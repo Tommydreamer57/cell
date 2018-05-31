@@ -6,11 +6,11 @@ class OrganisationButton extends Component {
         this.joinOrganisation = this.joinOrganisation.bind(this);
     }
     joinOrganisation() {
-        this.props.joinOrganisation(this.props.organisation.id);
+        return this.props.joinOrganisation(this.props.organisation.id);
     }
     render() {
         return (
-            <div>
+            <div className='organisation-button' >
                 {this.props.organisation.name}
                 <button onClick={this.joinOrganisation} >
                     JOIN
@@ -30,7 +30,7 @@ export default class Search extends Component {
     }
     handleInput({ target: { value } }) {
         this.setState({
-            search: new RegExp(value, 'i')
+            search: value && new RegExp(value, 'i')
         });
     }
     render() {
@@ -40,12 +40,15 @@ export default class Search extends Component {
         } = this;
         return (
             <div className="search">
-                <input placeholder="search" onChange={handleInput} />
-                {orgs
-                    .filter(org => org.name.match(this.state.search))
-                    .map(org => (
-                        <OrganisationButton key={org.id} organisation={org} joinOrganisation={joinOrganisation} >{org.name}</OrganisationButton>
-                    ))}
+                <h3>Find an Organisation</h3>
+                <input placeholder="enter an organisation name..." onChange={handleInput} />
+                <div className="organisation-button-wrapper" >
+                    {orgs
+                        .filter(org => this.state.search && org.name.match(this.state.search))
+                        .map(org => (
+                            <OrganisationButton key={org.id} organisation={org} joinOrganisation={joinOrganisation} >{org.name}</OrganisationButton>
+                        ))}
+                </div>
             </div>
         );
     }

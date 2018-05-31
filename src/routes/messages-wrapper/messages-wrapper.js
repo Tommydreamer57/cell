@@ -8,7 +8,8 @@ import createMessages from '../messages/messages';
 import createOrganisation from '../organisation/organisation';
 import createChannel from '../channel/channel';
 // STYLE
-import { RouterView } from '../../styles/components';
+import wrapper from '../../styles/components';
+import { StyleSheet } from 'aphrodite-jss';
 
 export default function create(update) {
     // CHILDREN
@@ -28,12 +29,26 @@ export default function create(update) {
         view(model) {
             let matched = switchh.view(model);
             return matched && (
-                <RouterView id="router-view" style={{ left: model.sideWidth }} >
+                <ViewWrapper id="router-view" style={{ left: model.sideWidth }} >
                     {matched}
                     {sidenav.view(model)}
                     {header.view(model)}
-                </RouterView>
+                </ViewWrapper>
             );
         }
     };
 }
+
+
+const styles = StyleSheet.create({
+    viewwrapper: {
+        position: 'fixed',
+        left: '20vw',
+        top: 55,
+        bottom: 96,
+        right: 0,
+        overflowY: 'scroll',
+    }
+});
+
+const ViewWrapper = wrapper('div', styles.viewwrapper);

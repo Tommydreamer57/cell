@@ -3,7 +3,8 @@ import React from 'react';
 // import Router from './meiosis-router';
 import listen from './meiosis-router';
 // ROUTES & STATICS
-import createRoutes from './routes/routes';
+import createGeneralWrapper from './routes/general-wrapper/general-wrapper';
+import createMessagesWrapper from './routes/messages-wrapper/messages-wrapper';
 // URL PARSER
 import { getId, getMatch } from './routes/url-parser';
 // HTTP
@@ -11,7 +12,9 @@ import { GET } from './http';
 // DEFAULT MODEL
 import defaultModel from './model';
 // STYLES
-import { App } from './styles/components';
+import { StyleSheet } from 'aphrodite-jss';
+import wrapper from './styles/components';
+import p from './styles/presets';
 
 // APP
 export default function create(update) {
@@ -40,7 +43,8 @@ export default function create(update) {
     })
 
     // CHILDREN
-    let routes = createRoutes(update);
+    let generalWrapper = createGeneralWrapper(update);
+    let messagesWrapper = createMessagesWrapper(update);
 
     // COMPONENT
     return {
@@ -51,12 +55,49 @@ export default function create(update) {
         // TOP LEVEL VIEW
         view(model) {
             return (
-                // <Router update={update} >
                 <App id="app" >
-                    {routes.view(model)}
+                    {generalWrapper.view(model)}
+                    {messagesWrapper.view(model)}
                 </App>
-                // </Router>
             );
         }
     };
 }
+
+const none = 'none';
+
+const style = StyleSheet.create({
+    app: {
+        fontFamily: 'calibri',
+        color: p.color,
+        background: p.acolor(0.03),
+        minHeight: '100vh',
+        '& h1': {
+            fontSize: 48
+        },
+        '& h2': {
+            fontSize: 36
+        },
+        '& h3': {
+            fontSize: 24
+        },
+        '& h4': {
+            fontSize: 20
+        },
+        '& h5': {
+            fontSize: 18
+        },
+        '& h6': {
+            fontSize: 16
+        },
+        '& p': {
+            fontSize: 14
+        },
+        '& button': {
+            ...p.reset,
+            transition: '0.2s'
+        }
+    }
+});
+
+const App = wrapper('div', style.app);

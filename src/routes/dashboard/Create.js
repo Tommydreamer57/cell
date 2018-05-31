@@ -9,7 +9,8 @@ export default function Create({ create }) {
     }
     return (
         <div id="create" >
-            <input onKeyDown={onKeyDown} />
+            <h3>Create an Organisation</h3>
+            <input onKeyDown={onKeyDown} placeholder="enter your organisation's name..." />
         </div>
     );
 }
