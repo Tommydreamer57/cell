@@ -70,6 +70,8 @@ const style = StyleSheet.create({
     app: {
         fontFamily: 'calibri',
         color: p.color,
+        background: p.acolor(0.03),
+        minHeight: '100vh',
         '& h1': {
             fontSize: 48
         },

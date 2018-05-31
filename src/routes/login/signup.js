@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
             border: `1px solid ${p.acolor(0.25)}`,
             borderRadius: 5,
             width: '27.5%',
+            background: 'white',
             '& .button-wrapper': {
                 display: 'flex',
                 justifyContent: 'space-around',

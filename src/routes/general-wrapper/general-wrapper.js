@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
             right: 0,
             padding: 18,
             borderBottom: `1px solid ${p.acolor(.5)}`,
+            background: 'white',
             '& #logo-wrapper': {
                 display: 'flex',
                 '& h3': {
