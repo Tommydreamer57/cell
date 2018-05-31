@@ -4,17 +4,28 @@ import { getId, getMatch } from '../../url-parser';
 import { POST } from '../../../http';
 import createDrag from './drag';
 import createOrgHeader from './organisation-header';
-import createChanHeader from './channel-header/channel-header';
+// import createChanHeader from './channel-header/channel-header';
+import ChannelHeader from './ChannelHeader';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';
 import wrapper from '../../../styles/components';
 
 export default function create(update) {
 
+    function createChannel(name, _private) {
+        update(({ organisation: { id } }) => {
+            POST.newChannel(update, id, name, _private);
+        });
+    }
+
+    function joinChannel(id) {
+        POST.joinChannel(update, id);
+    }
+
     // CHILDREN
     let drag = createDrag(update);
     let orgHeader = createOrgHeader(update);
-    let chanHeader = createChanHeader(update);
+    // let chanHeader = createChanHeader(update);
     // COMPONENT
     return {
         view(model) {
@@ -22,15 +33,17 @@ export default function create(update) {
             let { channels } = org;
             let currentId = getId();
             let match = getMatch();
+            let joinedChannels = channels.filter(({ id }) => model.user.channels.includes(id));
+            let notJoinedChannels = channels.filter(({ id }) => !model.user.channels.includes(id));
             return (
                 <SideNav id="sidenav" style={{ width: model.sideWidth }} >
                     {/* DROPDOWN HEADER */}
                     {orgHeader.view(model)}
                     {/* CHANNEL DROPDOWN */}
-                    {chanHeader.view(model)}
-
+                    {/* {chanHeader.view(model)} */}
+                    <ChannelHeader channels={notJoinedChannels} create={createChannel} join={joinChannel} />
                     {/* CHANNEL LIST */}
-                    {channels.filter(channel => channel.members.some(id => id === model.user.id)).map(channel => link(model, `/messages/channel/${channel.id}`,
+                    {joinedChannels.map(channel => link(model, `/messages/channel/${channel.id}`,
                         <div className={`channel-link ${match === 'channel' && channel.id === currentId ? 'selected' : ''}`} >
                             {channel.private ? '$' : '#'} {channel.name}
                         </div>
@@ -70,6 +83,10 @@ const styles = StyleSheet.create({
             '&:hover': {
                 background: '#BBB'
             }
+        },
+        '& .channel-button-wrapper': {
+            display: 'flex',
+            justifyContent: 'space-between'
         },
         '& .selected': {
             fontWeight: 'bold',
