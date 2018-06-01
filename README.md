@@ -27,7 +27,6 @@ Routing of all view setup first
 ==================================   END OF WEEK GOAL   ==========================================
 
  - Organisation (/organisation/:id)
-    - buttons to create or join a channel
     - list of members
  - Channel (/channel/:id)
     - list of members
@@ -36,10 +35,30 @@ Routing of all view setup first
     - input - Slate editor
         - text formatting - bold, italic
         - click on own message to edit
-        - ** click on other message to add reaction **
+ - Sockets
+
+
+ - Little things to touch up:
+    - animation on join organisation - before request gets back
+        - same thing on create organisation, join/create channel
+    - gray div behind modals to cover screen
+    - organisation/channel page - display members
+        - stretch messages-view div to bottom of screen (where message input was)
+    - clean up border on message input
+    - on create channel
+        - validate channel name = [a-z0-9\-] - front end & back end
+    - add logout feature
+        - front & back end
+    - organize channels on sidenav
+        - first public then private
+        - lock by private channels
+    - search feature in header (top left)
+        - search through people and channels
 
 
 
- - Request to join private organisations
- - Admins accept requests, or submit emails to allow to the organisation
- - Direct Messages
+ - After MVP
+    - Direct Messages
+    - Reactions
+    - Request to join private organisations
+    - Admins accept requests, or submit emails to allow to the organisation
