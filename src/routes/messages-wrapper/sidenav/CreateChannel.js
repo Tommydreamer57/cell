@@ -14,8 +14,10 @@ export default function Create({ create }) {
     return (
         <div id="create" >
             <h3>Create a Channel</h3>
-            <input onKeyDown={onKeyDown} placeholder="enter your channel's name..." />
-            Private? <input ref={$check} onChange={() => console.log($check)} type="checkbox" />
+            <input type="text" onKeyDown={onKeyDown} placeholder="enter your channel's name..." />
+            <div className='private-button' >
+                Private <input ref={$check} onChange={() => console.log($check)} type="checkbox" />
+            </div>
         </div>
     );
 }

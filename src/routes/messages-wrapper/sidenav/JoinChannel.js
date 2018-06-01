@@ -42,7 +42,7 @@ export default class JoinChannel extends Component {
         return (
             <div>
                 <h3>Find a Channel</h3>
-                <input placeholder="enter an organisation name..." onChange={handleInput} />
+                <input type="text" placeholder="enter an organisation name..." onChange={handleInput} />
                 <div className="organisation-button-wrapper" >
                     {channels
                         .filter(channel => search && channel.name.match(search))
