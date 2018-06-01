@@ -17,10 +17,12 @@ module.exports = function (app) {
 function reset(db) {
     db.seed()
         .then(users => {
-            Promise.all(users.map(({ username }) => {
-                return axios.put('http://localhost:3021/auth/reset', { username, newPassword: username });
-            }))
-                .then(() => console.log("done refreshing db"))
+            Promise.all([
+                ...users.map(({ username }) => {
+                    return axios.put('http://localhost:3021/auth/reset', { username, newPassword: username });
+                })
+            ])
+                .then(responses => console.log("done refreshing db", responses.map(({ data }) => data)))
                 .catch(console.log);
         })
         .catch(console.error);

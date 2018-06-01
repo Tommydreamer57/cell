@@ -37,7 +37,7 @@ export default function create(update) {
                     {channel && channel.messages && channel.messages.map(message => (
                         <Message key={message.id} message={message} />
                     ))}
-                    <MessageInput onKeyDown={onKeyDown} style={{ left: model.sideWidth }} />
+                    <MessageInput onKeyDown={onKeyDown} style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }} />
                 </Messages>
             );
         }

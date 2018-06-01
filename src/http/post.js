@@ -42,6 +42,9 @@ export function message(update, type, id, text) {
 export function newChannel(update, organisation_id, name, _private) {
     return axios.post(`/api/create/channel/${organisation_id}`, { name, _private })
         .then(({ data: channel }) => {
+            update(({ router: { history } }) => {
+                history.push(`/messages/channel/${channel.id}`);
+            });
             update(model => {
                 if (model.organisation.id === organisation_id) model.organisation.channels.push(channel);
                 return model;
@@ -53,6 +56,9 @@ export function newChannel(update, organisation_id, name, _private) {
 export function joinChannel(update, channel_id) {
     return axios.post(`/api/join/channel/${channel_id}`)
         .then(({ data: organisation }) => {
+            update(({ router: { history } }) => {
+                history.push(`/messages/channel/${channel_id}`);
+            });
             update(model => ({
                 ...model,
                 organisation

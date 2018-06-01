@@ -97,7 +97,12 @@ INSERT INTO cell_organisations
 (name, created_by)
 VALUES
 ('Lowry Family', 5),
-('DevMountain', 1);
+('DevMountain', 1),
+('BYU', 1),
+('UVU', 2),
+('Provo', 8),
+('Utah', 5),
+('Georgia', 3);
 
 INSERT INTO cell_organisation_memberships
 (organisation_id, member_id)

@@ -24,7 +24,7 @@ export default function create(update) {
                 else header = model.organisation.name;
             }
             return (
-                <Header style={{ left: model.sideWidth }} >
+                <Header style={{ left: model.sideWidth, width: `calc(100vw - 48px - ${model.sideWidth})` }} >
                     <h2>{header}&nbsp;</h2>
                     <input placeholder="search" />
                 </Header>

@@ -46,7 +46,7 @@ export default class Search extends Component {
                     {orgs
                         .filter(org => this.state.search && org.name.match(this.state.search))
                         .map(org => (
-                            <OrganisationButton key={org.id} organisation={org} joinOrganisation={joinOrganisation} >{org.name}</OrganisationButton>
+                            <OrganisationButton key={org.id} organisation={org} joinOrganisation={joinOrganisation}  />
                         ))}
                 </div>
             </div>
