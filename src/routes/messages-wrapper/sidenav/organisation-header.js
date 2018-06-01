@@ -21,6 +21,7 @@ export default function create(update) {
                         .map(org => link(model, `/organisations/${org.id}`,
                             <h4>{org.name}</h4>
                         ))}
+                    {link(model, '/dashboard', <h4>Dashboard</h4>)}
                 </Dropdown>
             );
         }
