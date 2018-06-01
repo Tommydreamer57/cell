@@ -109,16 +109,30 @@ const styles = StyleSheet.create({
                 top: -5,
                 right: 25,
                 opacity: 0,
-                border: `1px solid ${p.acolor(0.25)}`,
                 padding: 0,
-                borderRadius: 6,
                 transition: '0.1s',
                 display: 'flex',
+                borderRadius: 6,
                 '& button': {
                     margin: 0,
                     padding: 5,
                     flexGrow: '1',
-                    width: 40
+                    width: 40,
+                    borderRadius: 0,
+                    borderTop: `1px solid ${p.acolor(0.25)}`,
+                    borderBottom: `1px solid ${p.acolor(0.25)}`,
+                '&:first-of-type': {
+                    borderTopLeftRadius: 6,
+                    borderBottomLeftRadius: 6,
+                    borderLeft: `1px solid ${p.acolor(0.25)}`,
+                    borderRight: `1px solid ${p.acolor(0.25)}`
+                },
+                '&:last-of-type': {
+                    borderTopRightRadius: 6,
+                    borderBottomRightRadius: 6,
+                    borderRight: `1px solid ${p.acolor(0.25)}`,
+                    borderLeft: `1px solid ${p.acolor(0.25)}`
+                },
                 },
                 '& .hover-icon': {
                     color: 'gray',
@@ -145,14 +159,14 @@ const styles = StyleSheet.create({
             '& .input-wrapper': {
                 ...centerFlex,
                 width: 'calc(100% - 56px)',
-                border: '3px solid #DDD',
+                border: `3px solid ${p.acolor(0.25)}`,
                 borderRadius: 8,
                 '& button': {
                     fontSize: 36,
                     color: '#CCC',
                     height: 50,
                     width: 50,
-                    borderRight: '3px solid #DDD',
+                    borderRight: `3px solid ${p.acolor(0.25)}`,
                 },
                 '& input': {
                     padding: 12,
