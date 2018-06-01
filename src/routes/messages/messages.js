@@ -63,7 +63,7 @@ const centerFlex = {
 
 const styles = StyleSheet.create({
     messages: {
-        padding: 24,
+        padding: '24px 0',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-end',
@@ -72,31 +72,65 @@ const styles = StyleSheet.create({
         '& .message': {
             position: 'relative',
             display: 'flex',
-            padding: 8,
+            padding: '8px 24px',
+            '& .image-wrapper': {
+                height: 45,
+                width: 45,
+                borderRadius: 3,
+                marginRight: 10,
+                background: 'lightblue'
+            },
             '& .message-body': {
                 display: 'flex',
                 flexDirection: 'column',
                 '& h5': {
                     fontWeight: 'bold'
+                },
+                '& .message-info': {
+                    height: 25,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    marginBottom: 5,
+                    '& h5': {
+                        marginRight: 10
+                    },
+                    '& h6': {
+                        fontSize: 14,
+                        color: 'gray',
+                        fontWeight: '200'
+                    }
+
                 }
             },
             '& .message-hover': {
                 position: 'absolute',
-                top: 0,
-                right: 0,
+                top: -5,
+                right: 25,
                 opacity: 0,
                 border: `1px solid ${p.acolor(0.25)}`,
-                padding: '3px 6px',
+                padding: 0,
                 borderRadius: 6,
                 transition: '0.1s',
+                display: 'flex',
                 '& button': {
-                    margin: '0 3px'
+                    margin: 0,
+                    padding: 5,
+                    flexGrow: '1',
+                    width: 40
+                },
+                '& .hover-icon': {
+                    color: 'gray',
+                    fontSize: 15
                 }
             },
             '&:hover': {
                 '& .message-hover': {
-                    opacity: 1
-                }
+                    opacity: 1,
+                    background: 'white'
+                },
+                background: '#f3f3f3'
             }
         },
         '& .message-input': {
