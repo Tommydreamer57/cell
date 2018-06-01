@@ -46,7 +46,7 @@ export default class Message extends Component {
                     <img src={author.img} />
                 </div>
                 <div className="message-body" >
-                    <span>
+                    <span className="message-info">
                         <h5>{author.first_name} {author.last_name}</h5>
                         <h6>{(new Date(message.timestamp)).toLocaleTimeString().replace(/(\d)(:\d\d)(:\d\d)/, '$1$2')}</h6>
                     </span>
