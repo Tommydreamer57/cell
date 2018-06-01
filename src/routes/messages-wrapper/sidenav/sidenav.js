@@ -3,8 +3,7 @@ import { link } from '../../../meiosis-router';
 import { getId, getMatch } from '../../url-parser';
 import { POST } from '../../../http';
 import createDrag from './drag';
-import createOrgHeader from './organisation-header';
-// import createChanHeader from './channel-header/channel-header';
+import createOrganisationHeader from './organisation-header';
 import ChannelHeader from './ChannelHeader';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';
@@ -25,8 +24,8 @@ export default function create(update) {
 
     // CHILDREN
     let drag = createDrag(update);
-    let orgHeader = createOrgHeader(update);
-    // let chanHeader = createChanHeader(update);
+    let organisationHeader = createOrganisationHeader(update);
+
     // COMPONENT
     return {
         view(model) {
@@ -39,7 +38,7 @@ export default function create(update) {
             return (
                 <SideNav id="sidenav" style={{ width: sideWidth }} >
                     {/* DROPDOWN HEADER */}
-                    {orgHeader.view(model)}
+                    {organisationHeader.view(model)}
                     {/* CHANNEL DROPDOWN */}
                     <ChannelHeader channels={notJoinedChannels} create={createChannel} join={joinChannel} />
                     {/* CHANNEL LIST */}
@@ -63,39 +62,95 @@ const styles = StyleSheet.create({
         position: 'fixed',
         top: 0,
         display: 'flex',
-        background: '#DDD',
+        background: p.acolor(0.75),
         left: 0,
         bottom: 0,
         minWidth: '20vw',
         overflowY: 'auto',
-        overflowX: '',
+        overflowX: 'hidden',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         resize: 'horizontal',
-        '& .dropdown': {
-            width: '100%'
+        '& .dropdown-wrapper': {
+            width: '100%',
+            color: p.white(0.875),
+            '& button': {
+                textAlign: 'left',
+                color: p.white(0.875),
+            },
+            '& .dropdown-title': {
+                position: 'relative',
+                zIndex: 2,
+                color: p.white(0.875),
+                background: '#3A3E65', // p.acolor(0.5),
+            },
+            '& .dropdown': {
+                zIndex: 1,
+                position: 'absolute',
+                left: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                background: '#4B4E71', // p.acolor(0.5),
+                transition: '0.2s',
+                '&.open': {
+                    transform: 'translateY(0)'
+                },
+                '&.closed': {
+                    transform: 'translateY(-150%)'
+                },
+                '& a': {
+                    ...p.reset,
+                    padding: '14px 18px',
+                    color: p.white(0.875),
+                    transition: '0.2s',
+                    '&:hover': {
+                        background: '#43446A'
+                    }
+                }
+            }
         },
         '& .header': {
             width: '100%',
-            background: '#CCC',
+            color: p.white(0.875),
+            background: p.acolor(0.66),
             '& button': {
                 width: '100%',
                 padding: '14px 18px',
             },
-            '&:hover': {
-                background: '#BBB'
+        },
+        '& #channel-header': {
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            color: p.white(0.875),
+            // borderBottom: `1px solid ${p.acolor(0.5)}`,
+            '& h4': {
+                padding: '12px 18px',
+                fontSize: 22,
+                // borderBottom: `1px solid ${p.acolor(0.5)}`,
+            },
+            '& .channel-button-wrapper': {
+                display: 'flex',
+                justifyContent: 'space-between',
+                '& button': {
+                    color: p.white(0.5),
+                    width: '50%',
+                    padding: '6px 18px',
+                    fontSize: 16,
+                    fontStyle: 'italic',
+                    '&:hover': {
+                        color: p.white(0.875),
+                        background: p.acolor(0.5)
+                    }
+                }
             }
         },
-        '& .channel-button-wrapper': {
-            display: 'flex',
-            justifyContent: 'space-between'
-        },
-        '& .selected': {
-            fontWeight: 'bold',
-        },
         '& .channel-list': {
+            width: '100%',
             '& a, & button': {
+                ...p.reset,
                 width: '100%',
                 fontSize: 18,
                 '& .channel-link, & .channel-header': {
@@ -103,22 +158,29 @@ const styles = StyleSheet.create({
                     padding: '6px 18px',
                     display: 'flex',
                     justifyContent: 'space-between',
+                    transition: '0.2s',
                     '&:hover': {
-                        background: '#BBB'
-                    }
+                        background: p.acolor(0.5)
+                    },
+                    color: p.white(0.5),
+                    '&.selected': {
+                        fontWeight: 'bold',
+                        color: p.white(0.875)
+                    },
                 }
             },
         },
         '& .modal': {
             position: 'fixed',
             top: '10rem',
+            left: '50%',
             width: '40vw',
-            background: 'white', // p.acolor(0.1),
-            border: '1px solid',
             padding: 24,
             borderRadius: 12,
             transition: '0.6s',
-            left: '50%',
+            background: 'white', // p.acolor(0.1),
+            border: '1px solid',
+            color: p.color,
             '&.current': {
                 transform: 'translateX(-50%)'
             },
@@ -173,7 +235,7 @@ const styles = StyleSheet.create({
             width: 10,
             cursor: 'ew-resize',
             '& div': {
-                background: 'rgba(0, 0, 0, 0.2)',
+                background: p.white(0.5),
                 borderRadius: 2,
                 height: 24,
                 width: 4
