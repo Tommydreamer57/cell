@@ -8,12 +8,7 @@ export default class Dropdown extends Component {
         this.state = {
             open: false
         };
-        this.toggle = this.toggle.bind(this);
-    }
-    toggle() {
-        this.setState({
-            open: !this.state.open
-        });
+        this.toggle = () => this.setState({ open: !this.state.open })
     }
     render() {
         let {
@@ -21,20 +16,14 @@ export default class Dropdown extends Component {
             props: { className, title, type, children },
             state: { open },
         } = this;
-        // console.log(this.props);
         return (
-            <div className={"dropdown " + className} >
-                <button onClick={toggle} >
-                    {
-                        type === "header" ?
-                            <h3>{title} v</h3>
-                            :
-                            <h4>{title} v</h4>
-                    }
+            <div className={"dropdown-wrapper " + className} >
+                <button className='dropdown-title' onClick={toggle} >
+                    <h3>{title}</h3>
                 </button>
-                <div className="dropdown" onClick={this.toggle} >
-                    {open && children}
-                </div>    
+                <div className={`dropdown ${open ? 'open' : 'closed'}`} onClick={this.toggle} >
+                    {children}
+                </div>
             </div>
         );
     }

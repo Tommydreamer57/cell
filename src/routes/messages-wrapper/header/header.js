@@ -1,6 +1,7 @@
 import React from 'react';
 import wrapper from '../../../styles/components';
 import { StyleSheet } from 'aphrodite-jss';
+import p from '../../../styles/presets';
 
 export default function create(update) {
     function getId() {
@@ -25,7 +26,7 @@ export default function create(update) {
             }
             return (
                 <Header style={{ left: model.sideWidth, width: `calc(100vw - 48px - ${model.sideWidth})` }} >
-                    <h2>{header}&nbsp;</h2>
+                    <h3>{header}&nbsp;</h3>
                     <input placeholder="search" />
                 </Header>
             );
@@ -40,8 +41,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         left: '20vw',
         width: 'calc(80vw - 48px)',
-        padding: '14px 24px',
-        background: '#EEE',
+        padding: '16px 24px',
+        background: p.acolor(0.125),
         justifyContent: 'space-between',
         alignItems: 'center',
     }

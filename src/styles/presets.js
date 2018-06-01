@@ -1,7 +1,13 @@
 
 const r = 50;
 const g = 54;
-const b = 72;
+const b = 94;
+// const r = 34;
+// const g = 50;
+// const b = 95;
+// const r = 18;
+// const g = 31;
+// const b = 39;
 
 const reset = {
     background: 'none',
@@ -16,12 +22,14 @@ const reset = {
 const color = `rgb(${r}, ${g}, ${b})`;
 const acolor = a => `rgba(${r}, ${g}, ${b}, ${a})`;
 const color2 = `rgb(29, 42, 158)`;
+const white = a => `rgba(255, 255, 255, ${a})`
 
 export default {
     color,
     acolor,
     color2,
     reset,
+    white,
     primaryBtn: {
         ...reset,
         padding: '12px 24px',
