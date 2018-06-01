@@ -34,6 +34,7 @@ messages AS (
     id AS message_id,
     text AS message_text,
     timestamp AS message_timestamp,
+    updated AS message_updated,
     author_id AS message_author_id,
     channel_id AS message_channel_id
     FROM cell_channel_messages

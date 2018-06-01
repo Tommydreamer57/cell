@@ -6,30 +6,20 @@ import MessageInput from './MessageInput/MessageInput';
 import { getId, getMatch } from '../url-parser';
 import wrapper from '../../styles/components';
 import { StyleSheet } from 'aphrodite-jss';
+import p from '../../styles/presets';
 
 export default function create(update) {
-    // EVENT HANDLERS
-    function onKeyDown({ target, key }) {
-        if (key === 'Enter' && target.value.trim()) {
-            POST.message(update, 'channel', getId(), target.value);
-            target.value = '';
-        }
-    }
     // FUNCTIONS
     function scrollToBottom() {
         let $messages = document.querySelector("#router-view");
         if ($messages) $messages.scrollTop = $messages.scrollHeight;
     }
+    // CREATE MESSAGE
+    const sendMessage = text => POST.message(update, 'channel', getId(), text);
     // EDIT MESSAGE
-    const saveEdit = (id, text) => {
-        console.log({ id, text });
-        return PUT.message(update, 'channel', id, text, getId());
-    }
+    const saveEdit = (id, text) => PUT.message(update, 'channel', id, text, getId());
     // DELETE MESSAGE
-    const _delete = id => {
-        console.log(id);
-        return DELETE.message(update, 'channel', id, getId());
-    }
+    const _delete = id => DELETE.message(update, 'channel', id, getId());
     // COMPONENT
     return {
         data(model) {
@@ -42,19 +32,23 @@ export default function create(update) {
             setTimeout(scrollToBottom, 0);
             let currentId = getId();
             let channel = model.organisation.channels.find(channel => channel.id == currentId);
-            let { user } = model;
+            let {
+                user,
+                organisation: org
+            } = model;
             return (
                 <Messages id="messages" >
                     {channel && channel.messages && channel.messages.map(message => (
                         <Message
                             key={message.id}
                             message={message}
-                            own={user.id === message.author_id || true}
+                            author={org.members.find(({id}) => id === message.author_id)}
+                            own={user.id === message.author_id}
                             saveEdit={saveEdit}
                             _delete={_delete}
                         />
                     ))}
-                    <MessageInput onKeyDown={onKeyDown} style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }} />
+                    <MessageInput sendMessage={sendMessage} style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }} />
                 </Messages>
             );
         }
@@ -76,15 +70,33 @@ const styles = StyleSheet.create({
         minHeight: '100%',
         zIndex: 1,
         '& .message': {
-            padding: 8,
+            position: 'relative',
             display: 'flex',
-            flexDirection: 'column',
-            '& div': {
+            padding: 8,
+            '& .message-body': {
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                '& h5': {
+                    fontWeight: 'bold'
+                }
             },
-            '& span': {
-                display: 'flex'
+            '& .message-hover': {
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                opacity: 0,
+                border: `1px solid ${p.acolor(0.25)}`,
+                padding: '3px 6px',
+                borderRadius: 6,
+                transition: '0.1s',
+                '& button': {
+                    margin: '0 3px'
+                }
+            },
+            '&:hover': {
+                '& .message-hover': {
+                    opacity: 1
+                }
             }
         },
         '& .message-input': {

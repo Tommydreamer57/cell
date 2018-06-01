@@ -37,20 +37,18 @@ export default class Message extends Component {
             cancel,
             _delete,
             onKeyDown,
-            props: { message, saveEdit, own },
+            props: { message, author, saveEdit, own },
             state: { editing, input }
         } = this;
         return (
             <div className="message" >
-                <div className="image-wrapper">
-                    <img src={message.img} />
+                <div className="image-wrapper" >
+                    <img src={author.img} />
                 </div>
-                <div>
+                <div className="message-body" >
                     <span>
-                        <h3>ID: {message.id}</h3>
-                        <h3>AUTHOR ID: {message.author_id}</h3>
-                        <h5>{message.first_name} {message.last_name}</h5>
-                        <h6>{message.timestamp}</h6>
+                        <h5>{author.first_name} {author.last_name}</h5>
+                        <h6>{(new Date(message.timestamp)).toLocaleTimeString().replace(/(\d)(:\d\d)(:\d\d)/, '$1$2')}</h6>
                     </span>
                     {editing ?
                         <input value={input} onChange={handleInput} onKeyDown={onKeyDown} />
