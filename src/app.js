@@ -29,7 +29,7 @@ export default function create(update) {
     GET.allOrganisations(update);
     let MATCH = getMatch();
     let ID = getId();
-    if (MATCH === 'organisation') GET.organisation(ID);
+    if (MATCH === 'organisation') GET.organisation(update, ID);
     else if (MATCH === 'channel') GET.organisationByChannel(update, ID);
 
     // TOGGLE MODAL OFF

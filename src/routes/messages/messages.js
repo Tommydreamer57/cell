@@ -1,5 +1,5 @@
 import React from 'react';
-import { GET, POST } from '../../http';
+import { GET, POST, PUT, DELETE } from '../../http';
 import initialModel from '../../model';
 import Message from './Message/Message';
 import MessageInput from './MessageInput/MessageInput';
@@ -20,6 +20,16 @@ export default function create(update) {
         let $messages = document.querySelector("#router-view");
         if ($messages) $messages.scrollTop = $messages.scrollHeight;
     }
+    // EDIT MESSAGE
+    const saveEdit = (id, text) => {
+        console.log({ id, text });
+        return PUT.message(update, 'channel', id, text, getId());
+    }
+    // DELETE MESSAGE
+    const _delete = id => {
+        console.log(id);
+        return DELETE.message(update, 'channel', id, getId());
+    }
     // COMPONENT
     return {
         data(model) {
@@ -32,10 +42,17 @@ export default function create(update) {
             setTimeout(scrollToBottom, 0);
             let currentId = getId();
             let channel = model.organisation.channels.find(channel => channel.id == currentId);
+            let { user } = model;
             return (
                 <Messages id="messages" >
                     {channel && channel.messages && channel.messages.map(message => (
-                        <Message key={message.id} message={message} />
+                        <Message
+                            key={message.id}
+                            message={message}
+                            own={user.id === message.author_id || true}
+                            saveEdit={saveEdit}
+                            _delete={_delete}
+                        />
                     ))}
                     <MessageInput onKeyDown={onKeyDown} style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }} />
                 </Messages>

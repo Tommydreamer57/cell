@@ -3,13 +3,29 @@ function assign(regex, obj, ...except) {
     for (let key in obj) {
         if (key.match(regex) && !except.includes(key.replace(regex, ''))) {
             newObj[key.replace(regex, '')] = obj[key];
-            // newObj[key] = obj[key];
+        }
+    }
+    return newObj;
+}
+
+function remove(regex, obj) {
+    let newObj = {};
+    for (let key in obj) {
+        if (!key.match(regex)) {
+            newObj[key] = obj[key];
         }
     }
     return newObj;
 }
 
 module.exports = {
+    convertUpdatedMessages(arr) {
+        return arr.map(message => {
+            if (message.id === message.new_message_id) {
+                return assign(/^new_message_/, message);
+            } else return remove(/^new_message/, message);
+        });
+    },
     convertUser(arr) {
         let user = assign(/^/, arr[0], 'organisation_id', 'channel_id');
         user.organisations = arr

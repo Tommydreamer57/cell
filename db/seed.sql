@@ -56,7 +56,8 @@ CREATE TABLE cell_channel_messages (
     channel_id INTEGER REFERENCES cell_channels(id) NOT NULL,
     author_id INTEGER REFERENCES cell_users(id) NOT NULL,
     text VARCHAR(5000) NOT NULL,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated TIMESTAMP DEFAULT NULL
 );
 
 CREATE TABLE cell_direct_message_groups (
@@ -75,7 +76,8 @@ CREATE TABLE cell_direct_message_group_messages (
     direct_message_group_id INTEGER REFERENCES cell_direct_message_groups(id) NOT NULL,
     author_id INTEGER REFERENCES cell_users(id) NOT NULL,
     text VARCHAR(5000) NOT NULL,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated TIMESTAMP DEFAULT NULL    
 );
 
 -- insert data
