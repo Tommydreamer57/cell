@@ -1,6 +1,6 @@
 import React from 'react';
 import Dropdown from '../../../components/Dropdown/Dropdown';
-import { link } from '../../../meiosis-router';
+import { link } from '../../../../meiosis-router';
 
 export default function create(update) {
     return {

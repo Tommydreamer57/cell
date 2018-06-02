@@ -1,9 +1,12 @@
 import React from 'react';
-import { POST } from '../../http';
+// UTILS
+import { POST } from '../../../../http';
+// COMPONENTS
 import Login from './Login';
-import wrapper from '../../styles/components';
+// STYLES
+import wrapper from '../../../../styles/components';
 import { StyleSheet } from 'aphrodite-jss';
-import p from '../../styles/presets';
+import p from '../../../../styles/presets';
 
 export default function create(update) {
     // FUNCTIONS

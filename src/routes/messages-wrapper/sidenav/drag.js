@@ -9,7 +9,7 @@ export default function create(update) {
         event.preventDefault();
         let sideWidth = event.pageX + 5;
         let max = window.innerWidth / 2;
-        let min = window.innerWidth / 5;
+        let min = window.innerWidth / 6;
         if (sideWidth > max) sideWidth = max;
         if (sideWidth < min) sideWidth = min;
         sideWidth = (sideWidth / window.innerWidth * 100).toFixed(2) + 'vw';

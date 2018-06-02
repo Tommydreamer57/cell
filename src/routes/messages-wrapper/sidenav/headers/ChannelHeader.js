@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import CreateChannel from './CreateChannel';
-import JoinChannel from './JoinChannel';
+import CreateChannel from './modals/CreateChannel';
+import JoinChannel from './modals/JoinChannel';
 
 export default class ChannelHeader extends Component {
     constructor() {
@@ -8,21 +8,9 @@ export default class ChannelHeader extends Component {
         this.state = {
             currentModal: null
         };
-    }
-    toggleCreate = () => {
-        this.setState({
-            currentModal: 'create'
-        });
-    }
-    toggleJoin = () => {
-        this.setState({
-            currentModal: 'join'
-        });
-    }
-    toggleOff = () => {
-        this.setState({
-            currentModal: null
-        });
+        this.toggleCreate = () => this.setState({ currentModal: 'create' });
+        this.toggleJoin = () => this.setState({ currentModal: 'join' });
+        this.toggleOff = () => this.setState({ currentModal: null });
     }
     componentDidMount() {
         window.addEventListener('click', this.toggleOff);
@@ -48,17 +36,15 @@ export default class ChannelHeader extends Component {
             });
     }
     render() {
-        console.log(this.state);
         let {
             toggleCreate,
             toggleJoin,
+            toggleOff,
             joinChannel,
             createChannel,
             stopPropagation,
             state: { currentModal },
-            props: {
-                channels,
-            }
+            props: { channels }
         } = this;
         return (
             <div id="channel-header" onClick={stopPropagation} >
@@ -67,6 +53,7 @@ export default class ChannelHeader extends Component {
                     <button onClick={toggleCreate} >Create</button>
                     <button onClick={toggleJoin} >Join</button>
                 </div>
+                <div className={`background-filter ${currentModal ? 'on' : 'off'}`} onClick={toggleOff} />
                 <div className='modal-wrapper' >
                     <div className={`modal ${currentModal === 'create' ? 'current' : 'out'}`} >
                         <CreateChannel create={createChannel} />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MessageHover from './MessageHover';
+import { toTime } from '../../../../date-parser';
 
 export default class Message extends Component {
     constructor(props) {
@@ -48,7 +49,9 @@ export default class Message extends Component {
                 <div className="message-body" >
                     <span className="message-info">
                         <h5>{author.first_name} {author.last_name}</h5>
-                        <h6>{(new Date(message.timestamp)).toLocaleTimeString().replace(/(\d)(:\d\d)(:\d\d)/, '$1$2')}</h6>
+                        <h6>
+                            {toTime(message.timestamp)}
+                        </h6>
                     </span>
                     {editing ?
                         <input value={input} onChange={handleInput} onKeyDown={onKeyDown} />

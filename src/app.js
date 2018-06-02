@@ -1,6 +1,5 @@
 import React from 'react';
 // LISTEN TO WINDOW HREF
-// import Router from './meiosis-router';
 import listen from './meiosis-router';
 // ROUTES & STATICS
 import createGeneralWrapper from './routes/general-wrapper/general-wrapper';
@@ -9,7 +8,7 @@ import createMessagesWrapper from './routes/messages-wrapper/messages-wrapper';
 import { getId, getMatch } from './routes/url-parser';
 // HTTP
 import { GET } from './http';
-// DEFAULT MODEL
+// INITIAL MODEL
 import defaultModel from './model';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';

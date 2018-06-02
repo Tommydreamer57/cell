@@ -1,12 +1,17 @@
 import React from 'react';
-import { GET, POST, PUT, DELETE } from '../../http';
-import initialModel from '../../model';
+// UTILS
+import initialModel from '../../../../model';
+import { getId, getMatch } from '../../../url-parser';
+import { GET, POST, PUT, DELETE } from '../../../../http';
+import { convertDate } from '../../../date-parser';
+// COMPONENTS
 import Message from './Message/Message';
 import MessageInput from './MessageInput/MessageInput';
-import { getId, getMatch } from '../url-parser';
-import wrapper from '../../styles/components';
+import Divider from './Message/Divider';
+// STYLES
+import wrapper from '../../../../styles/components';
 import { StyleSheet } from 'aphrodite-jss';
-import p from '../../styles/presets';
+import p from '../../../../styles/presets';
 
 export default function create(update) {
     // FUNCTIONS
@@ -38,16 +43,33 @@ export default function create(update) {
             } = model;
             return (
                 <Messages id="messages" >
-                    {channel && channel.messages && channel.messages.map(message => (
-                        <Message
-                            key={message.id}
-                            message={message}
-                            author={org.members.find(({id}) => id === message.author_id)}
-                            own={user.id === message.author_id}
-                            saveEdit={saveEdit}
-                            _delete={_delete}
-                        />
-                    ))}
+                    {channel && channel.messages && channel.messages
+                        .reduce((arr, message, i) => {
+                            let previousMessage = channel.messages[i - 1] || {};
+                            let previousDate = convertDate(previousMessage.timestamp);
+                            let currentDate = convertDate(message.timestamp);
+                            if (previousDate.getDate() !== currentDate.getDate()) {
+                                arr.push({
+                                    isNotMessage: true,
+                                    date: currentDate
+                                });
+                            }
+                            arr.push(message);
+                            return arr;
+                        }, [])
+                        .map(message => (
+                            message.isNotMessage ?
+                                <Divider date={message.date} />
+                                :
+                                <Message
+                                    key={message.id}
+                                    message={message}
+                                    author={org.members.find(({ id }) => id === message.author_id)}
+                                    own={user.id === message.author_id}
+                                    saveEdit={saveEdit}
+                                    _delete={_delete}
+                                />
+                        ))}
                     <MessageInput sendMessage={sendMessage} style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }} />
                 </Messages>
             );
@@ -121,18 +143,18 @@ const styles = StyleSheet.create({
                     borderRadius: 0,
                     borderTop: `1px solid ${p.acolor(0.25)}`,
                     borderBottom: `1px solid ${p.acolor(0.25)}`,
-                '&:first-of-type': {
-                    borderTopLeftRadius: 6,
-                    borderBottomLeftRadius: 6,
-                    borderLeft: `1px solid ${p.acolor(0.25)}`,
-                    borderRight: `1px solid ${p.acolor(0.25)}`
-                },
-                '&:last-of-type': {
-                    borderTopRightRadius: 6,
-                    borderBottomRightRadius: 6,
-                    borderRight: `1px solid ${p.acolor(0.25)}`,
-                    borderLeft: `1px solid ${p.acolor(0.25)}`
-                },
+                    '&:first-of-type': {
+                        borderTopLeftRadius: 6,
+                        borderBottomLeftRadius: 6,
+                        borderLeft: `1px solid ${p.acolor(0.25)}`,
+                        borderRight: `1px solid ${p.acolor(0.25)}`
+                    },
+                    '&:last-of-type': {
+                        borderTopRightRadius: 6,
+                        borderBottomRightRadius: 6,
+                        borderRight: `1px solid ${p.acolor(0.25)}`,
+                        borderLeft: `1px solid ${p.acolor(0.25)}`
+                    },
                 },
                 '& .hover-icon': {
                     color: 'gray',
@@ -174,6 +196,11 @@ const styles = StyleSheet.create({
                     fontSize: 18,
                 }
             }
+        },
+        '& .divider': {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
         }
     }
 });
