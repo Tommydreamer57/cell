@@ -2,11 +2,11 @@ import React from 'react';
 // ROUTING
 import { createSwitch } from '../../meiosis-router';
 // COMPONENTS
-import createHeader from './header';
+import createHeader from './header/header';
 // VIEWS
-import createHome from '../home/home';
-import createDashboard from '../dashboard/dashboard';
-import createSignup from '../login/signup';
+import createHome from './views/home/home';
+import createDashboard from './views/dashboard/dashboard';
+import createSignup from './views/login/signup';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';
 import wrapper from '../../styles/components';

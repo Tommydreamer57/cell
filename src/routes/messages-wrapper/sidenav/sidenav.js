@@ -1,10 +1,12 @@
 import React from 'react';
+// UTILS
 import { link } from '../../../meiosis-router';
 import { getId, getMatch } from '../../url-parser';
 import { POST } from '../../../http';
+// COMPONENTS
 import createDrag from './drag';
-import createOrganisationHeader from './organisation-header';
-import ChannelHeader from './ChannelHeader';
+import createOrganisationHeader from './headers/organisation-header';
+import ChannelHeader from './headers/ChannelHeader';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';
 import wrapper from '../../../styles/components';
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
         background: p.acolor(0.75),
         left: 0,
         bottom: 0,
-        minWidth: '20vw',
+        width: '20vw',
         overflowY: 'auto',
         overflowX: 'hidden',
         flexDirection: 'column',
@@ -170,10 +172,26 @@ const styles = StyleSheet.create({
                 }
             },
         },
+        '& .background-filter': {
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            background: p.acolor(0.25),
+            transition: 'opacity 0.2s',
+            '&.on': {
+                top: 0,
+                opacity: 1
+            },
+            '&.off': {
+                top: '100vh',
+                opacity: 0
+            }
+        },
         '& .modal': {
             position: 'fixed',
-            top: '10rem',
             left: '50%',
+            transform: 'translateX(-50%)',
             width: '40vw',
             padding: 24,
             borderRadius: 12,
@@ -182,10 +200,16 @@ const styles = StyleSheet.create({
             border: '1px solid',
             color: p.color,
             '&.current': {
-                transform: 'translateX(-50%)'
+                top: '10rem',
+                // '& .background-filter': {
+                //     top: 0
+                // }
             },
             '&.out': {
-                transform: 'translateX(120vw)'
+                top: 'calc(100vh + 10rem)',
+                // '& .background-filter': {
+                //     top: '110vh'
+                // }
             },
             '& input[type="text"]': {
                 marginTop: 18,

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+// COMPONENTS
 import Search from './Search';
 import Create from './Create';
-import { Carat } from '../../styles/logo';
+import { Carat } from '../../../../styles/logo';
 
 export default class CreateOrJoin extends Component {
     constructor() {

@@ -1,6 +1,7 @@
 import React from 'react';
-import Logo from '../../styles/logo';
-import { link } from '../../meiosis-router';
+// UTILS
+import { link } from '../../../meiosis-router';
+import Logo from '../../../styles/logo';
 
 export default function createHeader(update) {
     return {

@@ -1,8 +1,10 @@
 import React from 'react';
-import { link } from '../../meiosis-router';
-import wrapper from '../../styles/components';
+// UTILS
+import { link } from '../../../../meiosis-router';
+// STYLES
+import wrapper from '../../../../styles/components';
 import { StyleSheet } from 'aphrodite-jss';
-import p from '../../styles/presets';
+import p from '../../../../styles/presets';
 
 // let jellyfish = "https://images.unsplash.com/photo-1488953994029-e6a7ba3348f7?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=dd1fb5c29ccc0c74948741cda53f0455&auto=format&fit=crop&w=600&q=60";
 

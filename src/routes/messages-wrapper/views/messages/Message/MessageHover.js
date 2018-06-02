@@ -1,5 +1,5 @@
 import React from 'react';
-import p from '../../../styles/presets';
+import p from '../../../../../styles/presets';
 
 
 export default function MessageHover({ toggleEdit, _delete, star, own }) {

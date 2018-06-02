@@ -1,10 +1,13 @@
 import React from 'react';
-import { link } from '../../meiosis-router';
-import { GET, POST } from '../../http';
+// UTILS
+import { link } from '../../../../meiosis-router';
+import { GET, POST } from '../../../../http';
+// COMPONENTS
 import CreateOrJoin from './CreateOrJoin';
-import wrapper from '../../styles/components';
+// STYLES
+import wrapper from '../../../../styles/components';
 import { StyleSheet } from 'aphrodite-jss';
-import p from '../../styles/presets';
+import p from '../../../../styles/presets';
 
 export default function create(update) {
     const joinOrganisation = id => POST.joinOrganisation(update, id);

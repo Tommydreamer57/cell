@@ -4,16 +4,15 @@ import { createSwitch } from '../../meiosis-router';
 import createSidenav from './sidenav/sidenav';
 import createHeader from './header/header';
 // VIEWS
-import createMessages from '../messages/messages';
-import createOrganisation from '../organisation/organisation';
-import createChannel from '../channel/channel';
+import createMessages from './views/messages/messages';
+import createOrganisation from './views/organisation/organisation';
+import createChannel from './views/channel/channel';
 // STYLE
 import wrapper from '../../styles/components';
 import { StyleSheet } from 'aphrodite-jss';
 
 export default function create(update) {
     // CHILDREN
-    // sidenav = createRoute(['/messages/*', '/organisation/*', '/channels/*'], createSidenav, update)
     let sidenav = createSidenav(update);
     let header = createHeader(update);
 

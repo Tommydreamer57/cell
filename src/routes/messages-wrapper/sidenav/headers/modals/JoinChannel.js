@@ -40,7 +40,7 @@ export default class JoinChannel extends Component {
         } = this;
         console.log(channels);
         return (
-            <div>
+            <div className='modal-modal' >
                 <h3>Find a Channel</h3>
                 <input type="text" placeholder="enter an organisation name..." onChange={handleInput} />
                 <div className="organisation-button-wrapper" >

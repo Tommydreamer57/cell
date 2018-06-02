@@ -12,7 +12,7 @@ export default function Create({ create }) {
     }
 
     return (
-        <div id="create" >
+        <div className='modal-modal' >
             <h3>Create a Channel</h3>
             <input type="text" onKeyDown={onKeyDown} placeholder="enter your channel's name..." />
             <div className='private-button' >
