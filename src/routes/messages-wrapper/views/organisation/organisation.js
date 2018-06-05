@@ -2,8 +2,12 @@ import React from 'react';
 // UTILS
 import { link } from '../../../../meiosis-router';
 import { GET, POST } from '../../../../http';
-import defaultModel from '../../../../model';
 import { getId, getMatch } from '../../../url-parser';
+import defaultModel from '../../../../model';
+// STYLES
+import { StyleSheet } from 'aphrodite-jss';
+import wrapper from '../../../../styles/components';
+import p from '../../../../styles/presets';
 
 export default function create(update) {
     // ORGANISATION ID
@@ -19,22 +23,40 @@ export default function create(update) {
                 org = defaultModel.organisation;
             }
             return (
-                <section>
-                    <header>
-                        <h1>{org.name}</h1>
-                    </header>
-                    <div>
-                        <h2>Channels</h2>
-                        {org.channels.map(channel => link(model, `/messages/channel/${channel.id}`,
-                            <h3>{channel.name}</h3>
-                        ))}
-                        <h2>Members</h2>
-                        {org.members.map(member => (
-                            <div key={member.username} >{member.username}</div>
-                        ))}
-                    </div>
-                </section>
+                <Organisation>
+                    <h2>Members</h2>
+                    {org.members.map(member => (
+                        <div className='member' key={member.username} >
+                            <h5>{member.first_name} {member.last_name}</h5>
+                            <h5>@{member.username}</h5>
+                        </div>
+                    ))}
+                </Organisation>
             );
         }
     };
 }
+
+const styles = StyleSheet.create({
+    organisation: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '4rem',
+        '& h2': {
+            marginBottom: 24
+        },
+        '& .member': {
+            margin: '4px 0',
+            padding: '6px 10px',
+            border: `1px solid ${p.color}`,
+            borderRadius: 5,
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '50%'
+        }
+    }
+});
+
+const Organisation = wrapper('section', styles.organisation);
