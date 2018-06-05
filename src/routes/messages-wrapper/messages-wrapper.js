@@ -1,5 +1,7 @@
 import React from 'react';
 import { createSwitch } from '../../meiosis-router';
+// UTILS
+import { getMessageMatch } from '../url-parser';
 // COMPONENTS
 import createSidenav from './sidenav/sidenav';
 import createHeader from './header/header';
@@ -28,7 +30,7 @@ export default function create(update) {
         view(model) {
             let matched = switchh.view(model);
             return matched && (
-                <ViewWrapper id="router-view" style={{ left: model.sideWidth }} >
+                <ViewWrapper id="router-view" style={{ left: model.sideWidth, bottom: getMessageMatch() ? 96 : 0 }} >
                     {matched}
                     {sidenav.view(model)}
                     {header.view(model)}
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
         position: 'fixed',
         left: '20vw',
         top: 55,
-        bottom: 96,
+        bottom: 0,
         right: 0,
         overflowY: 'scroll',
     }
