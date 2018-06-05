@@ -1,7 +1,7 @@
 // DEPENDENCIES
 const express = require('express');
 // MIDDLEWARES
-const { default: addMiddlewaresTo } = require('./middlewares');
+const { default: applyMiddlewaresTo } = require('./middlewares');
 // CONTROLLERS
 const addAllEndpointsTo = require('./endpoints');
 // DATABASE
@@ -14,8 +14,11 @@ require('dotenv').config();
 // APP
 const app = express();
 
+// EXPRESS STATIC
+app.use(express.static(__dirname + '/../build'));
+
 // MIDDLEWARES
-addMiddlewaresTo(app);
+applyMiddlewaresTo(app);
 
 // DB
 connectDbTo(app);

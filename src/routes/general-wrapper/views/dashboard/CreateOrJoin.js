@@ -8,7 +8,7 @@ export default class CreateOrJoin extends Component {
     constructor() {
         super();
         this.state = {
-            currentModal: 'join'
+            currentModal: null
         };
     }
     componentDidMount() {
