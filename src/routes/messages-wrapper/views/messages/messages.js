@@ -2,7 +2,7 @@ import React from 'react';
 // UTILS
 import initialModel from '../../../../model';
 import { getId, getMatch } from '../../../url-parser';
-import { GET, POST, PUT, DELETE } from '../../../../http';
+import { GET, POST, PUT, DELETE, UTILS } from '../../../../http';
 import { convertDate } from '../../../date-parser';
 // COMPONENTS
 import Message from './Message/Message';
@@ -28,18 +28,19 @@ export default function create(update) {
     // COMPONENT
     return {
         data(model) {
-            if (!model.organisation.id) {
-                GET.organisationByChannel(update, getId()).then(scrollToBottom).catch(scrollToBottom);
+            if (!model.organization.id) {
+                GET.organizationByChannel(update, getId()).then(scrollToBottom).catch(scrollToBottom);
             } else scrollToBottom();
+            UTILS.requireAuthentication(update);
         },
         view(model) {
             // AFTER RERENDER, SCROLL TO BOTTOM;
-            setTimeout(scrollToBottom, 0);
+            setTimeout(scrollToBottom);
             let currentId = getId();
-            let channel = model.organisation.channels.find(channel => channel.id == currentId);
+            let channel = model.organization.channels.find(channel => channel.id == currentId);
             let {
                 user,
-                organisation: org
+                organization: org
             } = model;
             return (
                 <Messages id="messages" >
@@ -59,7 +60,7 @@ export default function create(update) {
                         }, [])
                         .map(message => (
                             message.isNotMessage ?
-                                <Divider date={message.date} />
+                                <Divider key={message.date} date={message.date} />
                                 :
                                 <Message
                                     key={message.id}

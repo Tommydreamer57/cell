@@ -7,7 +7,7 @@ import createSidenav from './sidenav/sidenav';
 import createHeader from './header/header';
 // VIEWS
 import createMessages from './views/messages/messages';
-import createOrganisation from './views/organisation/organisation';
+import createOrganization from './views/organization/organization';
 import createChannel from './views/channel/channel';
 // STYLE
 import wrapper from '../../styles/components';
@@ -21,7 +21,7 @@ export default function create(update) {
     // SWITCH
     let switchh = createSwitch(update,
         ['/messages/:type/:id', createMessages, update],
-        ['/organisation/:id', createOrganisation, update],
+        ['/organization/:id', createOrganization, update],
         ['/channel/:id', createChannel, update],
     );
 

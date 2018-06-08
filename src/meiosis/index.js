@@ -45,8 +45,6 @@ export default function meiosis(createApp, render, ...middlewares) {
     let rerender = false;
     // update = function to update the model and rerender the app
     function update(callback) {
-        console.log("UPDATE WAS CALLED");
-        console.log(currentModel);
         // invoke the callback function on the current model
         let newModel = callback(currentModel);
         // if a new model was returned

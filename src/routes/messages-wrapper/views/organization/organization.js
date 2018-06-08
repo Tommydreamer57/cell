@@ -1,7 +1,7 @@
 import React from 'react';
 // UTILS
 import { link } from '../../../../meiosis-router';
-import { GET, POST } from '../../../../http';
+import { GET, POST, UTILS } from '../../../../http';
 import { getId, getMatch } from '../../../url-parser';
 import defaultModel from '../../../../model';
 // STYLES
@@ -10,20 +10,21 @@ import wrapper from '../../../../styles/components';
 import p from '../../../../styles/presets';
 
 export default function create(update) {
-    // ORGANISATION ID
+    // ORGANIZATION ID
 
     // COMPONENT
     return {
         data() {
-            return GET.organisation(update, getId());
+            GET.organization(update, getId());
+            UTILS.requireAuthentication(update);
         },
         view(model) {
-            let { organisation: org } = model;
+            let { organization: org } = model;
             if (getId() != org.id) {
-                org = defaultModel.organisation;
+                org = defaultModel.organization;
             }
             return (
-                <Organisation>
+                <Organization>
                     <h2>Members</h2>
                     {org.members.map(member => (
                         <div className='member' key={member.username} >
@@ -31,14 +32,14 @@ export default function create(update) {
                             <h5>@{member.username}</h5>
                         </div>
                     ))}
-                </Organisation>
+                </Organization>
             );
         }
     };
 }
 
 const styles = StyleSheet.create({
-    organisation: {
+    organization: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -59,4 +60,4 @@ const styles = StyleSheet.create({
     }
 });
 
-const Organisation = wrapper('section', styles.organisation);
+const Organization = wrapper('section', styles.organization);

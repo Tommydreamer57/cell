@@ -10,7 +10,7 @@ export default class MessageInput extends Component {
     render() {
         let {
             onKeyDown,
-            props
+            props: { sendMessage, ...props }
         } = this;
         return (
             <div className="message-input" {...props} >

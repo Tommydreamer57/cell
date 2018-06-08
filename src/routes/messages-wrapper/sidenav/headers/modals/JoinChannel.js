@@ -42,8 +42,8 @@ export default class JoinChannel extends Component {
         return (
             <div className='modal-modal' >
                 <h3>Find a Channel</h3>
-                <input type="text" placeholder="enter an organisation name..." onChange={handleInput} />
-                <div className="organisation-button-wrapper" >
+                <input type="text" placeholder="enter an organization name..." onChange={handleInput} />
+                <div className="organization-button-wrapper" >
                     {channels
                         .filter(channel => search && channel.name.match(search))
                         .map(channel => (
