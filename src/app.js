@@ -21,25 +21,13 @@ export default function create(update) {
     // ROUTER
     listen(update);
 
-    setTimeout(() => update(model => console.log(model)), 100);
-
     // INITIAL DATA
     GET.authenticate(update);
-    GET.allOrganisations(update);
+    GET.allOrganizations(update);
     let MATCH = getMatch();
     let ID = getId();
-    if (MATCH === 'organisation') GET.organisation(update, ID);
-    else if (MATCH === 'channel') GET.organisationByChannel(update, ID);
-
-    // TOGGLE MODAL OFF
-    window.addEventListener('keydown', ({ key }) => {
-        if (key === 'Escape') {
-            update(model => (model.currentModal) && {
-                ...model,
-                currentModal: false
-            });
-        }
-    })
+    if (MATCH === 'organization') GET.organization(update, ID);
+    else if (MATCH === 'channel') GET.organizationByChannel(update, ID);
 
     // CHILDREN
     let generalWrapper = createGeneralWrapper(update);

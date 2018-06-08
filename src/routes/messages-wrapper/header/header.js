@@ -14,15 +14,15 @@ export default function create(update) {
             let currentId = getId();
             if (pathname.match(/messages/)) {
                 if (pathname.match(/channel/)) {
-                    let channel = model.organisation.channels.find(channel => channel.id == currentId) || {};
+                    let channel = model.organization.channels.find(channel => channel.id == currentId) || {};
                     header = channel.name;
                     if (channel.private) header += ' (private)';
                     if (channel.id != currentId) header = '';
                 }
                 // else header = model.group.name;
-            } else if (pathname.match(/organisation/)) {
-                if (model.organisation.id != currentId) header = ' ';
-                else header = model.organisation.name;
+            } else if (pathname.match(/organization/)) {
+                if (model.organization.id != currentId) header = ' ';
+                else header = model.organization.name;
             }
             return (
                 <Header style={{ left: model.sideWidth, width: `calc(100vw - 48px - ${model.sideWidth})` }} >

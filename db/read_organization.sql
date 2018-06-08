@@ -1,18 +1,18 @@
 WITH
-organisations AS (
+organizations AS (
     SELECT
-    -- ORGANISATIONS
-    cell_organisations.id AS organisation_id,
-    cell_organisations.name AS organisation_name,
-    cell_organisations.created_by AS organisation_owner_id,
-    cell_organisations.created_on AS organisation_timestamp,
+    -- OrganizationS
+    cell_organizations.id AS organization_id,
+    cell_organizations.name AS organization_name,
+    cell_organizations.created_by AS organization_owner_id,
+    cell_organizations.created_on AS organization_timestamp,
     -- CHANNELS
-    cell_channels.id AS organisation_channel_id,
+    cell_channels.id AS organization_channel_id,
     -- MEMBERS
-    cell_organisation_memberships.member_id AS organisation_member_id
-    FROM cell_organisations
-    LEFT JOIN cell_channels ON cell_channels.organisation_id = cell_organisations.ID
-    LEFT JOIN cell_organisation_memberships ON cell_organisation_memberships.organisation_id = cell_organisations.id
+    cell_organization_memberships.member_id AS organization_member_id
+    FROM cell_organizations
+    LEFT JOIN cell_channels ON cell_channels.organization_id = cell_organizations.ID
+    LEFT JOIN cell_organization_memberships ON cell_organization_memberships.organization_id = cell_organizations.id
 ),
 channels AS (
     SELECT
@@ -49,19 +49,19 @@ members AS (
     FROM cell_users
 )
 SELECT *
--- ORGANISATIONS
-FROM organisations
+-- OrganizationS
+FROM organizations
 -- CHANNELS
 LEFT OUTER JOIN channels
-ON channels.channel_id = organisations.organisation_channel_id
-AND channels.channel_member_id = organisations.organisation_member_id
+ON channels.channel_id = organizations.organization_channel_id
+AND channels.channel_member_id = organizations.organization_member_id
 -- MESSAGES
 LEFT OUTER JOIN messages
 ON messages.message_channel_id = channels.channel_id
 AND messages.message_author_id = channels.channel_member_id
 -- MEMBERS
 JOIN members
-ON members.member_id = organisations.organisation_member_id
-WHERE organisation_id = ${organisation_id}
-OR organisation_id IN (SELECT organisation_id FROM cell_channels WHERE cell_channels.id = ${channel_id})
+ON members.member_id = organizations.organization_member_id
+WHERE organization_id = ${organization_id}
+OR organization_id IN (SELECT organization_id FROM cell_channels WHERE cell_channels.id = ${channel_id})
 ORDER BY messages.message_timestamp;

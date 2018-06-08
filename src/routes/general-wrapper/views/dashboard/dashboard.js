@@ -1,7 +1,7 @@
 import React from 'react';
 // UTILS
 import { link } from '../../../../meiosis-router';
-import { GET, POST } from '../../../../http';
+import { GET, POST, UTILS } from '../../../../http';
 // COMPONENTS
 import CreateOrJoin from './CreateOrJoin';
 // STYLES
@@ -10,32 +10,33 @@ import { StyleSheet } from 'aphrodite-jss';
 import p from '../../../../styles/presets';
 
 export default function create(update) {
-    const joinOrganisation = id => POST.joinOrganisation(update, id);
-    const createOrganisation = name => POST.createOrganisation(update, name);
+    const joinOrganization = id => POST.joinOrganization(update, id);
+    const createOrganization = name => POST.createOrganization(update, name);
     // COMPONENT
     return {
         data(model) {
-            GET.allOrganisations(update);
+            GET.allOrganizations(update);
+            UTILS.requireAuthentication(update);
         },
         view(model) {
             // DESTRUCTURING
-            let { allOrganisations: orgs, user } = model;
+            let { allOrganizations: orgs, user } = model;
             return (
                 <Dashboard id="dashboard" >
 
-                    {/* ORGANISATIONS TO JOIN */}
+                    {/* OrganizationS TO JOIN */}
                     <CreateOrJoin
-                        organisations={orgs.filter(org => !user.organisations.includes(org.id))}
-                        join={joinOrganisation}
-                        create={createOrganisation}
+                        organizations={orgs.filter(org => !user.organizations.includes(org.id))}
+                        join={joinOrganization}
+                        create={createOrganization}
                     />
-                    {/* ORGANISATIONS ALREADY JOINED */}
-                    <div className='joined-organisation-list' >
-                        <h5>Your Organisations:</h5>
+                    {/* OrganizationS ALREADY JOINED */}
+                    <div className='joined-organization-list' >
+                        <h5>Your Organizations:</h5>
                         {orgs
-                            .filter(org => user.organisations.includes(org.id))
-                            .map(org => link(model, `/organisation/${org.id}`,
-                                <div className='joined-organisation' >
+                            .filter(org => user.organizations.includes(org.id))
+                            .map(org => link(model, `/organization/${org.id}`,
+                                <div className='joined-organization' >
                                     <h3>{org.name}</h3>
                                     <span>Launch</span>
                                 </div>
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
                         border: '1px solid rgb(109, 159, 243)'
                     }
                 },
-                '& .organisation-button': {
+                '& .organization-button': {
                     border: `1px solid ${p.acolor(0.25)}`,
                     paddingLeft: 12,
                     margin: '6px 0',
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
                 }
             }
         },
-        '& .joined-organisation-list': {
+        '& .joined-organization-list': {
             margin: '24px 0',
             width: '35vw',
             '& h5': {
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
             },
             '& a': {
                 ...p.reset,
-                '& .joined-organisation': {
+                '& .joined-organization': {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',

@@ -41,10 +41,19 @@ export default class Login extends Component {
         }
     }
     render() {
-        let { onKeyDown, toggleLogin, toggleSignup, first_name, last_name, username, email, password } = this;
-        let { create } = this.state;
+        let {
+            onKeyDown,
+            toggleLogin,
+            toggleSignup,
+            first_name,
+            last_name,
+            username,
+            email,
+            password,
+            state: { create }
+        } = this;
         return (
-            <div id="login-box" onKeyDown={onKeyDown} >
+            <div className="login-box" onKeyDown={onKeyDown} >
                 <div className="button-wrapper">
                     <button className={create ? '' : 'selected'} onClick={toggleLogin} >Log In</button>
                     <button className={create ? 'selected' : ''} onClick={toggleSignup} >Sign Up</button>

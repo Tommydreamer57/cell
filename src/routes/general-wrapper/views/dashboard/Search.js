@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 
-class OrganisationButton extends Component {
+class OrganizationButton extends Component {
     constructor() {
         super();
-        this.joinOrganisation = this.joinOrganisation.bind(this);
+        this.joinOrganization = this.joinOrganization.bind(this);
     }
-    joinOrganisation() {
-        return this.props.joinOrganisation(this.props.organisation.id);
+    joinOrganization() {
+        return this.props.joinOrganization(this.props.organization.id);
     }
     render() {
         return (
-            <div className='organisation-button' >
-                {this.props.organisation.name}
-                <button onClick={this.joinOrganisation} >
+            <div className='organization-button' >
+                {this.props.organization.name}
+                <button onClick={this.joinOrganization} >
                     JOIN
                 </button>
             </div>
@@ -36,17 +36,17 @@ export default class Search extends Component {
     render() {
         let {
             handleInput,
-            props: { organisations: orgs, join: joinOrganisation }
+            props: { organizations: orgs, join: joinOrganization }
         } = this;
         return (
             <div className="search">
-                <h3>Find an Organisation</h3>
-                <input placeholder="enter an organisation name..." onChange={handleInput} />
-                <div className="organisation-button-wrapper" >
+                <h3>Find an Organization</h3>
+                <input placeholder="enter an organization name..." onChange={handleInput} />
+                <div className="organization-button-wrapper" >
                     {orgs
                         .filter(org => this.state.search && org.name.match(this.state.search))
                         .map(org => (
-                            <OrganisationButton key={org.id} organisation={org} joinOrganisation={joinOrganisation}  />
+                            <OrganizationButton key={org.id} organization={org} joinOrganization={joinOrganization}  />
                         ))}
                 </div>
             </div>

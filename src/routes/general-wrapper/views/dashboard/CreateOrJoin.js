@@ -32,7 +32,7 @@ export default class CreateOrJoin extends Component {
     stopPropagation(e) {
         e.stopPropagation();
     }
-    joinOrganisation = (...args) => {
+    joinOrganization = (...args) => {
         this.props.join(...args)
             .then(this.toggleOff);
     }
@@ -42,26 +42,26 @@ export default class CreateOrJoin extends Component {
             toggleCreate,
             toggleOff,
             stopPropagation,
-            joinOrganisation,
+            joinOrganization,
             state: { currentModal },
-            props: { organisations: orgs,
-                create: createOrganisation
+            props: { organizations: orgs,
+                create: createOrganization
             }
         } = this;
         return (
             <div id="create-or-join">
                 <div className='button-wrapper' >
-                    <button onClick={toggleJoin} ><h6>Join an Organisation</h6><Carat /></button>
-                    <button onClick={toggleCreate} ><h6>Create an Organisation</h6><Carat /></button>
+                    <button onClick={toggleJoin} ><h6>Join an Organization</h6><Carat /></button>
+                    <button onClick={toggleCreate} ><h6>Create an Organization</h6><Carat /></button>
                 </div>
                 <div onClick={stopPropagation} className='modal-wrapper'>
                     {/* JOIN */}
                     <div className={`modal ${currentModal === 'join' ? 'current' : 'out'}`} >
-                        <Search organisations={orgs} join={joinOrganisation} />
+                        <Search organizations={orgs} join={joinOrganization} />
                     </div>
                     {/* CREATE */}
                     <div className={`modal ${currentModal === 'create' ? 'current' : 'out'}`} >
-                        <Create create={createOrganisation} />
+                        <Create create={createOrganization} />
                     </div>
                 </div>
             </div>

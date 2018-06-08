@@ -6,3 +6,7 @@ export function getId() {
 export function getMatch() {
     return window.location.href.replace(/.*\/(.+)\/\d*/, '$1');
 }
+
+export function getMessageMatch() {
+    return window.location.href.match(/messages/);
+}

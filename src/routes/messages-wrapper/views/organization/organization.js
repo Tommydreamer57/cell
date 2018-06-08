@@ -1,42 +1,45 @@
 import React from 'react';
 // UTILS
-import { getId } from '../../../url-parser';
-import { GET, UTILS } from '../../../../http';
+import { link } from '../../../../meiosis-router';
+import { GET, POST, UTILS } from '../../../../http';
+import { getId, getMatch } from '../../../url-parser';
+import defaultModel from '../../../../model';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';
 import wrapper from '../../../../styles/components';
 import p from '../../../../styles/presets';
 
 export default function create(update) {
+    // ORGANIZATION ID
+
     // COMPONENT
     return {
-        data(model) {
-            GET.organizationByChannel(update, getId());
+        data() {
+            GET.organization(update, getId());
             UTILS.requireAuthentication(update);
         },
         view(model) {
-            let {
-                channel: { members: channelMemberIds },
-                organistion: { members: organizationMembers }
-            } = model;
-            let channelMembers = organizationMembers.filter(({ id }) => channelMemberIds.includes(id));
+            let { organization: org } = model;
+            if (getId() != org.id) {
+                org = defaultModel.organization;
+            }
             return (
-                <Channel id="channel" >
+                <Organization>
                     <h2>Members</h2>
-                    {channelMembers.map(member => (
+                    {org.members.map(member => (
                         <div className='member' key={member.username} >
                             <h5>{member.first_name} {member.last_name}</h5>
                             <h5>@{member.username}</h5>
                         </div>
                     ))}
-                </Channel>
+                </Organization>
             );
         }
     };
 }
 
 const styles = StyleSheet.create({
-    channel: {
+    organization: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -57,4 +60,4 @@ const styles = StyleSheet.create({
     }
 });
 
-const Channel = wrapper('section', styles.channel);
+const Organization = wrapper('section', styles.organization);

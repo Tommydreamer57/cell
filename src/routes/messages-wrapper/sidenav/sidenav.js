@@ -5,7 +5,7 @@ import { getId, getMatch } from '../../url-parser';
 import { POST } from '../../../http';
 // COMPONENTS
 import createDrag from './drag';
-import createOrganisationHeader from './headers/organisation-header';
+import createOrganizationHeader from './headers/organization-header';
 import ChannelHeader from './headers/ChannelHeader';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';
@@ -16,7 +16,7 @@ export default function create(update) {
 
     function createChannel(name, _private) {
         let request;
-        update(({ organisation: { id } }) => {
+        update(({ organization: { id } }) => {
             request = POST.newChannel(update, id, name, _private);
         });
         return request;
@@ -26,12 +26,12 @@ export default function create(update) {
 
     // CHILDREN
     let drag = createDrag(update);
-    let organisationHeader = createOrganisationHeader(update);
+    let organizationHeader = createOrganizationHeader(update);
 
     // COMPONENT
     return {
         view(model) {
-            let { organisation: org, sideWidth, user } = model;
+            let { organization: org, sideWidth, user } = model;
             let { channels } = org;
             let currentId = getId();
             let match = getMatch();
@@ -40,7 +40,7 @@ export default function create(update) {
             return (
                 <SideNav id="sidenav" style={{ width: sideWidth }} >
                     {/* DROPDOWN HEADER */}
-                    {organisationHeader.view(model)}
+                    {organizationHeader.view(model)}
                     {/* CHANNEL DROPDOWN */}
                     <ChannelHeader channels={notJoinedChannels} create={createChannel} join={joinChannel} />
                     {/* CHANNEL LIST */}

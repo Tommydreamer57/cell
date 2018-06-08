@@ -2,7 +2,7 @@
   "name": "cell",
   "version": "1.0.0",
   "private": true,
-  "description": "app for communication within communities & organisations",
+  "description": "app for communication within communities & organizations",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

@@ -27,13 +27,13 @@ module.exports = {
         });
     },
     convertUser(arr) {
-        let user = assign(/^/, arr[0], 'organisation_id', 'channel_id');
-        user.organisations = arr
-            .reduce((organisations, obj) => {
-                if (obj.organisation_id && !organisations.some(org => org === obj.organisation_id)) {
-                    organisations.push(obj.organisation_id);
+        let user = assign(/^/, arr[0], 'organization_id', 'channel_id');
+        user.organizations = arr
+            .reduce((organizations, obj) => {
+                if (obj.organization_id && !organizations.some(org => org === obj.organization_id)) {
+                    organizations.push(obj.organization_id);
                 }
-                return organisations;
+                return organizations;
             }, []);
         user.channels = arr
             .reduce((channels, obj) => {
@@ -44,11 +44,11 @@ module.exports = {
             }, []);
         return user;
     },
-    convertEntireOrganisation(arr) {
-        // ORGANISATION
-        let organisation = assign(/^organisation_/, arr[0], 'channel_id', 'member_id');
+    convertEntireOrganization(arr) {
+        // Organization
+        let organization = assign(/^organization_/, arr[0], 'channel_id', 'member_id');
         // MEMBERS
-        organisation.members = arr
+        organization.members = arr
             .reduce((members, obj) => {
                 if (!members.some(member => member.id === obj.member_id)) {
                     let newMember = assign(/^member_/, obj);
@@ -57,7 +57,7 @@ module.exports = {
                 return members;
             }, []);
         // CHANNELS
-        organisation.channels = arr
+        organization.channels = arr
             .reduce((channels, obj) => {
                 if (obj.channel_id && !channels.some(channel => channel.id === obj.channel_id)) {
                     let newChannel = assign(/^channel_/, obj, 'member_id');
@@ -81,10 +81,10 @@ module.exports = {
                 }
                 return channels;
             }, []);
-        // ORGANISATION
-        return organisation;
+        // Organization
+        return organization;
     },
-    convertOrganisation(arr) {
+    convertOrganization(arr) {
         // MEMBERS
         let members = arr.reduce((members, {
             // DESTRUCTURE
@@ -147,13 +147,13 @@ module.exports = {
             // RETURN ALL
             return channels;
         }, []);
-        // ORGANISATION
+        // Organization
         let {
-            organisation_id: id,
-            organisation_name: name,
-            organisation_timestamp: timestamp,
-            organisation_owner_id: owner_id,
-            organisation_count: member_count
+            organization_id: id,
+            organization_name: name,
+            organization_timestamp: timestamp,
+            organization_owner_id: owner_id,
+            organization_count: member_count
         } = arr[0];
         return {
             id,
@@ -213,7 +213,7 @@ module.exports = {
         }))
         // CHANNEL
         let {
-            organisation_id,
+            organization_id,
             channel_id,
             name,
             created_by,
@@ -221,7 +221,7 @@ module.exports = {
             private
         } = arr[0];
         return {
-            organisation_id,
+            organization_id,
             id: channel_id,
             name,
             created_by,

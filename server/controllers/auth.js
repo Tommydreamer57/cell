@@ -7,6 +7,8 @@ module.exports = function addAuthEndpointsTo(app) {
 
     app.post('/auth/login', login);
 
+    app.post('/auth/logout', logout);
+
     app.get('/auth/me', getCurrentUser);
 
     app.put('/auth/reset', resetPassword);
@@ -72,6 +74,12 @@ function login(req, res) {
             }
         });
 
+}
+
+function logout(req, res) {
+    console.log('LOGGING OUT', req.user);
+    req.session.destroy();
+    res.sendStatus(200);
 }
 
 function getCurrentUser(req, res) {
