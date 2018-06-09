@@ -9,9 +9,6 @@ setTimeout(() => console.log("INITIAL LOAD IS DONE, TIMEOUT HAS FIRED"), 0);
 let $root = document.getElementById('root');
 
 // RENDER
-// STREAM
-// let render = app => model => ReactDOM.render(app.view(model), $root);
-// CUSTOM
 let render = view => ReactDOM.render(view, $root);
 
 // MEIOSIS
@@ -30,6 +27,8 @@ meiosis(
 
 // let $root = document.getElementById("root");
 
+// STREAM
+// let render = app => model => ReactDOM.render(app.view(model), $root);
 // function render(view) {
 //     ReactDOM.render(view, $root);
 // }

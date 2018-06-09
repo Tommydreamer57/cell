@@ -1,6 +1,6 @@
 import React from 'react';
 // LISTEN TO WINDOW HREF
-import listen from './meiosis-router';
+import listen, { withRouter } from './meiosis-router';
 // ROUTES & STATICS
 import createGeneralWrapper from './routes/general-wrapper/general-wrapper';
 import createMessagesWrapper from './routes/messages-wrapper/messages-wrapper';
