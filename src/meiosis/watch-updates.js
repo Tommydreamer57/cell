@@ -41,7 +41,7 @@ function compare(old, neww) {
 }
 
 // WATCH CHANGES IN MODEL
-export function watch() {
+export default function watchUpdates() {
     let oldCopy, currentCopy;
     return function (newModel) {
         console.log("NEW MODEL");

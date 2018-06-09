@@ -1,7 +1,6 @@
 import React from 'react';
 // UTILS
-import { getId } from '../../../url-parser';
-import { GET } from '../../../../http';
+import { GET, UTILS } from '../../../../http';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';
 import wrapper from '../../../../styles/components';
@@ -11,14 +10,18 @@ export default function create(update) {
     // COMPONENT
     return {
         data(model) {
-            return GET.organisationByChannel(update, getId());
+            GET.organizationByChannel(update, model.router.match.params.id);
+            // UTILS.requireAuthentication(update);
         },
         view(model) {
             let {
-                channel: { members: channelMemberIds },
-                organistion: { members: organisationMembers }
+                organization: {
+                    channels,
+                    members: organizationMembers
+                }
             } = model;
-            let channelMembers = organisationMembers.filter(({ id }) => channelMemberIds.includes(id));
+            let channel = channels.find(({ id }) => id == model.router.match.params.id);
+            let channelMembers = organizationMembers.filter(({ id }) => channel.members.includes(id));
             return (
                 <Channel id="channel" >
                     <h2>Members</h2>

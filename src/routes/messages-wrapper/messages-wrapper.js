@@ -1,13 +1,11 @@
 import React from 'react';
 import { createSwitch } from '../../meiosis-router';
-// UTILS
-import { getMessageMatch } from '../url-parser';
 // COMPONENTS
 import createSidenav from './sidenav/sidenav';
 import createHeader from './header/header';
 // VIEWS
 import createMessages from './views/messages/messages';
-import createOrganisation from './views/organisation/organisation';
+import createOrganization from './views/organization/organization';
 import createChannel from './views/channel/channel';
 // STYLE
 import wrapper from '../../styles/components';
@@ -21,7 +19,7 @@ export default function create(update) {
     // SWITCH
     let switchh = createSwitch(update,
         ['/messages/:type/:id', createMessages, update],
-        ['/organisation/:id', createOrganisation, update],
+        ['/organization/:id', createOrganization, update],
         ['/channel/:id', createChannel, update],
     );
 
@@ -30,7 +28,7 @@ export default function create(update) {
         view(model) {
             let matched = switchh.view(model);
             return matched && (
-                <ViewWrapper id="router-view" style={{ left: model.sideWidth, bottom: getMessageMatch() ? 96 : 0 }} >
+                <ViewWrapper id="router-view" style={{ left: model.sideWidth, bottom: model.router.location.pathname.match(/messages/) ? 96 : 0 }} >
                     {matched}
                     {sidenav.view(model)}
                     {header.view(model)}

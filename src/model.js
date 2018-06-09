@@ -1,13 +1,13 @@
 export default {
     // USER OBJECT
     user: {
-        organisations: [],
+        organizations: [],
         channels: []
     },
-    // ARRAY OF ORGANISATIONS USER IS A MEMBER OF
-    allOrganisations: [],
-    // SELECTED ORGANISATION
-    organisation: {
+    // ARRAY OF ORGANIZATIONS USER IS A MEMBER OF
+    allOrganizations: [],
+    // SELECTED ORGANIZATION
+    organization: {
         channels: [],
         members: []
     },
@@ -23,8 +23,6 @@ export default {
         },
         routes: []
     },
-    // NAME OF CURRENT MODAL BEING DISPLAYED
-    currentModal: false,
     // CURRENT WIDTH OF THE RESIZABLE SIDEBAR
     sideWidth: '20vw'
 }

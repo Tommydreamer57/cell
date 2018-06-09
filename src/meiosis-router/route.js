@@ -1,4 +1,5 @@
-import React from 'react';
+
+// REGISTER ROUTES
 
 // REGISTER SINGLE ROUTE
 function registerRoute(update, route, exact = false) {
@@ -17,18 +18,6 @@ function registerRoute(update, route, exact = false) {
     }));
 }
 
-// CREATE SINGLE ROUTE
-export default function createRoute(path, createComponent, update, exact, register = true) {
-    console.log("CREATING ROUTE: " + path);
-    let component = createComponent(update);
-    if (register) registerRoute(update, path, exact);
-    return {
-        path,
-        ...component,
-        log: console.log("CREATED ROUTE: " + path)
-    };
-}
-
 // REGISTER MULTIPLE ROUTES
 function registerMultiple(update, routes) {
     console.log("REGISTERING MULTIPLE ROUTES");
@@ -44,6 +33,20 @@ function registerMultiple(update, routes) {
         },
         log: console.log("UPDATED -- REGISTERED MULTIPLE ROUTES: ", model)
     }));
+}
+
+// CREATE ROUTES
+
+// CREATE SINGLE ROUTE
+export function createRoute(path, createComponent, update, exact, register = true) {
+    console.log("CREATING ROUTE: " + path);
+    let component = createComponent(update);
+    if (register) registerRoute(update, path, exact);
+    return {
+        path,
+        ...component,
+        log: console.log("CREATED ROUTE: " + path)
+    };
 }
 
 // CREATE MULTIPLE ROUTES

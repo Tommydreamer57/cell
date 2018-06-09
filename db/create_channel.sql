@@ -1,10 +1,10 @@
 WITH new_channel AS (
     INSERT INTO cell_channels
-    (organisation_id, created_by, name, private)
+    (organization_id, created_by, name, private)
     VALUES
-    (${organisation_id}, ${created_by}, ${name}, ${_private})
+    (${organization_id}, ${created_by}, ${name}, ${_private})
     RETURNING
-    id, name, organisation_id, created_by AS owner_id, created_on AS timestamp, private
+    id, name, organization_id, created_by AS owner_id, created_on AS timestamp, private
 ),
 new_channel_member AS (
     INSERT INTO cell_channel_memberships

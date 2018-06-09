@@ -6,19 +6,19 @@ export default function create(update) {
     return {
         view(model) {
             let {
-                allOrganisations,
-                organisation,
+                allOrganizations,
+                organization,
                 user
             } = model;
             return (
                 <Dropdown
                     className="header"
                     type="header"
-                    title={organisation.name}
+                    title={organization.name}
                 >
-                    {allOrganisations
-                        .filter(({ id }) => id !== organisation.id && user.organisations.includes(id))
-                        .map(org => link(model, `/organisations/${org.id}`,
+                    {allOrganizations
+                        .filter(({ id }) => id !== organization.id && user.organizations.includes(id))
+                        .map(org => link(model, `/organizations/${org.id}`,
                             <h4>{org.name}</h4>
                         ))}
                     {link(model, '/dashboard', <h4>Dashboard</h4>)}

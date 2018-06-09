@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom';
-import meiosis, { initialize } from './meiosis';
+import meiosis from './meiosis';
 import createApp from './app';
-import { watch } from './meiosis/middlewares';
+import watchUpdates from './meiosis/watch-updates';
+import watchUrl from './meiosis-router';
 
 setTimeout(() => console.log("INITIAL LOAD IS DONE, TIMEOUT HAS FIRED"), 0);
 
@@ -9,29 +10,12 @@ setTimeout(() => console.log("INITIAL LOAD IS DONE, TIMEOUT HAS FIRED"), 0);
 let $root = document.getElementById('root');
 
 // RENDER
-// STREAM
-// let render = app => model => ReactDOM.render(app.view(model), $root);
-// CUSTOM
 let render = view => ReactDOM.render(view, $root);
 
 // MEIOSIS
 meiosis(
     createApp,
     render,
-    watch()
+    watchUrl,
+    watchUpdates,
 );
-
-
-
-// import ReactDOM from 'react-dom';
-// import meiosis from './meiosis';
-// import createApp from './app';
-// import { watch } from './meiosis/middlewares';
-
-// let $root = document.getElementById("root");
-
-// function render(view) {
-//     ReactDOM.render(view, $root);
-// }
-
-// meiosis(createApp, render, watch());

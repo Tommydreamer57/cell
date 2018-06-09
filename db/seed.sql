@@ -3,11 +3,13 @@
 
 DROP TABLE IF EXISTS cell_direct_message_group_messages;
 DROP TABLE IF EXISTS cell_direct_message_group_memberships;
+DROP TABLE IF EXISTS cell_organization_memberships;
 DROP TABLE IF EXISTS cell_organisation_memberships;
 DROP TABLE IF EXISTS cell_direct_message_groups;
 DROP TABLE IF EXISTS cell_channel_memberships;
 DROP TABLE IF EXISTS cell_channel_messages;
 DROP TABLE IF EXISTS cell_channels;
+DROP TABLE IF EXISTS cell_organizations;
 DROP TABLE IF EXISTS cell_organisations;
 DROP TABLE IF EXISTS cell_users;
 
@@ -23,23 +25,23 @@ CREATE TABLE cell_users (
     hash VARCHAR(60)
 );
 
-CREATE TABLE cell_organisations (
+CREATE TABLE cell_organizations (
     id SERIAL PRIMARY KEY,
     name VARCHAR(40) UNIQUE,
     created_by INTEGER REFERENCES cell_users(id) NOT NULL,
     created_on DATE DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE cell_organisation_memberships (
+CREATE TABLE cell_organization_memberships (
     id SERIAL PRIMARY KEY,
-    organisation_id INTEGER REFERENCES cell_organisations(id) NOT NULL,
+    organization_id INTEGER REFERENCES cell_organizations(id) NOT NULL,
     member_id INTEGER REFERENCES cell_users(id) NOT NULL
 );
 
 CREATE TABLE cell_channels (
     id SERIAL PRIMARY KEY,
     name VARCHAR(40),
-    organisation_id INTEGER REFERENCES cell_organisations(id) NOT NULL,
+    organization_id INTEGER REFERENCES cell_organizations(id) NOT NULL,
     created_by INTEGER REFERENCES cell_users(id) NOT NULL,
     created_on DATE DEFAULT CURRENT_TIMESTAMP,
     private BOOLEAN
@@ -95,7 +97,7 @@ VALUES
 ('Doug', 'Maxfield', 'dougglez', 'dougglez@devmountain.com', false),
 ('Mikhail', 'Korotkov', 'misha', 'misha@yahoo.com', false);
 
-INSERT INTO cell_organisations
+INSERT INTO cell_organizations
 (name, created_by)
 VALUES
 ('Lowry Family', 5),
@@ -106,8 +108,8 @@ VALUES
 ('Utah', 5),
 ('Georgia', 3);
 
-INSERT INTO cell_organisation_memberships
-(organisation_id, member_id)
+INSERT INTO cell_organization_memberships
+(organization_id, member_id)
 VALUES
 (1, 1),
 (1, 2),
@@ -121,7 +123,7 @@ VALUES
 (2, 9);
 
 INSERT INTO cell_channels
-(organisation_id, name, created_by, private)
+(organization_id, name, created_by, private)
 VALUES
 (1, 'bros', 2, true),
 (1, 'the-fam', 6, false),

@@ -1,11 +1,9 @@
 import React from 'react';
 // LISTEN TO WINDOW HREF
-import listen from './meiosis-router';
+import listen, { withRouter } from './meiosis-router';
 // ROUTES & STATICS
 import createGeneralWrapper from './routes/general-wrapper/general-wrapper';
 import createMessagesWrapper from './routes/messages-wrapper/messages-wrapper';
-// URL PARSER
-import { getId, getMatch } from './routes/url-parser';
 // HTTP
 import { GET } from './http';
 // INITIAL MODEL
@@ -18,28 +16,9 @@ import p from './styles/presets';
 // APP
 export default function create(update) {
 
-    // ROUTER
-    listen(update);
-
-    setTimeout(() => update(model => console.log(model)), 100);
-
     // INITIAL DATA
     GET.authenticate(update);
-    GET.allOrganisations(update);
-    let MATCH = getMatch();
-    let ID = getId();
-    if (MATCH === 'organisation') GET.organisation(update, ID);
-    else if (MATCH === 'channel') GET.organisationByChannel(update, ID);
-
-    // TOGGLE MODAL OFF
-    window.addEventListener('keydown', ({ key }) => {
-        if (key === 'Escape') {
-            update(model => (model.currentModal) && {
-                ...model,
-                currentModal: false
-            });
-        }
-    })
+    GET.allOrganizations(update);
 
     // CHILDREN
     let generalWrapper = createGeneralWrapper(update);

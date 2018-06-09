@@ -1,5 +1,5 @@
 const addAuthEndpointsTo = require('./controllers/auth');
-const addOrganisationEndpointsTo = require('./controllers/organisations');
+const addOrganizationEndpointsTo = require('./controllers/organizations');
 const addChannelEndpointsTo = require('./controllers/channels');
 const addMessageEndpointsTo = require('./controllers/messages');
 
@@ -11,8 +11,8 @@ module.exports = function addAllEndpointsTo(app) {
     });
     // AUTHENTICATION
     addAuthEndpointsTo(app);
-    // ORGANISATION
-    addOrganisationEndpointsTo(app);
+    // ORGANIZATION
+    addOrganizationEndpointsTo(app);
     // CHANNEL
     addChannelEndpointsTo(app);
     // MESSAGES

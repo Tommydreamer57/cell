@@ -3,6 +3,7 @@ import React from 'react';
 import { POST } from '../../../../http';
 // COMPONENTS
 import Login from './Login';
+import createLogout from './logout';
 // STYLES
 import wrapper from '../../../../styles/components';
 import { StyleSheet } from 'aphrodite-jss';
@@ -11,17 +12,22 @@ import p from '../../../../styles/presets';
 export default function create(update) {
     // FUNCTIONS
     function login(username, password) {
-        POST.login(update, username, password);
+        return POST.login(update, username, password);
     }
     function signup({ first_name, last_name, username, email, password }) {
-        POST.signup(update, { first_name, last_name, username, email, password });
+        return POST.signup(update, { first_name, last_name, username, email, password });
     }
+    // CHILDREN
+    let logout = createLogout(update);
     // COMPONENT
     return {
         view(model) {
             return (
                 <LoginWrapper id="login" >
-                    <Login history={model.router.history} login={login} signup={signup} />
+                    {model.user.id ?
+                        logout.view(model)
+                        :
+                        <Login history={model.router.history} login={login} signup={signup} />}
                 </LoginWrapper>
             );
         }
@@ -38,7 +44,7 @@ const styles = StyleSheet.create({
         // '& h2': {
         //     padding: 48
         // },
-        '& #login-box': {
+        '& .login-box': {
             display: 'flex',
             justifyContent: 'center',
             flexDirection: 'column',
@@ -56,17 +62,17 @@ const styles = StyleSheet.create({
                     borderBottom: `1px solid ${p.acolor(0.25)}`,
                     width: '50%',
                     padding: 12,
-                    background: p.acolor(0.125)
-                },
-                '& button:nth-of-type(1)': {
-                    borderRight: `1px solid ${p.acolor(0.25)}`
-                },
-                '& button.nth-of-type(2)': {
-                    borderLeft: `1px solid ${p.acolor(0.25)}`
-                },
-                '& button.selected': {
-                    borderBottom: 'none',
-                    background: 'none'
+                    background: p.acolor(0.125),
+                    '&:nth-of-type(1)': {
+                        borderRight: `1px solid ${p.acolor(0.25)}`
+                    },
+                    '&:nth-of-type(2)': {
+                        borderLeft: `1px solid ${p.acolor(0.25)}`
+                    },
+                    '&.selected': {
+                        borderBottom: 'none',
+                        background: 'none'
+                    },
                 },
             },
             '& .input-wrapper': {
@@ -78,6 +84,18 @@ const styles = StyleSheet.create({
                     padding: 8,
                     margin: 6
                 }
+            },
+            '& h5': {
+                padding: 12
+            },
+            '& h3': {
+                marginBottom: 6,
+                '&:last-of-type': {
+                    marginBottom: 0
+                }
+            },
+            '& .logout-button-wrapper': {
+                padding: 12
             }
         }
     }

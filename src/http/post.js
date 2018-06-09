@@ -1,52 +1,67 @@
 import utils from './utils';
 import axios from 'axios';
+import initialModel from '../model';
 
 function gotUser(update) {
     return function ({ data: user }) {
-        update(({ router: { history } }) => {
-            history.push('/dashboard');
-        });
         update(model => {
             return {
                 ...model,
                 user
             };
         });
+        update(({ router: { history } }) => {
+            history.push('/dashboard');
+        });
     }
 }
 
 export function signup(update, { first_name, last_name, username, email, password }) {
-    return axios.post(`/auth/signup`, { first_name, last_name, username, email, password })
+    return axios.post('/auth/signup', { first_name, last_name, username, email, password })
         .then(gotUser(update))
         .catch(console.error);
 }
 
 export function login(update, username, password) {
-    return axios.post(`/auth/login`, { username, password })
+    return axios.post('/auth/login', { username, password })
         .then(gotUser(update))
         .catch(console.error);
 }
 
-export function message(update, type, id, text) {
+export function logout(update) {
+    return axios.post('/auth/logout')
+        .then(() => {
+            update(model => ({
+                ...model,
+                user: initialModel.user
+            }));
+            update(({ router: { history } }) => {
+                history.push('/login');
+            });
+        })
+        .catch(console.error);
+}
+
+export function message(update, { type, id, text }) {
     return axios.post(`/api/messages/${type}/${id}`, { text })
         .then(({ data: messages }) => {
             update(model => {
                 console.log("UPDATING MODEL ON SEND MESSAGE");
-                model.organisation[type + 's'].find(group => group.id == id).messages = messages;
+                model.organization[type + 's'].find(group => group.id == id).messages = messages;
                 return model;
             });
         })
         .catch(console.error);
 }
 
-export function newChannel(update, organisation_id, name, _private) {
-    return axios.post(`/api/create/channel/${organisation_id}`, { name, _private })
+export function newChannel(update, organization_id, name, _private) {
+    return axios.post(`/api/create/channel/${organization_id}`, { name, _private })
         .then(({ data: channel }) => {
             update(({ router: { history } }) => {
                 history.push(`/messages/channel/${channel.id}`);
             });
             update(model => {
-                if (model.organisation.id === organisation_id) model.organisation.channels.push(channel);
+                if (model.organization.id === organization_id) model.organization.channels.push(channel);
                 return model;
             });
         })
@@ -55,20 +70,20 @@ export function newChannel(update, organisation_id, name, _private) {
 
 export function joinChannel(update, channel_id) {
     return axios.post(`/api/join/channel/${channel_id}`)
-        .then(({ data: organisation }) => {
+        .then(({ data: organization }) => {
             update(({ router: { history } }) => {
                 history.push(`/messages/channel/${channel_id}`);
             });
             update(model => ({
                 ...model,
-                organisation
+                organization
             }));
         })
         .catch(console.error);
 }
 
-export function joinOrganisation(update, organisation_id) {
-    return axios.post(`/api/join/organisation/${organisation_id}`)
+export function joinOrganization(update, organization_id) {
+    return axios.post(`/api/join/organization/${organization_id}`)
         .then(({ data: user }) => {
             update(model => ({
                 ...model,
@@ -78,15 +93,15 @@ export function joinOrganisation(update, organisation_id) {
         .catch(console.error);
 }
 
-export function createOrganisation(update, name) {
-    return axios.post('/api/create/organisation', { name })
-        .then(({ data: organisation }) => {
+export function createOrganization(update, name) {
+    return axios.post('/api/create/organization', { name })
+        .then(({ data: organization }) => {
             update(model => ({
                 ...model,
-                allOrganisations: [...model.allOrganisations, organisation],
+                allOrganizations: [...model.allOrganizations, organization],
                 user: {
                     ...model.user,
-                    organisations: [...model.user.organisations, organisation.id]
+                    organizations: [...model.user.organizations, organization.id]
                 }
             }));
         })

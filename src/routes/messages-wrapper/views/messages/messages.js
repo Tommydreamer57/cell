@@ -1,8 +1,7 @@
 import React from 'react';
 // UTILS
 import initialModel from '../../../../model';
-import { getId, getMatch } from '../../../url-parser';
-import { GET, POST, PUT, DELETE } from '../../../../http';
+import { GET, POST, PUT, DELETE, UTILS } from '../../../../http';
 import { convertDate } from '../../../date-parser';
 // COMPONENTS
 import Message from './Message/Message';
@@ -20,57 +19,94 @@ export default function create(update) {
         if ($messages) $messages.scrollTop = $messages.scrollHeight;
     }
     // CREATE MESSAGE
-    const sendMessage = text => POST.message(update, 'channel', getId(), text);
+    const sendMessage = ({
+        id,
+        text
+    }) => POST.message(update, {
+        type: 'channel',
+        id,
+        text
+    });
     // EDIT MESSAGE
-    const saveEdit = (id, text) => PUT.message(update, 'channel', id, text, getId());
+    const saveEdit = ({
+        channel_id,
+        message_id,
+        text
+    }) => PUT.message(update, {
+        type: 'channel',
+        message_id,
+        channel_id,
+        text
+    });
     // DELETE MESSAGE
-    const _delete = id => DELETE.message(update, 'channel', id, getId());
+    const _delete = ({
+        channel_id,
+        message_id
+    }) => DELETE.message(update, {
+        type: 'channel',
+        message_id,
+        channel_id
+    });
     // COMPONENT
     return {
         data(model) {
-            if (!model.organisation.id) {
-                GET.organisationByChannel(update, getId()).then(scrollToBottom).catch(scrollToBottom);
+            if (!model.organization.id) {
+                GET.organizationByChannel(update, model.router.match.params.id)
+                    .then(scrollToBottom)
+                    .catch(scrollToBottom);
             } else scrollToBottom();
+            // UTILS.requireAuthentication(update);
         },
         view(model) {
             // AFTER RERENDER, SCROLL TO BOTTOM;
-            setTimeout(scrollToBottom, 0);
-            let currentId = getId();
-            let channel = model.organisation.channels.find(channel => channel.id == currentId);
+            setTimeout(scrollToBottom);
             let {
                 user,
-                organisation: org
+                organization
             } = model;
+            let channel = organization.channels
+                .find(channel => channel.id == model.router.match.params.id)
+                ||
+                { messages: [] };
+            let groupedMessages = channel.messages
+                .reduce((arr, message, i) => {
+                    let previousMessage = channel.messages[i - 1] || {};
+                    let previousDate = convertDate(previousMessage.timestamp);
+                    let currentDate = convertDate(message.timestamp);
+                    if (previousDate.getDate() !== currentDate.getDate()) {
+                        arr.push({
+                            isNotMessage: true,
+                            date: currentDate
+                        });
+                    }
+                    arr.push(message);
+                    return arr;
+                }, [])
             return (
                 <Messages id="messages" >
-                    {channel && channel.messages && channel.messages
-                        .reduce((arr, message, i) => {
-                            let previousMessage = channel.messages[i - 1] || {};
-                            let previousDate = convertDate(previousMessage.timestamp);
-                            let currentDate = convertDate(message.timestamp);
-                            if (previousDate.getDate() !== currentDate.getDate()) {
-                                arr.push({
-                                    isNotMessage: true,
-                                    date: currentDate
-                                });
-                            }
-                            arr.push(message);
-                            return arr;
-                        }, [])
+                    {groupedMessages
                         .map(message => (
                             message.isNotMessage ?
-                                <Divider date={message.date} />
+                                <Divider
+                                    key={message.date}
+                                    date={message.date}
+                                />
                                 :
                                 <Message
                                     key={message.id}
+                                    channel={channel}
                                     message={message}
-                                    author={org.members.find(({ id }) => id === message.author_id)}
+                                    author={organization.members.find(({ id }) => id === message.author_id)}
                                     own={user.id === message.author_id}
                                     saveEdit={saveEdit}
                                     _delete={_delete}
                                 />
                         ))}
-                    <MessageInput sendMessage={sendMessage} style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }} />
+                    <MessageInput
+                        channel={channel}
+                        sendMessage={sendMessage}
+                        style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }}
+                    />
                 </Messages>
             );
         }
