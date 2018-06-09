@@ -1,7 +1,6 @@
 import React from 'react';
 // UTILS
 import { link } from '../../../meiosis-router';
-import { getId, getMatch } from '../../url-parser';
 import { POST } from '../../../http';
 // COMPONENTS
 import createDrag from './drag';
@@ -31,10 +30,12 @@ export default function create(update) {
     // COMPONENT
     return {
         view(model) {
-            let { organization: org, sideWidth, user } = model;
-            let { channels } = org;
-            let currentId = getId();
-            let match = getMatch();
+            let {
+                sideWidth,
+                user,
+                router: { match: { params: { id, type } } },
+                organization: { channels },
+            } = model;
             let joinedChannels = channels.filter(({ members }) => members.includes(user.id));
             let notJoinedChannels = channels.filter(({ members }) => !members.includes(user.id));
             return (
@@ -46,7 +47,7 @@ export default function create(update) {
                     {/* CHANNEL LIST */}
                     <div className="channel-list" >
                         {joinedChannels.map(channel => link(model, `/messages/channel/${channel.id}`,
-                            <div className={`channel-link ${match === 'channel' && channel.id === currentId ? 'selected' : ''}`} >
+                            <div className={`channel-link ${type === 'channel' && channel.id == id ? 'selected' : ''}`} >
                                 {channel.private ? '$' : '#'} {channel.name}
                             </div>
                         ))}

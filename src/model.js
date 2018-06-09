@@ -23,8 +23,6 @@ export default {
         },
         routes: []
     },
-    // NAME OF CURRENT MODAL BEING DISPLAYED
-    currentModal: false,
     // CURRENT WIDTH OF THE RESIZABLE SIDEBAR
     sideWidth: '20vw'
 }

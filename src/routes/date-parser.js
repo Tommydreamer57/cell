@@ -53,25 +53,25 @@ export function toDate(datestring) {
     }
     switch (convertedDate.getDay()) {
         case 0:
-            day = 'Monday';
+            day = 'Sunday';
             break;
         case 1:
-            day = 'Tuesday';
+            day = 'Monday';
             break;
         case 2:
-            day = 'Wednesday';
+            day = 'Tuesday';
             break;
         case 3:
-            day = 'Thursday';
+            day = 'Wednesday';
             break;
         case 4:
-            day = 'Friday';
+            day = 'Thursday';
             break;
         case 5:
-            day = 'Saturday';
+            day = 'Friday';
             break;
         case 6:
-            day = 'Sunday';
+            day = 'Saturday';
             break;
     }
     switch (+String(convertedDate.getDate()).split('').reverse()[0]) {

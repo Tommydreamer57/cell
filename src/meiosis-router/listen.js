@@ -1,37 +1,38 @@
-import React from 'react';
 import createHistory from 'history/createBrowserHistory';
-import matchAndParse from './match';
-import Link from './Link';
+import { matchAndParse } from './utils';
 
-export default function listen(update) {
-    setTimeout(() => {
+export default function watchUrl(update) {
 
-        console.log("LISTENING");
+    let history = createHistory();
 
-        const history = createHistory();
+    function updateHistory(location = window.location, action) {
+        update(model => ({
+            ...model,
+            router: {
+                ...model.router,
+                history,
+                location,
+                updateModel: true
+            }
+        }))
+    }
 
-        function updateHistory(location = window.location, action) {
-            console.log("UPDATING HISTORY: " + location.pathname);
-            update(model => {
-                console.log(model.router.routes);
-                const match = matchAndParse(location.pathname, model.router.routes);
-                return {
-                    ...model,
-                    router: {
-                        ...model.router,
-                        history,
-                        match
-                    }
-                };
-            });
-        }
+    history.listen(updateHistory);
 
-        setTimeout(updateHistory);
+    setTimeout(updateHistory);
 
-        window.onload = () => updateHistory();
-
-        history.listen(updateHistory);
-
-    });
-
+    return function routerMiddleware(model) {
+        if (!model.router.updateModel) return model;
+        console.log(model.router.routes);
+        const match = matchAndParse(model.router.history.location.pathname, model.router.routes);
+        return {
+            ...model,
+            router: {
+                ...model.router,
+                history,
+                match,
+                updateModel: false
+            }
+        };
+    }
 }

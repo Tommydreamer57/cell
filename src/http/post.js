@@ -42,7 +42,7 @@ export function logout(update) {
         .catch(console.error);
 }
 
-export function message(update, type, id, text) {
+export function message(update, { type, id, text }) {
     return axios.post(`/api/messages/${type}/${id}`, { text })
         .then(({ data: messages }) => {
             update(model => {

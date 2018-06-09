@@ -1,7 +1,7 @@
 import React from 'react';
 // UTILS
 import { link } from '../../../../meiosis-router';
-import { GET, POST, UTILS } from '../../../../http';
+import { GET, POST } from '../../../../http';
 // COMPONENTS
 import CreateOrJoin from './CreateOrJoin';
 // STYLES
@@ -15,8 +15,7 @@ export default function create(update) {
     // COMPONENT
     return {
         data(model) {
-            GET.allOrganizations(update);
-            UTILS.requireAuthentication(update);
+            
         },
         view(model) {
             // DESTRUCTURING

@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 export default class MessageInput extends Component {
     onKeyDown = ({ target, key }) => {
         if (key === 'Enter' && target.value.trim()) {
-            this.props.sendMessage(target.value);
+            this.props.sendMessage({
+                id: this.props.channel.id,
+                text: target.value
+            });
             target.value = '';
         }
     }

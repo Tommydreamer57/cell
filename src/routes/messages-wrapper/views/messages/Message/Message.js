@@ -21,7 +21,11 @@ export default class Message extends Component {
     }
     onKeyDown = ({ key }) => {
         if (key === 'Enter') {
-            this.props.saveEdit(this.props.message.id, this.state.input)
+            this.props.saveEdit({
+                channel_id: this.props.channel.id,
+                message_id: this.props.message.id,
+                text: this.state.input
+            })
                 .then(this.cancel);
         }
     }
@@ -29,7 +33,10 @@ export default class Message extends Component {
         this.setState({ input: value });
     }
     _delete = () => {
-        this.props._delete(this.props.message.id);
+        this.props._delete({
+            channel_id: this.props.channel.id,
+            message_id: this.props.message.id
+        });
     }
     render() {
         let {
