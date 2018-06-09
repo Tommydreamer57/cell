@@ -1,5 +1,5 @@
 import axios from 'axios';
-import defaultModel from '../model';
+import initialModel from '../model';
 
 export function authenticate(update) {
     return axios.get('/auth/me')

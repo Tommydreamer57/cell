@@ -36,7 +36,7 @@ function parse(pathname, route) {
 }
 
 // FIND CORRECT ROUTE AND CREATE MATCH OBJECT
-export default function matchAndParse(pathname, routes) {
+export function matchAndParse(pathname, routes) {
     console.log("MATCHING AND PARSING: " + pathname);
     console.log(routes);
     let exact = true;

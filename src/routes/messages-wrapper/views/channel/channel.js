@@ -1,6 +1,5 @@
 import React from 'react';
 // UTILS
-import { getId } from '../../../url-parser';
 import { GET, UTILS } from '../../../../http';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';

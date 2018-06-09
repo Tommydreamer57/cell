@@ -4,8 +4,6 @@ import listen, { withRouter } from './meiosis-router';
 // ROUTES & STATICS
 import createGeneralWrapper from './routes/general-wrapper/general-wrapper';
 import createMessagesWrapper from './routes/messages-wrapper/messages-wrapper';
-// URL PARSER
-import { getId, getMatch } from './routes/url-parser';
 // HTTP
 import { GET } from './http';
 // INITIAL MODEL
@@ -18,16 +16,9 @@ import p from './styles/presets';
 // APP
 export default function create(update) {
 
-    // ROUTER
-    // listen(update);
-
     // INITIAL DATA
     GET.authenticate(update);
     GET.allOrganizations(update);
-    // let MATCH = getMatch();
-    // let ID = getId();
-    // if (MATCH === 'organization') GET.organization(update, ID);
-    // else if (MATCH === 'channel') GET.organizationByChannel(update, ID);
 
     // CHILDREN
     let generalWrapper = createGeneralWrapper(update);

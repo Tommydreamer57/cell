@@ -2,7 +2,6 @@ import React from 'react';
 // UTILS
 import { link } from '../../../../meiosis-router';
 import { GET, POST, UTILS } from '../../../../http';
-import { getId, getMatch } from '../../../url-parser';
 import defaultModel from '../../../../model';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';
@@ -10,8 +9,6 @@ import wrapper from '../../../../styles/components';
 import p from '../../../../styles/presets';
 
 export default function create(update) {
-    // ORGANIZATION ID
-
     // COMPONENT
     return {
         data(model) {

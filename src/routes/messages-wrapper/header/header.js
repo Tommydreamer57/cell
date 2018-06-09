@@ -4,29 +4,23 @@ import { StyleSheet } from 'aphrodite-jss';
 import p from '../../../styles/presets';
 
 export default function create(update) {
-    // function getId() {
-    //     return window.location.href.replace(/.*\/(.{1,})/, '$1');
-    // }
     return {
         view(model) {
+            let {
+                organization,
+                router: { match, location }
+            } = model;
             let header;
-            // let { pathname } = window.location;
-            // let currentId = getId();
-            // if (pathname.match(/messages/)) {
-            //     if (pathname.match(/channel/)) {
-            //         let channel = model.organization.channels.find(channel => channel.id == currentId) || {};
-            //         header = channel.name;
-            //         if (channel.private) header += ' (private)';
-            //         if (channel.id != currentId) header = '';
-            //     }
-            //     // else header = model.group.name;
-            // } else if (pathname.match(/organization/)) {
-            //     if (model.organization.id != currentId) header = ' ';
-            //     else header = model.organization.name;
-            // }
+            if (location.pathname.match(/channel/)) {
+                let channel = organization.channels
+                    .find(({ id }) => id == match.params.id) || {};
+                header = channel.name;
+            } else if (location.pathname.match(/organization/)) {
+                header = organization.name;
+            }
             return (
                 <Header style={{ left: model.sideWidth, width: `calc(100vw - 48px - ${model.sideWidth})` }} >
-                    <h3>{header}&nbsp;</h3>
+                    <h3>{header}</h3>
                     <input placeholder="search" />
                 </Header>
             );

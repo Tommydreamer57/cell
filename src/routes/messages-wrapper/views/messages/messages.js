@@ -1,7 +1,6 @@
 import React from 'react';
 // UTILS
 import initialModel from '../../../../model';
-import { getId, getMatch } from '../../../url-parser';
 import { GET, POST, PUT, DELETE, UTILS } from '../../../../http';
 import { convertDate } from '../../../date-parser';
 // COMPONENTS
@@ -65,26 +64,33 @@ export default function create(update) {
                 user,
                 organization
             } = model;
-            let channel = organization.channels.find(channel => channel.id == model.router.match.params.id);
+            let channel = organization.channels
+                .find(channel => channel.id == model.router.match.params.id)
+                ||
+                { messages: [] };
+            let groupedMessages = channel.messages
+                .reduce((arr, message, i) => {
+                    let previousMessage = channel.messages[i - 1] || {};
+                    let previousDate = convertDate(previousMessage.timestamp);
+                    let currentDate = convertDate(message.timestamp);
+                    if (previousDate.getDate() !== currentDate.getDate()) {
+                        arr.push({
+                            isNotMessage: true,
+                            date: currentDate
+                        });
+                    }
+                    arr.push(message);
+                    return arr;
+                }, [])
             return (
                 <Messages id="messages" >
-                    {channel && channel.messages && channel.messages
-                        .reduce((arr, message, i) => {
-                            let previousMessage = channel.messages[i - 1] || {};
-                            let previousDate = convertDate(previousMessage.timestamp);
-                            let currentDate = convertDate(message.timestamp);
-                            if (previousDate.getDate() !== currentDate.getDate()) {
-                                arr.push({
-                                    isNotMessage: true,
-                                    date: currentDate
-                                });
-                            }
-                            arr.push(message);
-                            return arr;
-                        }, [])
+                    {groupedMessages
                         .map(message => (
                             message.isNotMessage ?
-                                <Divider key={message.date} date={message.date} />
+                                <Divider
+                                    key={message.date}
+                                    date={message.date}
+                                />
                                 :
                                 <Message
                                     key={message.id}
@@ -96,7 +102,11 @@ export default function create(update) {
                                     _delete={_delete}
                                 />
                         ))}
-                    <MessageInput channel={channel} sendMessage={sendMessage} style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }} />
+                    <MessageInput
+                        channel={channel}
+                        sendMessage={sendMessage}
+                        style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }}
+                    />
                 </Messages>
             );
         }
