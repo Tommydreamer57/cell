@@ -16,7 +16,7 @@ export default function create(update) {
     return {
         data(model) {
             GET.allOrganizations(update);
-            UTILS.requireAuthentication(update);
+            // UTILS.requireAuthentication(update);
         },
         view(model) {
             // DESTRUCTURING

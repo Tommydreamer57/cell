@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-export function message(update, type, message_id, text, channel_id) {
+export function message(update, { type, message_id, text, channel_id }) {
+    console.log(arguments);
     return axios.put(`/api/messages/${type}/${message_id}`, { text })
         .then(({ data: messages }) => {
             update(model => {

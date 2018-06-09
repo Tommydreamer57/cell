@@ -14,19 +14,16 @@ export default function create(update) {
 
     // COMPONENT
     return {
-        data() {
-            GET.organization(update, getId());
-            UTILS.requireAuthentication(update);
+        data(model) {
+            GET.organization(update, model.router.match.params.id);
+            // UTILS.requireAuthentication(update);
         },
         view(model) {
-            let { organization: org } = model;
-            if (getId() != org.id) {
-                org = defaultModel.organization;
-            }
+            let { organization } = model;
             return (
                 <Organization>
                     <h2>Members</h2>
-                    {org.members.map(member => (
+                    {organization.members.map(member => (
                         <div className='member' key={member.username} >
                             <h5>{member.first_name} {member.last_name}</h5>
                             <h5>@{member.username}</h5>

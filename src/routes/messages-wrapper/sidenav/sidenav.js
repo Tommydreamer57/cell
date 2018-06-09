@@ -33,8 +33,8 @@ export default function create(update) {
         view(model) {
             let { organization: org, sideWidth, user } = model;
             let { channels } = org;
-            let currentId = getId();
-            let match = getMatch();
+            let currentId // = getId();
+            let match // = getMatch();
             let joinedChannels = channels.filter(({ members }) => members.includes(user.id));
             let notJoinedChannels = channels.filter(({ members }) => !members.includes(user.id));
             return (

@@ -4,26 +4,26 @@ import { StyleSheet } from 'aphrodite-jss';
 import p from '../../../styles/presets';
 
 export default function create(update) {
-    function getId() {
-        return window.location.href.replace(/.*\/(.{1,})/, '$1');
-    }
+    // function getId() {
+    //     return window.location.href.replace(/.*\/(.{1,})/, '$1');
+    // }
     return {
         view(model) {
-            let { pathname } = window.location;
             let header;
-            let currentId = getId();
-            if (pathname.match(/messages/)) {
-                if (pathname.match(/channel/)) {
-                    let channel = model.organization.channels.find(channel => channel.id == currentId) || {};
-                    header = channel.name;
-                    if (channel.private) header += ' (private)';
-                    if (channel.id != currentId) header = '';
-                }
-                // else header = model.group.name;
-            } else if (pathname.match(/organization/)) {
-                if (model.organization.id != currentId) header = ' ';
-                else header = model.organization.name;
-            }
+            // let { pathname } = window.location;
+            // let currentId = getId();
+            // if (pathname.match(/messages/)) {
+            //     if (pathname.match(/channel/)) {
+            //         let channel = model.organization.channels.find(channel => channel.id == currentId) || {};
+            //         header = channel.name;
+            //         if (channel.private) header += ' (private)';
+            //         if (channel.id != currentId) header = '';
+            //     }
+            //     // else header = model.group.name;
+            // } else if (pathname.match(/organization/)) {
+            //     if (model.organization.id != currentId) header = ' ';
+            //     else header = model.organization.name;
+            // }
             return (
                 <Header style={{ left: model.sideWidth, width: `calc(100vw - 48px - ${model.sideWidth})` }} >
                     <h3>{header}&nbsp;</h3>

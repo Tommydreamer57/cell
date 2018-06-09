@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
             },
             '& h3': {
                 marginBottom: 6,
-                '&:last-of-type()': {
+                '&:last-of-type': {
                     marginBottom: 0
                 }
             },

@@ -3,7 +3,7 @@
 function createMatch(pathname, routes, exact = true) {
     console.log("CREATING MATCH: " + pathname);
     console.log(routes);
-    if (!routes || !routes.length) return '';
+    if (!pathname || !routes || !routes.length) return '';
     let pathArr = pathname.split('/');
     return routes.find(route => {
         let routeArr = route.split('/');

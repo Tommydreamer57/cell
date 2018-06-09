@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import meiosis, { initialize } from './meiosis';
 import createApp from './app';
 import { watch } from './meiosis/middlewares';
+import { watchUrl } from './meiosis-router';
 
 setTimeout(() => console.log("INITIAL LOAD IS DONE, TIMEOUT HAS FIRED"), 0);
 
@@ -15,7 +16,8 @@ let render = view => ReactDOM.render(view, $root);
 meiosis(
     createApp,
     render,
-    watch()
+    watchUrl,
+    watch,
 );
 
 

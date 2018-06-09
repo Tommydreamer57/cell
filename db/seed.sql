@@ -4,11 +4,13 @@
 DROP TABLE IF EXISTS cell_direct_message_group_messages;
 DROP TABLE IF EXISTS cell_direct_message_group_memberships;
 DROP TABLE IF EXISTS cell_organization_memberships;
+DROP TABLE IF EXISTS cell_organisation_memberships;
 DROP TABLE IF EXISTS cell_direct_message_groups;
 DROP TABLE IF EXISTS cell_channel_memberships;
 DROP TABLE IF EXISTS cell_channel_messages;
 DROP TABLE IF EXISTS cell_channels;
 DROP TABLE IF EXISTS cell_organizations;
+DROP TABLE IF EXISTS cell_organisations;
 DROP TABLE IF EXISTS cell_users;
 
 -- create tables

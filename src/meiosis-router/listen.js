@@ -1,4 +1,3 @@
-import React from 'react';
 import createHistory from 'history/createBrowserHistory';
 import matchAndParse from './match';
 import Link from './Link';

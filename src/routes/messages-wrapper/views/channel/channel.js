@@ -11,15 +11,18 @@ export default function create(update) {
     // COMPONENT
     return {
         data(model) {
-            GET.organizationByChannel(update, getId());
-            UTILS.requireAuthentication(update);
+            GET.organizationByChannel(update, model.router.match.params.id);
+            // UTILS.requireAuthentication(update);
         },
         view(model) {
             let {
-                channel: { members: channelMemberIds },
-                organistion: { members: organizationMembers }
+                organization: {
+                    channels,
+                    members: organizationMembers
+                }
             } = model;
-            let channelMembers = organizationMembers.filter(({ id }) => channelMemberIds.includes(id));
+            let channel = channels.find(({ id }) => id == model.router.match.params.id);
+            let channelMembers = organizationMembers.filter(({ id }) => channel.members.includes(id));
             return (
                 <Channel id="channel" >
                     <h2>Members</h2>

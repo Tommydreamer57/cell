@@ -19,15 +19,15 @@ import p from './styles/presets';
 export default function create(update) {
 
     // ROUTER
-    listen(update);
+    // listen(update);
 
     // INITIAL DATA
     GET.authenticate(update);
     GET.allOrganizations(update);
-    let MATCH = getMatch();
-    let ID = getId();
-    if (MATCH === 'organization') GET.organization(update, ID);
-    else if (MATCH === 'channel') GET.organizationByChannel(update, ID);
+    // let MATCH = getMatch();
+    // let ID = getId();
+    // if (MATCH === 'organization') GET.organization(update, ID);
+    // else if (MATCH === 'channel') GET.organizationByChannel(update, ID);
 
     // CHILDREN
     let generalWrapper = createGeneralWrapper(update);

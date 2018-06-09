@@ -20,28 +20,52 @@ export default function create(update) {
         if ($messages) $messages.scrollTop = $messages.scrollHeight;
     }
     // CREATE MESSAGE
-    const sendMessage = text => POST.message(update, 'channel', getId(), text);
+    const sendMessage = ({
+        id,
+        text
+    }) => POST.message(update, {
+        type: 'channel',
+        id,
+        text
+    });
     // EDIT MESSAGE
-    const saveEdit = (id, text) => PUT.message(update, 'channel', id, text, getId());
+    const saveEdit = ({
+        channel_id,
+        message_id,
+        text
+    }) => PUT.message(update, {
+        type: 'channel',
+        message_id,
+        channel_id,
+        text
+    });
     // DELETE MESSAGE
-    const _delete = id => DELETE.message(update, 'channel', id, getId());
+    const _delete = ({
+        channel_id,
+        message_id
+    }) => DELETE.message(update, {
+        type: 'channel',
+        message_id,
+        channel_id
+    });
     // COMPONENT
     return {
         data(model) {
             if (!model.organization.id) {
-                GET.organizationByChannel(update, getId()).then(scrollToBottom).catch(scrollToBottom);
+                GET.organizationByChannel(update, model.router.match.params.id)
+                    .then(scrollToBottom)
+                    .catch(scrollToBottom);
             } else scrollToBottom();
-            UTILS.requireAuthentication(update);
+            // UTILS.requireAuthentication(update);
         },
         view(model) {
             // AFTER RERENDER, SCROLL TO BOTTOM;
             setTimeout(scrollToBottom);
-            let currentId = getId();
-            let channel = model.organization.channels.find(channel => channel.id == currentId);
             let {
                 user,
-                organization: org
+                organization
             } = model;
+            let channel = organization.channels.find(channel => channel.id == model.router.match.params.id);
             return (
                 <Messages id="messages" >
                     {channel && channel.messages && channel.messages
@@ -64,14 +88,15 @@ export default function create(update) {
                                 :
                                 <Message
                                     key={message.id}
+                                    channel={channel}
                                     message={message}
-                                    author={org.members.find(({ id }) => id === message.author_id)}
+                                    author={organization.members.find(({ id }) => id === message.author_id)}
                                     own={user.id === message.author_id}
                                     saveEdit={saveEdit}
                                     _delete={_delete}
                                 />
                         ))}
-                    <MessageInput sendMessage={sendMessage} style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }} />
+                    <MessageInput channel={channel} sendMessage={sendMessage} style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }} />
                 </Messages>
             );
         }
