@@ -1,13 +1,11 @@
 import React from 'react';
-// LISTEN TO WINDOW HREF
-import listen, { withRouter } from './meiosis-router';
-// ROUTES & STATICS
-import createGeneralWrapper from './routes/general-wrapper/general-wrapper';
-import createMessagesWrapper from './routes/messages-wrapper/messages-wrapper';
 // HTTP
 import { GET } from './http';
 // INITIAL MODEL
-import defaultModel from './model';
+import initialModel from './model';
+// VIEWS
+import createGeneralWrapper from './routes/general-wrapper/general-wrapper';
+import createMessagesWrapper from './routes/messages-wrapper/messages-wrapper';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';
 import wrapper from './styles/components';
@@ -28,7 +26,7 @@ export default function create(update) {
     return {
         // TOP LEVEL MODEL
         model() {
-            return defaultModel;
+            return initialModel;
         },
         // TOP LEVEL VIEW
         view(model) {

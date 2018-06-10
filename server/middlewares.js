@@ -14,12 +14,7 @@ exports.default = function addMiddlewaresTo(app) {
         next();
     });
 
-    // SESSION
-    app.use(session({
-        secret: process.env.SECRET,
-        resave: false,
-        saveUninitialized: false
-    }));
+    // SESSION -- moved to index.js to share with sockeets
 
     // DESERIALIZE
     app.use((req, res, next) => {

@@ -25,5 +25,6 @@ export default function meiosis(createApp, render, ...middles) {
             render(app.view(currentModel));
         }
     }
-    render(app.view(currentModel));
+    // render the apps model
+    update(() => currentModel);
 }

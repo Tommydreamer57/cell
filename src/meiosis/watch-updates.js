@@ -1,28 +1,36 @@
 
 // DEEP COPY
-function deepCopy(obj) {
+function deepCopy(obj, prev = []) {
     if (!obj) return obj;
-    if (typeof obj === 'string') return obj;
-    if (typeof obj === 'number') return obj;
+    if (['number', 'boolean', 'function', 'string'].includes(typeof obj)) return obj;
     let newObj = {};
-    if (Array.isArray(obj)) newObj = [];
+    if (Array.isArray(obj)) {
+        newObj = [];
+    }
     for (let key in obj) {
-        newObj[key] = deepCopy(obj[key]);
+        if (prev.includes(obj[key])) {
+            newObj[key] = "CIRCULAR";
+        } else {
+            if (obj[key] && !['number', 'boolean', 'function', 'string'].includes(typeof obj[key])) prev.push(obj[key]);
+            newObj[key] = deepCopy(obj[key], prev);
+        }
     }
     return newObj;
 }
 
 // COMPARE CHANGES
-function compare(old, neww) {
+function compare(old, neww, prev = []) {
     let differences = {};
+    if (Array.isArray(neww)) {
+        differences = [];
+    }
     if (!neww) return neww;
-    let newKeys = [];
     for (let key in neww) {
-        newKeys.push(key);
+        prev.push(neww[key]);
         if ((!old || !(key in old)) || (typeof neww[key] !== typeof old[key])) {
             differences[key] = neww[key];
         } else if (typeof neww[key] === "object" && neww[key] !== null) {
-            differences[key] = compare(old[key], neww[key]);
+            differences[key] = compare(old[key], neww[key], prev);
             if (differences[key] && !Object.keys(differences[key]).length) {
                 delete differences[key];
             }

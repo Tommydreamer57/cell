@@ -43,6 +43,7 @@ export function logout(update) {
 }
 
 export function message(update, { type, id, text }) {
+    // socket.to(`${type} ${id}`).emit('message', { text })
     return axios.post(`/api/messages/${type}/${id}`, { text })
         .then(({ data: messages }) => {
             update(model => {
@@ -55,6 +56,7 @@ export function message(update, { type, id, text }) {
 }
 
 export function newChannel(update, organization_id, name, _private) {
+    // socket.to(`organization ${organization_id}`).emit('new channel', { name, _private })
     return axios.post(`/api/create/channel/${organization_id}`, { name, _private })
         .then(({ data: channel }) => {
             update(({ router: { history } }) => {
@@ -69,6 +71,7 @@ export function newChannel(update, organization_id, name, _private) {
 }
 
 export function joinChannel(update, channel_id) {
+    // socket.to(`organization ${organization_id}`).emit('joined channel', { channel_id })
     return axios.post(`/api/join/channel/${channel_id}`)
         .then(({ data: organization }) => {
             update(({ router: { history } }) => {
@@ -83,6 +86,7 @@ export function joinChannel(update, channel_id) {
 }
 
 export function joinOrganization(update, organization_id) {
+    // socket.to(`organization ${organization_id}`).emit('joined organization')
     return axios.post(`/api/join/organization/${organization_id}`)
         .then(({ data: user }) => {
             update(model => ({

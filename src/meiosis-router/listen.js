@@ -14,7 +14,7 @@ export default function watchUrl(update) {
                 location,
                 updateModel: true
             }
-        }))
+        }));
     }
 
     history.listen(updateHistory);

@@ -1,5 +1,7 @@
 // DEPENDENCIES
 const express = require('express');
+// SESSIONS
+const expressSession = require('express-session');
 // MIDDLEWARES
 const { default: applyMiddlewaresTo } = require('./middlewares');
 // CONTROLLERS
@@ -16,6 +18,16 @@ const app = express();
 
 // EXPRESS STATIC
 app.use(express.static(__dirname + '/../build'));
+
+// SESSION
+const session = expressSession({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false
+});
+
+// SESSION ON ENDPOINTS
+app.use(session);
 
 // MIDDLEWARES
 applyMiddlewaresTo(app);
@@ -35,5 +47,6 @@ app.get('*', (req, res) => {
 // LISTEN
 const server = app.listen(3021, () => console.log('Cells on 3021!'));
 
-// SOCKETS
-connectSocketsTo(server);
+// SOCKETS - with session & db
+connectSocketsTo(server, session, app);
+
