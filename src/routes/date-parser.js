@@ -6,13 +6,13 @@ export function convertDate(datestring) {
     return date;
 }
 
-export function toTime(datestring) {
-    if (!datestring) return '';
-    else return convertDate(datestring).toLocaleTimeString().replace(/(\d)(:\d\d)(:\d\d)/, '$1$2');
+export function toTime(date) {
+    if (!date) return '';
+    else return convertDate(date).toLocaleTimeString().replace(/(\d)(:\d\d)(:\d\d)/, '$1$2');
 }
 
-export function toDate(datestring) {
-    let convertedDate = convertDate(datestring);
+export function toDate(convertedDate) {
+    if (!(convertedDate instanceof Date)) convertedDate = convertDate(convertedDate);
     let month, day, date;
     switch (convertedDate.getMonth()) {
         case 0:
@@ -95,5 +95,6 @@ export function toDate(datestring) {
             date = convertedDate.getDate() + 'rd';
             break;
     }
+    if (date.length === 4 && date[0] == 1) date = date.slice(0, 2) + 'th';
     return `${day}, ${month} ${date}`;
 }
