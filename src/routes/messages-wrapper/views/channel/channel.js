@@ -10,8 +10,12 @@ export default function create(update) {
     // COMPONENT
     return {
         data(model) {
-            GET.organizationByChannel(update, model.router.match.params.id);
-            // UTILS.requireAuthentication(update);
+            const getOrganization = () => GET.organizationByChannel(update, model.router.match.params.id);
+            getOrganization();
+            this.interval = setInterval(getOrganization, 2500);
+        },
+        clear(model) {
+            clearInterval(this.interval);
         },
         view(model) {
             let {

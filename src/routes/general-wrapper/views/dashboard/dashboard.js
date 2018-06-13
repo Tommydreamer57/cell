@@ -15,7 +15,7 @@ export default function create(update) {
     // COMPONENT
     return {
         data(model) {
-            
+            GET.allOrganizations(update);
         },
         view(model) {
             // DESTRUCTURING

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MessageHover from './MessageHover';
 import { toTime } from '../../../../date-parser';
+import { Loading } from '../../../../../styles/logo';
 
 export default class Message extends Component {
     constructor(props) {
@@ -45,14 +46,19 @@ export default class Message extends Component {
             cancel,
             _delete,
             onKeyDown,
-            props: { message, author, saveEdit, own },
+            props: { loading, message, author, saveEdit, own },
             state: { editing, input }
         } = this;
         return (
             <div className="message" >
-                <div className="image-wrapper" >
-                    <img src={author.img} />
-                </div>
+                {loading ?
+                    <div className="loading-wrapper" >
+                        <Loading />
+                    </div>
+                    :
+                    <div className="image-wrapper" >
+                        <img src={author.img} />
+                    </div>}
                 <div className="message-body" >
                     <span className="message-info">
                         <h5>{author.first_name} {author.last_name}</h5>

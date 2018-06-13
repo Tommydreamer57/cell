@@ -27,7 +27,7 @@ export default function create(update) {
                     {model.user.id ?
                         logout.view(model)
                         :
-                        <Login history={model.router.history} login={login} signup={signup} />}
+                        <Login location={model.router.location.pathname} history={model.router.history} login={login} signup={signup} />}
                 </LoginWrapper>
             );
         }
@@ -53,6 +53,23 @@ const styles = StyleSheet.create({
             borderRadius: 5,
             width: '27.5%',
             background: 'white',
+            '& .loading-wrapper': {
+                display: 'flex',
+                justifyContent: 'center',
+                width: 'calc(100% - 32px)',
+                padding: 16,
+                paddingTop: 32
+            },
+            '&.failed': {
+                '& p': {
+                    color: 'red',
+                    padding: 6
+                },
+                '& input': {
+                    border: '1px solid red',
+                    outline: 'none'
+                },
+            },
             '& .button-wrapper': {
                 display: 'flex',
                 justifyContent: 'space-around',

@@ -1,8 +1,9 @@
 import React from 'react';
 // UTILS
 import { link } from '../../../../meiosis-router';
-import { GET, POST, UTILS } from '../../../../http';
-import defaultModel from '../../../../model';
+import { GET } from '../../../../http';
+// CHILDREN
+import { Loading } from '../../../../styles/logo';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';
 import wrapper from '../../../../styles/components';
@@ -12,20 +13,30 @@ export default function create(update) {
     // COMPONENT
     return {
         data(model) {
-            GET.organization(update, model.router.match.params.id);
-            // UTILS.requireAuthentication(update);
+            const getOrganization = () => GET.organization(update, model.router.match.params.id);
+            getOrganization();
+            this.interval = setInterval(getOrganization, 2500);
+        },
+        clear(model) {
+            clearInterval(this.interval);
         },
         view(model) {
-            let { organization } = model;
+            let { organization: { members } } = model;
             return (
                 <Organization>
                     <h2>Members</h2>
-                    {organization.members.map(member => (
-                        <div className='member' key={member.username} >
-                            <h5>{member.first_name} {member.last_name}</h5>
-                            <h5>@{member.username}</h5>
+                    {members.length ?
+                        members.map(member => (
+                            <div className='member' key={member.username} >
+                                <h5>{member.first_name} {member.last_name}</h5>
+                                <h5>@{member.username}</h5>
+                            </div>
+                        ))
+                        :
+                        <div className="loading-wrapper" >
+                            <Loading size={50} />
                         </div>
-                    ))}
+                    }
                 </Organization>
             );
         }
@@ -50,6 +61,12 @@ const styles = StyleSheet.create({
             display: 'flex',
             justifyContent: 'space-between',
             width: '50%'
+        },
+        '& .loading-wrapper': {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 36
         }
     }
 });

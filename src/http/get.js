@@ -49,3 +49,22 @@ export function organizationByChannel(update, id) {
         })
         .catch(console.error);
 }
+
+export function channel(update, id) {
+    if (!id) return null;
+    return axios.get(`/api/channel/${id}`)
+        .then(({ data: updatedChannel }) => {
+            update(model => ({
+                ...model,
+                organization: {
+                    ...model.organization,
+                    channels: model.organization.channels
+                        .map(channel => {
+                            if (channel.id == id) return updatedChannel;
+                            else return channel;
+                        })
+                }
+            }));
+        })
+        .catch(console.error);
+}

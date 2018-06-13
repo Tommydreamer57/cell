@@ -19,13 +19,13 @@ function gotUser(update) {
 export function signup(update, { first_name, last_name, username, email, password }) {
     return axios.post('/auth/signup', { first_name, last_name, username, email, password })
         .then(gotUser(update))
-        .catch(console.error);
+    // .catch(console.error);
 }
 
 export function login(update, username, password) {
     return axios.post('/auth/login', { username, password })
         .then(gotUser(update))
-        .catch(console.error);
+    // .catch(console.error);
 }
 
 export function logout(update) {
@@ -43,13 +43,38 @@ export function logout(update) {
 }
 
 export function message(update, { type, id, text }) {
+    update(model => ({
+        ...model,
+        organization: {
+            ...model.organization,
+            channels: model.organization.channels
+                .map(channel => {
+                    if (channel.id == id) {
+                        return {
+                            ...channel,
+                            messages: [...channel.messages, { isLoading: true, text, author_id: model.user.id }]
+                        };
+                    } else return channel;
+                })
+        }
+    }));
     return axios.post(`/api/messages/${type}/${id}`, { text })
         .then(({ data: messages }) => {
-            update(model => {
-                console.log("UPDATING MODEL ON SEND MESSAGE");
-                model.organization[type + 's'].find(group => group.id == id).messages = messages;
-                return model;
-            });
+            update(model => ({
+                ...model,
+                organization: {
+                    ...model.organization,
+                    channels: model.organization.channels
+                        .map(channel => {
+                            if (channel.id == id) {
+                                return {
+                                    ...channel,
+                                    messages
+                                }
+                            } else return channel;
+                        })
+                }
+            }));
         })
         .catch(console.error);
 }

@@ -19,8 +19,8 @@ export default function create(update, ...routes) {
             // if changing pathnames or locations
             if (previous !== current || previousLocation !== currentLocation) {
                 // settimeout to wait for components to finish mounting
-                if (typeof current.data === 'function') current.data(model);
                 if (typeof previous.clear === 'function') previous.clear(model);
+                if (typeof current.data === 'function') current.data(model);
             }
             // return view of correct child
             return currentChild.view(model);

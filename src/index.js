@@ -12,10 +12,20 @@ let $root = document.getElementById('root');
 // RENDER
 let render = view => ReactDOM.render(view, $root);
 
+// COUNT RENDERS
+const count = update => {
+    let i = 0;
+    return model => ({
+        ...model,
+        count: ++i
+    });
+}
+
 // MEIOSIS
 meiosis(
     createApp,
     render,
     watchUrl,
     watchUpdates,
+    count,
 );

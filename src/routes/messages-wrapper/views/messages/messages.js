@@ -50,12 +50,12 @@ export default function create(update) {
     // COMPONENT
     return {
         data(model) {
-            if (!model.organization.id) {
-                GET.organizationByChannel(update, model.router.match.params.id)
-                    .then(scrollToBottom)
-                    .catch(scrollToBottom);
-            } else scrollToBottom();
-            // UTILS.requireAuthentication(update);
+            const getOrganization = () => GET.organizationByChannel(update, model.router.match.params.id);
+            getOrganization();
+            this.interval = setInterval(getOrganization, 2500);
+        },
+        clear(model) {
+            clearInterval(this.interval);
         },
         view(model) {
             // AFTER RERENDER, SCROLL TO BOTTOM;
@@ -71,13 +71,16 @@ export default function create(update) {
             let groupedMessages = channel.messages
                 .reduce((arr, message, i) => {
                     let previousMessage = channel.messages[i - 1] || {};
-                    let previousDate = convertDate(previousMessage.timestamp);
-                    let currentDate = convertDate(message.timestamp);
-                    if (previousDate.getDate() !== currentDate.getDate()) {
-                        arr.push({
-                            isNotMessage: true,
-                            date: currentDate
-                        });
+                    if (message.timestamp) {
+                        // ONLY ADD DIVIDER BETWEEN ACTUAL MESSAGES (not loading messages)
+                        let previousDate = convertDate(previousMessage.timestamp);
+                        let currentDate = convertDate(message.timestamp);
+                        if (previousDate.getDate() !== currentDate.getDate()) {
+                            arr.push({
+                                isNotMessage: true,
+                                date: currentDate
+                            });
+                        }
                     }
                     arr.push(message);
                     return arr;
@@ -92,15 +95,23 @@ export default function create(update) {
                                     date={message.date}
                                 />
                                 :
-                                <Message
-                                    key={message.id}
-                                    channel={channel}
-                                    message={message}
-                                    author={organization.members.find(({ id }) => id === message.author_id)}
-                                    own={user.id === message.author_id}
-                                    saveEdit={saveEdit}
-                                    _delete={_delete}
-                                />
+                                message.isLoading ?
+                                    <Message
+                                        key={message.timestamp}
+                                        message={message}
+                                        loading={true}
+                                        author={organization.members.find(({ id }) => id === message.author_id)}
+                                    />
+                                    :
+                                    <Message
+                                        key={message.id}
+                                        channel={channel}
+                                        message={message}
+                                        author={organization.members.find(({ id }) => id === message.author_id)}
+                                        own={user.id === message.author_id}
+                                        saveEdit={saveEdit}
+                                        _delete={_delete}
+                                    />
                         ))}
                     <MessageInput
                         channel={channel}
@@ -131,6 +142,14 @@ const styles = StyleSheet.create({
             position: 'relative',
             display: 'flex',
             padding: '8px 24px',
+            '& .loading-wrapper': {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 45,
+                width: 45,
+                marginRight: 10
+            },
             '& .image-wrapper': {
                 height: 45,
                 width: 45,
