@@ -15,10 +15,12 @@ export default function createHeader(update) {
                         </div>
                     )}
                     {model.user.id ?
-                        link(model, '/dashboard', <h4>{model.user.username}</h4>)
+                        model.router.location.pathname.includes('login') ?
+                            link(model, '/dashboard', <h4>Dashboard</h4>)
+                            :
+                            link(model, '/login', <h4>{model.user.username}</h4>)
                         :
                         link(model, '/login', <h4>Login</h4>)}
-
                 </header>
             );
         }

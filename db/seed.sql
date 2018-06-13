@@ -4,13 +4,11 @@
 DROP TABLE IF EXISTS cell_direct_message_group_messages;
 DROP TABLE IF EXISTS cell_direct_message_group_memberships;
 DROP TABLE IF EXISTS cell_organization_memberships;
-DROP TABLE IF EXISTS cell_organisation_memberships;
 DROP TABLE IF EXISTS cell_direct_message_groups;
 DROP TABLE IF EXISTS cell_channel_memberships;
 DROP TABLE IF EXISTS cell_channel_messages;
 DROP TABLE IF EXISTS cell_channels;
 DROP TABLE IF EXISTS cell_organizations;
-DROP TABLE IF EXISTS cell_organisations;
 DROP TABLE IF EXISTS cell_users;
 
 -- create tables
@@ -35,7 +33,8 @@ CREATE TABLE cell_organizations (
 CREATE TABLE cell_organization_memberships (
     id SERIAL PRIMARY KEY,
     organization_id INTEGER REFERENCES cell_organizations(id) NOT NULL,
-    member_id INTEGER REFERENCES cell_users(id) NOT NULL
+    member_id INTEGER REFERENCES cell_users(id) NOT NULL,
+    last_visited TIMESTAMP DEFAULT NULL
 );
 
 CREATE TABLE cell_channels (
@@ -50,7 +49,8 @@ CREATE TABLE cell_channels (
 CREATE TABLE cell_channel_memberships (
     id SERIAL PRIMARY KEY,
     channel_id INTEGER REFERENCES cell_channels(id) NOT NULL,
-    member_id INTEGER REFERENCES cell_users(id) NOT NULL
+    member_id INTEGER REFERENCES cell_users(id) NOT NULL,
+    last_visited TIMESTAMP DEFAULT NULL
 );
 
 CREATE TABLE cell_channel_messages (

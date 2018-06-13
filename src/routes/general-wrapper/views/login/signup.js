@@ -21,13 +21,24 @@ export default function create(update) {
     let logout = createLogout(update);
     // COMPONENT
     return {
-        view(model) {
+        view(model) { 
+            let {
+                router: {
+                    history,
+                    location: {
+                        pathname,
+                        state
+                    }
+                }
+            } = model;
+            if (state) var { message } = state;
             return (
                 <LoginWrapper id="login" >
+                    {message && <h3>{message}</h3>}
                     {model.user.id ?
                         logout.view(model)
                         :
-                        <Login location={model.router.location.pathname} history={model.router.history} login={login} signup={signup} />}
+                        <Login location={pathname} history={history} login={login} signup={signup} />}
                 </LoginWrapper>
             );
         }
@@ -41,9 +52,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingTop: '27.5vh',
-        // '& h2': {
-        //     padding: 48
-        // },
+        '& > h3': {
+            marginTop: '-8vh',
+            marginBottom: '8vh'
+        },
         '& .login-box': {
             display: 'flex',
             justifyContent: 'center',

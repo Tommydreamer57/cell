@@ -83,7 +83,7 @@ export default class Login extends Component {
                     });
                 } else {
                     signup({ first_name, last_name, username, email, password })
-                    .catch(this.handleError);
+                        .catch(this.handleError);
                 }
             } else {
                 let username = this.username.current.value;

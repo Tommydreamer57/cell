@@ -26,6 +26,7 @@ meiosis(
     createApp,
     render,
     watchUrl,
-    watchUpdates,
+    // ignore the 'count' property on the model
+    watchUpdates('count'),
     count,
 );

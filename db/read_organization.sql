@@ -1,7 +1,17 @@
+UPDATE cell_channel_memberships
+SET last_visited = CURRENT_TIMESTAMP
+WHERE member_id = ${user_id}
+AND channel_id = ${channel_id};
+
+UPDATE cell_organization_memberships
+SET last_visited = CURRENT_TIMESTAMP
+WHERE member_id = ${user_id}
+AND organization_id = ${organization_id};
+
 WITH
 organizations AS (
     SELECT
-    -- OrganizationS
+    -- ORGANIZATIONS
     cell_organizations.id AS organization_id,
     cell_organizations.name AS organization_name,
     cell_organizations.created_by AS organization_owner_id,
@@ -28,6 +38,13 @@ channels AS (
     LEFT JOIN cell_channel_memberships ON cell_channel_memberships.channel_id = cell_channels.id
     WHERE cell_channels.private = false OR cell_channels.id IN (SELECT channel_id FROM cell_channel_memberships WHERE member_id = ${user_id})
 ),
+visits AS (
+    SELECT
+    last_visited AS channel_last_visited,
+    channel_id
+    FROM cell_channel_memberships
+    WHERE member_id = ${user_id}
+),
 messages AS (
     SELECT
     -- MESSAGES
@@ -49,12 +66,15 @@ members AS (
     FROM cell_users
 )
 SELECT *
--- OrganizationS
+-- ORGANIZATIONS
 FROM organizations
 -- CHANNELS
 LEFT OUTER JOIN channels
 ON channels.channel_id = organizations.organization_channel_id
 AND channels.channel_member_id = organizations.organization_member_id
+-- VISITS
+LEFT JOIN visits
+ON visits.channel_id = channels.channel_id
 -- MESSAGES
 LEFT OUTER JOIN messages
 ON messages.message_channel_id = channels.channel_id

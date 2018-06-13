@@ -36,7 +36,19 @@ export default function create(update) {
                 router: { match: { params: { id, type } } },
                 organization: { channels },
             } = model;
-            let joinedChannels = channels.filter(({ members }) => members.includes(user.id));
+            let joinedChannels = channels
+                .filter(({ members }) => members.includes(user.id))
+                .map(channel => ({
+                    ...channel,
+                    unreadMessages: channel.messages
+                        .filter(message => (
+                            new Date(message.timestamp) > new Date(channel.last_visited)
+                            &&
+                            !message.isLoading
+                            &&
+                            message.author_id != model.user.id
+                        )).length
+                }));
             let notJoinedChannels = channels.filter(({ members }) => !members.includes(user.id));
             return (
                 <SideNav id="sidenav" style={{ width: sideWidth }} >
@@ -47,8 +59,16 @@ export default function create(update) {
                     {/* CHANNEL LIST */}
                     <div className="channel-list" >
                         {joinedChannels.map(channel => link(model, `/messages/channel/${channel.id}`,
-                            <div className={`channel-link ${type === 'channel' && channel.id == id ? 'selected' : ''}`} >
-                                {channel.private ? '$' : '#'} {channel.name}
+                            <div
+                                className={
+                                    `channel-link ${
+                                    type === 'channel' && channel.id == id ? 'selected' : ''
+                                    } ${
+                                    channel.unreadMessages ? 'new' : ''
+                                    }`
+                                }
+                            >
+                                {channel.private ? '$' : '#'} {channel.name} {channel.unreadMessages ? `(${channel.unreadMessages})` : ''}
                             </div>
                         ))}
                     </div>
@@ -167,9 +187,13 @@ const styles = StyleSheet.create({
                     },
                     color: p.white(0.5),
                     '&.selected': {
+                        background: p.acolor(0.5),
+                        color: p.white(0.75)
+                    },
+                    '&.new': {
                         fontWeight: 'bold',
                         color: p.white(0.875)
-                    },
+                    }
                 }
             },
         },

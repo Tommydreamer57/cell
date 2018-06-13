@@ -1,5 +1,5 @@
 import axios from 'axios';
-import initialModel from '../model';
+import { unauthorized } from './utils';
 
 export function authenticate(update) {
     return axios.get('/auth/me')
@@ -9,10 +9,8 @@ export function authenticate(update) {
                 user
             }));
         })
-        .catch(err => {
-            console.error(err);
-            console.log(err);
-        });
+        .catch(unauthorized(update))
+        .catch(console.error);
 }
 
 export function allOrganizations(update) {
@@ -23,6 +21,7 @@ export function allOrganizations(update) {
                 allOrganizations
             }));
         })
+        .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -35,6 +34,7 @@ export function organization(update, id) {
                 organization
             }));
         })
+        .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -47,6 +47,7 @@ export function organizationByChannel(update, id) {
                 organization
             }));
         })
+        .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -66,5 +67,6 @@ export function channel(update, id) {
                 }
             }));
         })
+        .catch(unauthorized(update))
         .catch(console.error);
 }

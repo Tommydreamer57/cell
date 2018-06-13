@@ -1,4 +1,4 @@
-import utils from './utils';
+import { unauthorized } from './utils';
 import axios from 'axios';
 import initialModel from '../model';
 
@@ -19,12 +19,14 @@ function gotUser(update) {
 export function signup(update, { first_name, last_name, username, email, password }) {
     return axios.post('/auth/signup', { first_name, last_name, username, email, password })
         .then(gotUser(update))
+    // .catch(unauthorized(update))
     // .catch(console.error);
 }
 
 export function login(update, username, password) {
     return axios.post('/auth/login', { username, password })
         .then(gotUser(update))
+    // .catch(unauthorized(update))
     // .catch(console.error);
 }
 
@@ -39,6 +41,7 @@ export function logout(update) {
                 history.push('/login');
             });
         })
+        // .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -76,6 +79,7 @@ export function message(update, { type, id, text }) {
                 }
             }));
         })
+        .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -90,6 +94,7 @@ export function newChannel(update, organization_id, name, _private) {
                 return model;
             });
         })
+        .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -104,6 +109,7 @@ export function joinChannel(update, channel_id) {
                 organization
             }));
         })
+        .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -115,6 +121,7 @@ export function joinOrganization(update, organization_id) {
                 user
             }));
         })
+        .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -130,5 +137,6 @@ export function createOrganization(update, name) {
                 }
             }));
         })
+        .catch(unauthorized(update))
         .catch(console.error);
 }
