@@ -3,6 +3,8 @@ const { requireAuthentication, requireAdmin } = require('../middlewares');
 
 module.exports = function addOrganizationEndpointsTo(app) {
 
+    // app.get('/api/test/organization', test);
+
     app.get('/api/organization', requireAuthentication, read);
 
     app.get('/api/organization/:organization_id', requireAuthentication, read);
@@ -11,6 +13,15 @@ module.exports = function addOrganizationEndpointsTo(app) {
 
     app.post('/api/create/organization', requireAuthentication, create);
 
+}
+
+function test(req, res) {
+    req.db.test_read_organization()
+        .then(convertEntireOrganization)
+        .then(organization => {
+            res.status(200).send(organization);
+        })
+        .catch(console.error);
 }
 
 function read(req, res) {

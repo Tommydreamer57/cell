@@ -18,6 +18,16 @@ function remove(regex, obj) {
     return newObj;
 }
 
+function removeFalsy(obj) {
+    let newObj = {};
+    for (let key in obj) {
+        if (obj[key]) {
+            newObj[key] = obj[key];
+        }
+    }
+    return newObj;
+}
+
 module.exports = {
     convertUpdatedMessages(arr) {
         return arr.map(message => {
@@ -61,11 +71,12 @@ module.exports = {
         organization.channels = arr
             .reduce((channels, obj) => {
                 if (obj.channel_id) {
-                    let channel = channels.some(chan => chan.id === obj.channel_id);
+                    let channel = channels.find(chan => chan.id === obj.channel_id);
                     // add last_visited timestamp to channel object
-                    if (channel && obj.channel_id === channel.id && obj.channel_last_visited) {
-                        Object.assign(channel, assign(/^channel_/, obj, 'member_id'));
-                    } else if (!channel) {
+                    if (channel && obj.channel_id === channel.id && (obj.channel_last_visited || obj.channel_previous_last_visited)) {
+                        Object.assign(channel, removeFalsy(assign(/^channel_/, obj, 'member_id')));
+                    }
+                    if (!channel) {
                         let newChannel = assign(/^channel_/, obj, 'member_id');
                         // MEMBERS
                         newChannel.members = arr

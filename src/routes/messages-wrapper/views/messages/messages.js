@@ -19,40 +19,17 @@ export default function create(update) {
         if ($messages) $messages.scrollTop = $messages.scrollHeight;
     }
     // CREATE MESSAGE
-    const sendMessage = ({
-        id,
-        text
-    }) => POST.message(update, {
-        type: 'channel',
-        id,
-        text
-    });
+    const sendMessage = ({ id, text }) => POST.message(update, { type: 'channel', id, text });
     // EDIT MESSAGE
-    const saveEdit = ({
-        channel_id,
-        message_id,
-        text
-    }) => PUT.message(update, {
-        type: 'channel',
-        message_id,
-        channel_id,
-        text
-    });
+    const saveEdit = ({ channel_id, message_id, text }) => PUT.message(update, { type: 'channel', message_id, channel_id, text });
     // DELETE MESSAGE
-    const _delete = ({
-        channel_id,
-        message_id
-    }) => DELETE.message(update, {
-        type: 'channel',
-        message_id,
-        channel_id
-    });
+    const _delete = ({ channel_id, message_id }) => DELETE.message(update, { type: 'channel', message_id, channel_id });
     // COMPONENT
     return {
         data(model) {
             const getOrganization = () => GET.organizationByChannel(update, model.router.match.params.id);
             getOrganization();
-            this.interval = setInterval(getOrganization, 2500);
+            this.interval = setInterval(getOrganization, 5000);
         },
         clear(model) {
             clearInterval(this.interval);
@@ -60,19 +37,22 @@ export default function create(update) {
         view(model) {
             // AFTER RERENDER, SCROLL TO BOTTOM;
             setTimeout(scrollToBottom);
+            // DESTRUCTURE
             let {
                 user,
                 organization
             } = model;
+            // CURRENT CHANNEL
             let channel = organization.channels
                 .find(channel => channel.id == model.router.match.params.id)
                 ||
                 { messages: [] };
+            // ADD DIVIDERS BETWEEN DAYS AND FOR NEW MESSAGES
             let groupedMessages = channel.messages
                 .reduce((arr, message, i) => {
                     let previousMessage = channel.messages[i - 1] || {};
                     if (message.timestamp) {
-                        // ONLY ADD DIVIDER BETWEEN ACTUAL MESSAGES (not loading messages)
+                        // ONLY ADD DAY DIVIDER BETWEEN ACTUAL MESSAGES (not loading messages)
                         let previousDate = convertDate(previousMessage.timestamp);
                         let currentDate = convertDate(message.timestamp);
                         if (previousDate.getDate() !== currentDate.getDate()) {
@@ -81,19 +61,35 @@ export default function create(update) {
                                 date: currentDate
                             });
                         }
+                        // ADD NEW MESSAGES DIVIDER (for notifications)
+                        let lastViewDate = convertDate(channel.previous_last_visited);
+                        if (previousDate < lastViewDate && currentDate > lastViewDate) {
+                            arr.push({
+                                isNotMessage: true,
+                                isNewMessageDivider: true,
+                                date: lastViewDate
+                            });
+                        }
                     }
                     arr.push(message);
                     return arr;
-                }, [])
+                }, []);
+            // RENDER
             return (
                 <Messages id="messages" >
                     {groupedMessages
                         .map(message => (
                             message.isNotMessage ?
-                                <Divider
-                                    key={message.date}
-                                    date={message.date}
-                                />
+                                message.isNewMessageDivider ?
+                                    <Divider
+                                        key={message.date}
+                                        isNewMessageDivider={true}
+                                    />
+                                    :
+                                    <Divider
+                                        key={message.date}
+                                        date={message.date}
+                                    />
                                 :
                                 message.isLoading ?
                                     <Message
@@ -221,7 +217,7 @@ const styles = StyleSheet.create({
                     opacity: 1,
                     background: 'white'
                 },
-                background: '#f3f3f3'
+                background: p.acolor(0.05)
             }
         },
         '& .message-input': {
@@ -255,7 +251,26 @@ const styles = StyleSheet.create({
         '& .divider': {
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            flexDirection: 'column',
+            transform: 'translateY(-50%)',
+            '& h6': {
+                background: '#F3F3F5',
+                padding: '6px 12px',
+                borderRadius: 24,
+                transform: 'translateY(50%)',
+            },
+            '&.notification': {
+                color: 'red',
+                '& .divider-line': {
+                    borderBottom: '1px solid rgba(255, 0, 0, 0.25)',
+                    width: '100%'
+                }
+            },
+            '& .divider-line': {
+                borderBottom: `1px solid ${p.acolor(0.25)}`,
+                width: '100%'
+            }
         }
     }
 });
