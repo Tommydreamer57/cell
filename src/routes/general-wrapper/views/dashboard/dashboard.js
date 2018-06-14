@@ -19,20 +19,20 @@ export default function create(update) {
         },
         view(model) {
             // DESTRUCTURING
-            let { allOrganizations: orgs, user } = model;
+            let { allOrganizations, user } = model;
             return (
                 <Dashboard id="dashboard" >
 
                     {/* OrganizationS TO JOIN */}
                     <CreateOrJoin
-                        organizations={orgs.filter(org => !user.organizations.includes(org.id))}
+                        organizations={allOrganizations.filter(org => !user.organizations.includes(org.id))}
                         join={joinOrganization}
                         create={createOrganization}
                     />
                     {/* OrganizationS ALREADY JOINED */}
                     <div className='joined-organization-list' >
                         <h5>Your Organizations:</h5>
-                        {orgs
+                        {allOrganizations
                             .filter(org => user.organizations.includes(org.id))
                             .map(org => link(model, `/organization/${org.id}`,
                                 <div className='joined-organization' >
@@ -45,7 +45,7 @@ export default function create(update) {
             );
         }
     };
-}
+};
 
 const styles = StyleSheet.create({
     dashboard: {

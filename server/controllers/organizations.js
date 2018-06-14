@@ -1,17 +1,17 @@
 const { convertEntireOrganization, convertOrganization, convertUser } = require('./utils/utils');
-const { requireAuthentication, requireAdmin } = require('../middlewares');
+const { awaitUser, requireAdmin } = require('../middlewares');
 
 module.exports = function addOrganizationEndpointsTo(app) {
 
     // app.get('/api/test/organization', test);
 
-    app.get('/api/organization', requireAuthentication, read);
+    app.get('/api/organization', awaitUser, read);
 
-    app.get('/api/organization/:organization_id', requireAuthentication, read);
+    app.get('/api/organization/:organization_id', awaitUser, read);
 
-    app.post('/api/join/organization/:organization_id', requireAuthentication, join);
+    app.post('/api/join/organization/:organization_id', awaitUser, join);
 
-    app.post('/api/create/organization', requireAuthentication, create);
+    app.post('/api/create/organization', awaitUser, create);
 
 }
 

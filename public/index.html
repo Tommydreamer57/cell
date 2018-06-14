@@ -12,7 +12,15 @@
 </head>
 <body>
     <div id="root"></div>
-    <!-- REMOVE THIS LINE BEFORE PRODUCTION -->
+    <!-- MAKE NUMBERS ITERABLE -->
+    <script>
+        Number.prototype[Symbol.iterator] = function* () {
+                for (let i = 0; i < this; i++) {
+                    yield i;
+                }
+            }
+    </script>
+    <!-- REMOVE THIS SCRIPT BEFORE PRODUCTION -->
     <script>
         (function(){
             let warn = console.warn;

@@ -26,14 +26,17 @@ export default function create(update) {
     const _delete = ({ channel_id, message_id }) => DELETE.message(update, { type: 'channel', message_id, channel_id });
     // COMPONENT
     return {
+        // DATA
         data(model) {
             const getOrganization = () => GET.organizationByChannel(update, model.router.match.params.id);
             getOrganization();
-            this.interval = setInterval(getOrganization, 5000);
+            // this.interval = setInterval(getOrganization, 5000);
         },
+        // CLEAR
         clear(model) {
             clearInterval(this.interval);
         },
+        // VIEW
         view(model) {
             // AFTER RERENDER, SCROLL TO BOTTOM;
             setTimeout(scrollToBottom);
@@ -82,7 +85,7 @@ export default function create(update) {
                             message.isNotMessage ?
                                 message.isNewMessageDivider ?
                                     <Divider
-                                        key={message.date}
+                                        key={'new message divider'}
                                         isNewMessageDivider={true}
                                     />
                                     :

@@ -41,7 +41,7 @@ exports.default = function addMiddlewaresTo(app) {
 
 }
 
-exports.requireAuthentication = function requireAuthentication(req, res, next) {
+exports.awaitUser = function awaitUser(req, res, next) {
     // if (!req.session.user) {
     if (!req.user || !req.user.id) {
         res.status(401).json("unauthorized");

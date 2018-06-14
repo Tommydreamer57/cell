@@ -1,8 +1,11 @@
 import React from 'react';
+// UTILS
 import { createSwitch } from '../../meiosis-router';
 // COMPONENTS
 import createSidenav from './sidenav/sidenav';
 import createHeader from './header/header';
+// HIGHER ORDER
+import awaitUser from '../components/require-authentication';
 // VIEWS
 import createMessages from './views/messages/messages';
 import createOrganization from './views/organization/organization';
@@ -18,15 +21,16 @@ export default function create(update) {
 
     // SWITCH
     let switchh = createSwitch(update,
-        ['/messages/:type/:id', createMessages, update],
-        ['/organization/:id', createOrganization, update],
-        ['/channel/:id', createChannel, update],
+        ['/messages/:type/:id', awaitUser(createMessages), update],
+        ['/organization/:id', awaitUser(createOrganization), update],
+        ['/channel/:id', awaitUser(createChannel), update],
     );
 
     // COMPONENT
     return {
         view(model) {
             let matched = switchh.view(model);
+            console.log(matched, switchh);
             return matched && (
                 <ViewWrapper id="router-view" style={{ left: model.sideWidth, bottom: model.router.location.pathname.match(/messages/) ? 96 : 0 }} >
                     {matched}
@@ -36,7 +40,7 @@ export default function create(update) {
             );
         }
     };
-}
+};
 
 
 const styles = StyleSheet.create({

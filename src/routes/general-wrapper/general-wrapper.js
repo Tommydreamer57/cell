@@ -7,6 +7,8 @@ import createHeader from './header/header';
 import createHome from './views/home/home';
 import createDashboard from './views/dashboard/dashboard';
 import createSignup from './views/login/signup';
+// HIGHER ORDER
+import awaitUser from '../components/require-authentication';
 // STYLES
 import { StyleSheet } from 'aphrodite-jss';
 import wrapper from '../../styles/components';
@@ -18,9 +20,9 @@ export default function createGeneralWrapper(update) {
 
     let switchh = createSwitch(update,
         ['/', createHome, update, true],
-        ['/dashboard', createDashboard, update],
         ['/login', createSignup, update],
         ['/signup', createSignup, update],
+        ['/dashboard', awaitUser(createDashboard), update],
     );
 
     return {

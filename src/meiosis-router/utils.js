@@ -2,7 +2,6 @@
 // FIND CORRECT ROUTE
 function createMatch(pathname, routes, exact = true) {
     console.log("CREATING MATCH: " + pathname);
-    console.log(routes);
     if (!pathname || !routes || !routes.length) return '';
     let pathArr = pathname.split('/');
     return routes.find(route => {
@@ -38,7 +37,6 @@ function parse(pathname, route) {
 // FIND CORRECT ROUTE AND CREATE MATCH OBJECT
 export function matchAndParse(pathname, routes) {
     console.log("MATCHING AND PARSING: " + pathname);
-    console.log(routes);
     let exact = true;
     let route = createMatch(pathname, routes.map(route => route.path), exact);
     if (!route) {
