@@ -9,6 +9,7 @@
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
+    "aphrodite": "^2.2.2",
     "aphrodite-jss": "^2.0.0",
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",

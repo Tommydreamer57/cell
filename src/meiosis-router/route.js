@@ -52,9 +52,12 @@ export function createRoute(path, createComponent, update, exact, register = tru
     let component = createComponent(update);
     if (register) registerRoute(update, path, exact);
     return {
-        get path() { return path },
-        set path(v) { throw new Error('cannot change path on route') },
         ...component,
+        path,
+        view(model) {
+            if (model.router.match.route !== path) return null;
+            else return component.view(model)
+        }
     };
 }
 

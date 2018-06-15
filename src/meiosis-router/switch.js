@@ -21,9 +21,6 @@ export default function create(update, ...routes) {
                 if (typeof previous.clear === 'function') previous.clear(model);
                 if (typeof current.data === 'function') current.data(model);
             }
-            console.log(model.router);
-            console.log(children);
-            console.log(currentChild);
             // return view of correct child
             return currentChild.view(model);
         }

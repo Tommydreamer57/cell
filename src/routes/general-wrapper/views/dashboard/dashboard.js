@@ -4,6 +4,7 @@ import { link } from '../../../../meiosis-router';
 import { GET, POST } from '../../../../http';
 // COMPONENTS
 import CreateOrJoin from './CreateOrJoin';
+import { Loading } from '../../../../styles/logo';
 // STYLES
 import wrapper from '../../../../styles/components';
 import { StyleSheet } from 'aphrodite-jss';
@@ -32,14 +33,19 @@ export default function create(update) {
                     {/* OrganizationS ALREADY JOINED */}
                     <div className='joined-organization-list' >
                         <h5>Your Organizations:</h5>
-                        {allOrganizations
-                            .filter(org => user.organizations.includes(org.id))
-                            .map(org => link(model, `/organization/${org.id}`,
-                                <div className='joined-organization' >
-                                    <h3>{org.name}</h3>
-                                    <span>Launch</span>
-                                </div>
-                            ))}
+                        {allOrganizations.length ?
+                            allOrganizations
+                                .filter(org => user.organizations.includes(org.id))
+                                .map(org => link(model, `/organization/${org.id}`,
+                                    <div className='joined-organization' >
+                                        <h3>{org.name}</h3>
+                                        <span>Launch</span>
+                                    </div>
+                                ))
+                            :
+                            <div className="loading-wrapper">
+                                <Loading size={26} />
+                            </div>}
                     </div>
                 </Dashboard>
             );
@@ -128,8 +134,19 @@ const styles = StyleSheet.create({
             }
         },
         '& .joined-organization-list': {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'stretch',
             margin: '24px 0',
             width: '35vw',
+            '& .loading-wrapper': {
+                paddingTop: 18,
+                width: 'fill',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            },
             '& h5': {
                 margin: '16px 0'
             },

@@ -21,7 +21,7 @@ export default function create(update) {
     let logout = createLogout(update);
     // COMPONENT
     return {
-        view(model) { 
+        view(model) {
             let {
                 router: {
                     history,
@@ -32,6 +32,7 @@ export default function create(update) {
                 }
             } = model;
             if (state) var { message } = state;
+            if (model.user.id) var message = 'Looks like you\'re already logged in';
             return (
                 <LoginWrapper id="login" >
                     {message && <h3>{message}</h3>}
@@ -123,8 +124,38 @@ const styles = StyleSheet.create({
                     marginBottom: 0
                 }
             },
-            '& .logout-button-wrapper': {
-                padding: 12
+            '&.logout-wrapper': {
+                '& .loading-wrapper': {
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                },
+                '& h3, h5': {
+                    padding: 0,
+                    marginBottom: 18
+                },
+                '& h5': {
+                    '&:last-of-type': {
+                        marginBottom: 0
+                    }
+                },
+                '& .logout-button-wrapper': {
+                    padding: 12,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    '& button': {
+                        padding: '6px 12px',
+                        borderRadius: 5,
+                        background: p.color2,
+                        background: p.acolor(0.125),
+                    },
+                    '& a': {
+                        '& button': {
+                            background: p.acolor2(0.75),
+                            color: p.white(0.875)
+                        }
+                    },
+                }
             }
         }
     }

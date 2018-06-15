@@ -22,12 +22,14 @@ const reset = {
 const color = `rgb(${r}, ${g}, ${b})`;
 const acolor = a => `rgba(${r}, ${g}, ${b}, ${a})`;
 const color2 = `rgb(29, 42, 158)`;
+const acolor2 = a => `rgba(29, 42, 158, ${a})`;
 const white = a => `rgba(255, 255, 255, ${a})`
 
 export default {
     color,
     acolor,
     color2,
+    acolor2,
     reset,
     white,
     primaryBtn: {

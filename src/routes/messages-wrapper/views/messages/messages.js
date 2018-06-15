@@ -55,15 +55,6 @@ export default function create(update) {
                 .reduce((arr, message, i) => {
                     let previousMessage = channel.messages[i - 1] || {};
                     if (message.timestamp) {
-                        // ONLY ADD DAY DIVIDER BETWEEN ACTUAL MESSAGES (not loading messages)
-                        let previousDate = convertDate(previousMessage.timestamp);
-                        let currentDate = convertDate(message.timestamp);
-                        if (previousDate.getDate() !== currentDate.getDate()) {
-                            arr.push({
-                                isNotMessage: true,
-                                date: currentDate
-                            });
-                        }
                         // ADD NEW MESSAGES DIVIDER (for notifications)
                         let lastViewDate = convertDate(channel.previous_last_visited);
                         if (previousDate < lastViewDate && currentDate > lastViewDate) {
@@ -71,6 +62,15 @@ export default function create(update) {
                                 isNotMessage: true,
                                 isNewMessageDivider: true,
                                 date: lastViewDate
+                            });
+                        }
+                        // ONLY ADD DAY DIVIDER BETWEEN ACTUAL MESSAGES (not loading messages)
+                        let previousDate = convertDate(previousMessage.timestamp);
+                        let currentDate = convertDate(message.timestamp);
+                        if (previousDate.getDate() !== currentDate.getDate()) {
+                            arr.push({
+                                isNotMessage: true,
+                                date: currentDate
                             });
                         }
                     }

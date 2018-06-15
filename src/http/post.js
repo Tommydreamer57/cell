@@ -31,11 +31,16 @@ export function login(update, username, password) {
 }
 
 export function logout(update) {
+    update(model => ({
+        ...model,
+        loggingOut: true
+    }));
     return axios.post('/auth/logout')
         .then(() => {
             update(model => ({
                 ...model,
-                user: initialModel.user
+                user: initialModel.user,
+                loggingOut: false
             }));
             update(({ router: { history } }) => {
                 history.push('/login');

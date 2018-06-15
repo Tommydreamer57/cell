@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite-jss';
+import { StyleSheet as Aphrodite, css as anim } from 'aphrodite';
 import p from './presets';
 
 export default function Logo({ size = 24, ...props }) {
@@ -48,6 +49,7 @@ export default function Logo({ size = 24, ...props }) {
     );
 }
 
+
 export function Carat({ size = 12, ...props }) {
 
     const styles = StyleSheet.create({
@@ -77,23 +79,24 @@ export function Carat({ size = 12, ...props }) {
     );
 }
 
-export class Loading extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            rotation: 0
-        };
-        const size = props.size || 20;
-        const duration = props.duration || 1.25;
-        const color = props.color || p.color2;
-        this.duration = duration;
-        this.styles = StyleSheet.create({
-            loading: {
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
+export function Loading({ size = 20, color = p.color2, duration = 1.24 }) {
+    const styles = StyleSheet.create({
+        loading: {
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: size,
+            width: size,
+            maxWidth: size,
+            maxHeight: size,
+            minWidth: size,
+            minHeight: size,
+            borderRadius: '100%',
+            transition: `transform ${duration}s linear`,
+            '& .circle': {
+                background: 'white',
                 height: size,
                 width: size,
                 maxWidth: size,
@@ -101,63 +104,34 @@ export class Loading extends Component {
                 minWidth: size,
                 minHeight: size,
                 borderRadius: '100%',
-                transition: `transform ${duration}s linear`,
-                '& .circle': {
-                    background: 'white',
-                    height: size,
-                    width: size,
-                    maxWidth: size,
-                    maxHeight: size,
-                    minWidth: size,
-                    minHeight: size,
-                    borderRadius: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderTop: `3px solid ${color}`,
-                    borderLeft: `3px solid rgba(0, 0, 0, 0)`,
-                    borderRight: `3px solid ${color}`,
-                    borderBottom: `3px solid ${color}`,
-                    '& .inner-circle': {
-                        height: 0,
-                        width: 0,
-                        borderRadius: '100%',
-                        // borderLeft: `${size * 0.4}px solid ${color}`,
-                        borderRight: `${size * 0.4}px solid rgba(0, 0, 0, 0)`,
-                        borderTop: `${size * 0.4}px solid rgba(0, 0, 0, 0)`,
-                        borderBottom: `${size * 0.4}px solid rgba(0, 0, 0, 0)`,
-                        opacity: 0.5,
-                        zIndex: 1
-                    },
-                },
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderTop: `3px solid ${color}`,
+                borderLeft: `3px solid rgba(0, 0, 0, 0)`,
+                borderRight: `3px solid ${color}`,
+                borderBottom: `3px solid ${color}`,
             },
-        });
-        this.rotate = this.rotate.bind(this);
-    }
-
-    componentDidMount() {
-        this.timeouts = [setTimeout(this.rotate)];
-    }
-
-    componentWillUnmount() {
-        this.timeouts.forEach(clearTimeout);
-    }
-
-    rotate() {
-        this.setState({ rotation: this.state.rotation + 360 });
-        this.timeouts.push(setTimeout(this.rotate, this.duration * 1000));
-    }
-
-    render() {
-
-        let { props, styles, state: { rotation } } = this;
-
-        return (
-            <div {...props} className={'loading ' + css(styles.loading)} style={{ transform: `rotate(${rotation}deg)` }} >
-                <div className='circle'>
-                    {/* <div className='inner-circle' /> */}
-                </div>
-            </div>
-        );
-    }
+        },
+    });
+    const animations = Aphrodite.create({
+        rotate: {
+            animationName: {
+                from: {
+                    transform: 'rotate(0deg)'
+                },
+                to: {
+                    transform: 'rotate(360deg)'
+                }
+            },
+            animationDuration: `${duration}s`,
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'linear'
+        }
+    })
+    return (
+        <div className={'loading ' + css(styles.loading) + ' ' + anim(animations.rotate)} >
+            <div className='circle' />
+        </div>
+    );
 }

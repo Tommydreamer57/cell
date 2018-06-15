@@ -30,7 +30,6 @@ export default function create(update) {
     return {
         view(model) {
             let matched = switchh.view(model);
-            console.log(matched, switchh);
             return matched && (
                 <ViewWrapper id="router-view" style={{ left: model.sideWidth, bottom: model.router.location.pathname.match(/messages/) ? 96 : 0 }} >
                     {matched}
