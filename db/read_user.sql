@@ -11,4 +11,4 @@ SELECT cell_users.id, first_name, last_name, username, email, admin, organizatio
 LEFT JOIN organizations ON organizations.user_id = cell_users.id
 LEFT JOIN channels ON channels.user_id = cell_users.id AND channels.organization_id = organizations.organization_id
 WHERE cell_users.id = ${user_id}
-OR (username = ${username} AND hash = ${hash});
+OR (username ILIKE ${username} AND hash = ${hash});
