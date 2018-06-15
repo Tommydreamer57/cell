@@ -1,6 +1,5 @@
 import React from 'react';
 // UTILS
-import initialModel from '../../../../model';
 import { GET, POST, PUT, DELETE, UTILS } from '../../../../http';
 import { convertDate } from '../../../date-parser';
 // COMPONENTS

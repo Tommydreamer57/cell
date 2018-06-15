@@ -18,5 +18,7 @@ export default function meiosis(createApp, model, render, ...middles) {
         }
     }
 
+    update.get = key => model[key];
+
     update(m => m);
 }

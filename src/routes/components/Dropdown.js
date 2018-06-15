@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { GET } from '../../http';
-import { link } from '../../meiosis-router';
 
 export default class Dropdown extends Component {
     constructor() {

@@ -5,7 +5,7 @@ export default function watchUrl(update) {
 
     let history = createHistory();
 
-    function updateHistory(location = window.location, action) {
+    function updateHistory(location, action) {
         update(model => ({
             ...model,
             router: {
@@ -19,7 +19,7 @@ export default function watchUrl(update) {
 
     history.listen(updateHistory);
 
-    updateHistory();
+    updateHistory(window.location);
 
     return function routerMiddleware(model) {
         if (model.router.hasOwnProperty('changed') && !model.router.changed) return model;
