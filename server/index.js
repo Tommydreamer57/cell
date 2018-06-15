@@ -6,8 +6,6 @@ const { default: applyMiddlewaresTo } = require('./middlewares');
 const addAllEndpointsTo = require('./endpoints');
 // DATABASE
 const connectDbTo = require('./database');
-// SOCKETS
-const connectSocketsTo = require('./sockets');
 // ENV
 require('dotenv').config();
 
@@ -33,7 +31,4 @@ app.get('*', (req, res) => {
 });
 
 // LISTEN
-const server = app.listen(3021, () => console.log('Cells on 3021!'));
-
-// SOCKETS
-connectSocketsTo(server);
+app.listen(3021, () => console.log('Cells on 3021!'));

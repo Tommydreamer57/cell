@@ -19,88 +19,98 @@ export default function create(update) {
         if ($messages) $messages.scrollTop = $messages.scrollHeight;
     }
     // CREATE MESSAGE
-    const sendMessage = ({
-        id,
-        text
-    }) => POST.message(update, {
-        type: 'channel',
-        id,
-        text
-    });
+    const sendMessage = ({ id, text }) => POST.message(update, { type: 'channel', id, text });
     // EDIT MESSAGE
-    const saveEdit = ({
-        channel_id,
-        message_id,
-        text
-    }) => PUT.message(update, {
-        type: 'channel',
-        message_id,
-        channel_id,
-        text
-    });
+    const saveEdit = ({ channel_id, message_id, text }) => PUT.message(update, { type: 'channel', message_id, channel_id, text });
     // DELETE MESSAGE
-    const _delete = ({
-        channel_id,
-        message_id
-    }) => DELETE.message(update, {
-        type: 'channel',
-        message_id,
-        channel_id
-    });
+    const _delete = ({ channel_id, message_id }) => DELETE.message(update, { type: 'channel', message_id, channel_id });
     // COMPONENT
     return {
+        // DATA
         data(model) {
-            if (!model.organization.id) {
-                GET.organizationByChannel(update, model.router.match.params.id)
-                    .then(scrollToBottom)
-                    .catch(scrollToBottom);
-            } else scrollToBottom();
-            // UTILS.requireAuthentication(update);
+            const getOrganization = () => GET.organizationByChannel(update, model.router.match.params.id);
+            getOrganization();
+            // this.interval = setInterval(getOrganization, 5000);
         },
+        // CLEAR
+        clear(model) {
+            clearInterval(this.interval);
+        },
+        // VIEW
         view(model) {
             // AFTER RERENDER, SCROLL TO BOTTOM;
             setTimeout(scrollToBottom);
+            // DESTRUCTURE
             let {
                 user,
                 organization
             } = model;
+            // CURRENT CHANNEL
             let channel = organization.channels
                 .find(channel => channel.id == model.router.match.params.id)
                 ||
                 { messages: [] };
+            // ADD DIVIDERS BETWEEN DAYS AND FOR NEW MESSAGES
             let groupedMessages = channel.messages
                 .reduce((arr, message, i) => {
                     let previousMessage = channel.messages[i - 1] || {};
-                    let previousDate = convertDate(previousMessage.timestamp);
-                    let currentDate = convertDate(message.timestamp);
-                    if (previousDate.getDate() !== currentDate.getDate()) {
-                        arr.push({
-                            isNotMessage: true,
-                            date: currentDate
-                        });
+                    if (message.timestamp) {
+                        // ADD NEW MESSAGES DIVIDER (for notifications)
+                        let lastViewDate = convertDate(channel.previous_last_visited);
+                        if (previousDate < lastViewDate && currentDate > lastViewDate) {
+                            arr.push({
+                                isNotMessage: true,
+                                isNewMessageDivider: true,
+                                date: lastViewDate
+                            });
+                        }
+                        // ONLY ADD DAY DIVIDER BETWEEN ACTUAL MESSAGES (not loading messages)
+                        let previousDate = convertDate(previousMessage.timestamp);
+                        let currentDate = convertDate(message.timestamp);
+                        if (previousDate.getDate() !== currentDate.getDate()) {
+                            arr.push({
+                                isNotMessage: true,
+                                date: currentDate
+                            });
+                        }
                     }
                     arr.push(message);
                     return arr;
-                }, [])
+                }, []);
+            // RENDER
             return (
                 <Messages id="messages" >
                     {groupedMessages
                         .map(message => (
                             message.isNotMessage ?
-                                <Divider
-                                    key={message.date}
-                                    date={message.date}
-                                />
+                                message.isNewMessageDivider ?
+                                    <Divider
+                                        key={'new message divider'}
+                                        isNewMessageDivider={true}
+                                    />
+                                    :
+                                    <Divider
+                                        key={message.date}
+                                        date={message.date}
+                                    />
                                 :
-                                <Message
-                                    key={message.id}
-                                    channel={channel}
-                                    message={message}
-                                    author={organization.members.find(({ id }) => id === message.author_id)}
-                                    own={user.id === message.author_id}
-                                    saveEdit={saveEdit}
-                                    _delete={_delete}
-                                />
+                                message.isLoading ?
+                                    <Message
+                                        key={message.timestamp}
+                                        message={message}
+                                        loading={true}
+                                        author={organization.members.find(({ id }) => id === message.author_id)}
+                                    />
+                                    :
+                                    <Message
+                                        key={message.id}
+                                        channel={channel}
+                                        message={message}
+                                        author={organization.members.find(({ id }) => id === message.author_id)}
+                                        own={user.id === message.author_id}
+                                        saveEdit={saveEdit}
+                                        _delete={_delete}
+                                    />
                         ))}
                     <MessageInput
                         channel={channel}
@@ -131,6 +141,14 @@ const styles = StyleSheet.create({
             position: 'relative',
             display: 'flex',
             padding: '8px 24px',
+            '& .loading-wrapper': {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 45,
+                width: 45,
+                marginRight: 10
+            },
             '& .image-wrapper': {
                 height: 45,
                 width: 45,
@@ -202,7 +220,7 @@ const styles = StyleSheet.create({
                     opacity: 1,
                     background: 'white'
                 },
-                background: '#f3f3f3'
+                background: p.acolor(0.05)
             }
         },
         '& .message-input': {
@@ -236,7 +254,26 @@ const styles = StyleSheet.create({
         '& .divider': {
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            flexDirection: 'column',
+            transform: 'translateY(-50%)',
+            '& h6': {
+                background: '#F3F3F5',
+                padding: '6px 12px',
+                borderRadius: 24,
+                transform: 'translateY(50%)',
+            },
+            '&.notification': {
+                color: 'red',
+                '& .divider-line': {
+                    borderBottom: '1px solid rgba(255, 0, 0, 0.25)',
+                    width: '100%'
+                }
+            },
+            '& .divider-line': {
+                borderBottom: `1px solid ${p.acolor(0.25)}`,
+                width: '100%'
+            }
         }
     }
 });

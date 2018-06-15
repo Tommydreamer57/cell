@@ -22,12 +22,24 @@ export default function create(update) {
     // COMPONENT
     return {
         view(model) {
+            let {
+                router: {
+                    history,
+                    location: {
+                        pathname,
+                        state
+                    }
+                }
+            } = model;
+            if (state) var { message } = state;
+            if (model.user.id) var message = 'Looks like you\'re already logged in';
             return (
                 <LoginWrapper id="login" >
+                    {message && <h3>{message}</h3>}
                     {model.user.id ?
                         logout.view(model)
                         :
-                        <Login history={model.router.history} login={login} signup={signup} />}
+                        <Login location={pathname} history={history} login={login} signup={signup} />}
                 </LoginWrapper>
             );
         }
@@ -41,9 +53,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingTop: '27.5vh',
-        // '& h2': {
-        //     padding: 48
-        // },
+        '& > h3': {
+            marginTop: '-8vh',
+            marginBottom: '8vh'
+        },
         '& .login-box': {
             display: 'flex',
             justifyContent: 'center',
@@ -53,6 +66,23 @@ const styles = StyleSheet.create({
             borderRadius: 5,
             width: '27.5%',
             background: 'white',
+            '& .loading-wrapper': {
+                display: 'flex',
+                justifyContent: 'center',
+                width: 'calc(100% - 32px)',
+                padding: 16,
+                paddingTop: 32
+            },
+            '&.failed': {
+                '& p': {
+                    color: 'red',
+                    padding: 6
+                },
+                '& input': {
+                    border: '1px solid red',
+                    outline: 'none'
+                },
+            },
             '& .button-wrapper': {
                 display: 'flex',
                 justifyContent: 'space-around',
@@ -94,8 +124,38 @@ const styles = StyleSheet.create({
                     marginBottom: 0
                 }
             },
-            '& .logout-button-wrapper': {
-                padding: 12
+            '&.logout-wrapper': {
+                '& .loading-wrapper': {
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                },
+                '& h3, h5': {
+                    padding: 0,
+                    marginBottom: 18
+                },
+                '& h5': {
+                    '&:last-of-type': {
+                        marginBottom: 0
+                    }
+                },
+                '& .logout-button-wrapper': {
+                    padding: 12,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    '& button': {
+                        padding: '6px 12px',
+                        borderRadius: 5,
+                        background: p.color2,
+                        background: p.acolor(0.125),
+                    },
+                    '& a': {
+                        '& button': {
+                            background: p.acolor2(0.75),
+                            color: p.white(0.875)
+                        }
+                    },
+                }
             }
         }
     }

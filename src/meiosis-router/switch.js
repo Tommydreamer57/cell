@@ -6,7 +6,7 @@ export default function create(update, ...routes) {
     let current = {};
     let previousLocation = "";
     let currentLocation = "";
-    let emptyChild = { view() { return null; } };
+    let emptyChild = { view() { return null } };
     return {
         view(model) {
             // find correct child
@@ -18,9 +18,8 @@ export default function create(update, ...routes) {
             [previousLocation, currentLocation] = [currentLocation, currentPathname];
             // if changing pathnames or locations
             if (previous !== current || previousLocation !== currentLocation) {
-                // settimeout to wait for components to finish mounting
-                if (typeof current.data === 'function') current.data(model);
                 if (typeof previous.clear === 'function') previous.clear(model);
+                if (typeof current.data === 'function') current.data(model);
             }
             // return view of correct child
             return currentChild.view(model);

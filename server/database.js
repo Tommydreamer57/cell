@@ -9,8 +9,8 @@ module.exports = function (app) {
             app.set('db', db);
         })
         .catch(err => {
-            console.log("Database Error");
-            console.log(err);
+            console.error("Database Error");
+            console.error(err);
         });
 }
 
@@ -22,8 +22,8 @@ function reset(db) {
                     return axios.put('http://localhost:3021/auth/reset', { username, newPassword: username });
                 })
             ])
-                .then(responses => console.log("done refreshing db", responses.map(({ data }) => data)))
-                .catch(console.log);
+                .then(responses => console.log(responses.map(({ data }) => data), "done refreshing db"))
+                .catch(console.error);
         })
         .catch(console.error);
 }

@@ -69,6 +69,8 @@ function login(req, res) {
             console.log(err)
             if (err.match(/Cannot match against/)) {
                 res.status(401).json('invalid credentials');
+            } else if (err.match(/Cannot destructure/)) {
+                res.status(401).json('invalid username');
             } else {
                 res.status(500).send({ err });
             }

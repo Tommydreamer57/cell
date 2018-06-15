@@ -12,18 +12,17 @@ export default function watchUrl(update) {
                 ...model.router,
                 history,
                 location,
-                updateModel: true
+                changed: true
             }
-        }))
+        }));
     }
 
     history.listen(updateHistory);
 
-    setTimeout(updateHistory);
+    updateHistory();
 
     return function routerMiddleware(model) {
-        if (!model.router.updateModel) return model;
-        console.log(model.router.routes);
+        if (model.router.hasOwnProperty('changed') && !model.router.changed) return model;
         const match = matchAndParse(model.router.history.location.pathname, model.router.routes);
         return {
             ...model,
@@ -31,7 +30,7 @@ export default function watchUrl(update) {
                 ...model.router,
                 history,
                 match,
-                updateModel: false
+                changed: false
             }
         };
     }

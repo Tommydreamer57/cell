@@ -19,7 +19,7 @@ export default function create(update) {
                 header = organization.name;
             }
             return (
-                <Header style={{ left: model.sideWidth, width: `calc(100vw - 48px - ${model.sideWidth})` }} >
+                <Header style={{ width: `calc(100vw - 48px - ${model.sideWidth})` }} >
                     <h3>{header}</h3>
                     <input placeholder="search" />
                 </Header>
@@ -33,8 +33,7 @@ const styles = StyleSheet.create({
         position: 'fixed',
         top: 0,
         display: 'flex',
-        left: '20vw',
-        width: 'calc(80vw - 48px)',
+        width: 'calc(100% - 48px)',
         padding: '16px 24px',
         background: p.acolor(0.125),
         justifyContent: 'space-between',

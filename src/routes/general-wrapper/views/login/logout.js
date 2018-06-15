@@ -3,6 +3,7 @@ import React from 'react';
 import { POST } from '../../../../http';
 // COMPONENTS
 import { link } from '../../../../meiosis-router';
+import { Loading } from '../../../../styles/logo';
 
 
 export default function createLogout(update) {
@@ -11,22 +12,28 @@ export default function createLogout(update) {
 
     return {
         view(model) {
-            let { user } = model;
+            let { user, loggingOut } = model;
             return (
-                <div className="login-box" >
-                    <h5>Looks like your already logged in</h5>
-                    <div className="input-wrapper" >
-                        <h3>@{user.username}</h3>
-                        <h3>{user.first_name} {user.last_name}</h3>
-                        <h3>{user.email}</h3>
+                loggingOut ?
+                    <div className="login-box logout-wrapper">
+                        <div className="loading-wrapper" >
+                            <Loading />
+                        </div>
                     </div>
-                    <div className="logout-button-wrapper">
-                        {link(model, '/dashboard', (
-                            <button>Continue to Dashboard</button>
-                        ))}
-                        <button onClick={logout} >Logout</button>
+                    :
+                    <div className="login-box logout-wrapper" >
+                        <div className="input-wrapper" >
+                            <h3>{user.first_name} {user.last_name}</h3>
+                            <h5>@{user.username}</h5>
+                            <h5>{user.email}</h5>
+                        </div>
+                        <div className="logout-button-wrapper">
+                            {link(model, '/dashboard', (
+                                <button>Continue to Dashboard</button>
+                            ))}
+                            <button onClick={logout} >Logout</button>
+                        </div>
                     </div>
-                </div>
             );
         }
     }

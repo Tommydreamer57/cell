@@ -18,6 +18,16 @@ function remove(regex, obj) {
     return newObj;
 }
 
+function removeFalsy(obj) {
+    let newObj = {};
+    for (let key in obj) {
+        if (obj[key]) {
+            newObj[key] = obj[key];
+        }
+    }
+    return newObj;
+}
+
 module.exports = {
     convertUpdatedMessages(arr) {
         return arr.map(message => {
@@ -45,8 +55,9 @@ module.exports = {
         return user;
     },
     convertEntireOrganization(arr) {
-        // Organization
+        // ORGANIZATION
         let organization = assign(/^organization_/, arr[0], 'channel_id', 'member_id');
+        organization.last_visited = (arr.find(obj => obj.organization_last_visited) || {}).organization_last_visited;
         // MEMBERS
         organization.members = arr
             .reduce((members, obj) => {
@@ -59,25 +70,32 @@ module.exports = {
         // CHANNELS
         organization.channels = arr
             .reduce((channels, obj) => {
-                if (obj.channel_id && !channels.some(channel => channel.id === obj.channel_id)) {
-                    let newChannel = assign(/^channel_/, obj, 'member_id');
-                    // MEMBERS
-                    newChannel.members = arr
-                        .reduce((members, { channel_id, member_id }) => {
-                            if (!members.includes(member_id) && channel_id === newChannel.id) {
-                                members.push(member_id);
-                            }
-                            return members;
-                        }, []);
-                    // MESSAGES
-                    newChannel.messages = arr
-                        .reduce((messages, obj) => {
-                            if (obj.channel_id === newChannel.id && obj.message_id && !messages.some(message => message.id === obj.message_id)) {
-                                messages.push(assign(/^message_/, obj, 'channel_id'));
-                            }
-                            return messages;
-                        }, []);
-                    channels.push(newChannel);
+                if (obj.channel_id) {
+                    let channel = channels.find(chan => chan.id === obj.channel_id);
+                    // add last_visited timestamp to channel object
+                    if (channel && obj.channel_id === channel.id && (obj.channel_last_visited || obj.channel_previous_last_visited)) {
+                        Object.assign(channel, removeFalsy(assign(/^channel_/, obj, 'member_id')));
+                    }
+                    if (!channel) {
+                        let newChannel = assign(/^channel_/, obj, 'member_id');
+                        // MEMBERS
+                        newChannel.members = arr
+                            .reduce((members, { channel_id, member_id }) => {
+                                if (!members.includes(member_id) && channel_id === newChannel.id) {
+                                    members.push(member_id);
+                                }
+                                return members;
+                            }, []);
+                        // MESSAGES
+                        newChannel.messages = arr
+                            .reduce((messages, obj) => {
+                                if (obj.channel_id === newChannel.id && obj.message_id && !messages.some(message => message.id === obj.message_id)) {
+                                    messages.push(assign(/^message_/, obj, 'channel_id'));
+                                }
+                                return messages;
+                            }, []);
+                        channels.push(newChannel);
+                    }
                 }
                 return channels;
             }, []);

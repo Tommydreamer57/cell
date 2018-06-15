@@ -1,4 +1,4 @@
-import utils from './utils';
+// import { unauthorized } from './utils';
 import axios from 'axios';
 import initialModel from '../model';
 
@@ -19,38 +19,72 @@ function gotUser(update) {
 export function signup(update, { first_name, last_name, username, email, password }) {
     return axios.post('/auth/signup', { first_name, last_name, username, email, password })
         .then(gotUser(update))
-        .catch(console.error);
+    // .catch(unauthorized(update))
+    // .catch(console.error);
 }
 
 export function login(update, username, password) {
     return axios.post('/auth/login', { username, password })
         .then(gotUser(update))
-        .catch(console.error);
+    // .catch(unauthorized(update))
+    // .catch(console.error);
 }
 
 export function logout(update) {
+    update(model => ({
+        ...model,
+        loggingOut: true
+    }));
     return axios.post('/auth/logout')
         .then(() => {
             update(model => ({
                 ...model,
-                user: initialModel.user
+                user: initialModel.user,
+                loggingOut: false
             }));
             update(({ router: { history } }) => {
                 history.push('/login');
             });
         })
+        // .catch(unauthorized(update))
         .catch(console.error);
 }
 
 export function message(update, { type, id, text }) {
+    update(model => ({
+        ...model,
+        organization: {
+            ...model.organization,
+            channels: model.organization.channels
+                .map(channel => {
+                    if (channel.id == id) {
+                        return {
+                            ...channel,
+                            messages: [...channel.messages, { isLoading: true, text, author_id: model.user.id }]
+                        };
+                    } else return channel;
+                })
+        }
+    }));
     return axios.post(`/api/messages/${type}/${id}`, { text })
         .then(({ data: messages }) => {
-            update(model => {
-                console.log("UPDATING MODEL ON SEND MESSAGE");
-                model.organization[type + 's'].find(group => group.id == id).messages = messages;
-                return model;
-            });
+            update(model => ({
+                ...model,
+                organization: {
+                    ...model.organization,
+                    channels: model.organization.channels
+                        .map(channel => {
+                            if (channel.id == id) {
+                                return {
+                                    ...channel,
+                                    messages
+                                }
+                            } else return channel;
+                        })
+                }
+            }));
         })
+        // .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -65,6 +99,7 @@ export function newChannel(update, organization_id, name, _private) {
                 return model;
             });
         })
+        // .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -79,6 +114,7 @@ export function joinChannel(update, channel_id) {
                 organization
             }));
         })
+        // .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -90,6 +126,7 @@ export function joinOrganization(update, organization_id) {
                 user
             }));
         })
+        // .catch(unauthorized(update))
         .catch(console.error);
 }
 
@@ -105,5 +142,6 @@ export function createOrganization(update, name) {
                 }
             }));
         })
+        // .catch(unauthorized(update))
         .catch(console.error);
 }

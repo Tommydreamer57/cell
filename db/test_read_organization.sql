@@ -2,15 +2,15 @@ UPDATE cell_organization_memberships
 SET
 previous_last_visited = last_visited,
 last_visited = CURRENT_TIMESTAMP
-WHERE member_id = ${user_id}
-AND organization_id = ${organization_id};
+WHERE member_id = 1
+AND organization_id = 2; -- organization_id
 
 UPDATE cell_channel_memberships
 SET
 previous_last_visited = last_visited,
 last_visited = CURRENT_TIMESTAMP
-WHERE member_id = ${user_id}
-AND channel_id = ${channel_id};
+WHERE member_id = 1
+AND channel_id = 3; -- channel_id
 
 WITH
 organizations AS (
@@ -40,7 +40,7 @@ channels AS (
     cell_channel_memberships.member_id AS channel_member_id
     FROM cell_channels
     LEFT JOIN cell_channel_memberships ON cell_channel_memberships.channel_id = cell_channels.id
-    WHERE cell_channels.private = false OR cell_channels.id IN (SELECT channel_id FROM cell_channel_memberships WHERE member_id = ${user_id})
+    WHERE cell_channels.private = false OR cell_channels.id IN (SELECT channel_id FROM cell_channel_memberships WHERE member_id = 1)
 ),
 visits AS (
     SELECT
@@ -48,7 +48,7 @@ visits AS (
     previous_last_visited AS channel_previous_last_visited,
     channel_id
     FROM cell_channel_memberships
-    WHERE member_id = ${user_id}
+    WHERE member_id = 1
 ),
 messages AS (
     SELECT
@@ -78,7 +78,7 @@ LEFT OUTER JOIN channels
 ON channels.channel_id = organizations.organization_channel_id
 AND channels.channel_member_id = organizations.organization_member_id
 -- VISITS
-LEFT JOIN visits
+LEFT OUTER JOIN visits
 ON visits.channel_id = channels.channel_id
 -- MESSAGES
 LEFT OUTER JOIN messages
@@ -87,6 +87,6 @@ AND messages.message_author_id = channels.channel_member_id
 -- MEMBERS
 JOIN members
 ON members.member_id = organizations.organization_member_id
-WHERE organization_id = ${organization_id}
-OR organization_id IN (SELECT organization_id FROM cell_channels WHERE cell_channels.id = ${channel_id})
+WHERE organization_id = 3 -- organization_id
+OR organization_id IN (SELECT organization_id FROM cell_channels WHERE cell_channels.id = 3) -- channel_id
 ORDER BY messages.message_timestamp;
