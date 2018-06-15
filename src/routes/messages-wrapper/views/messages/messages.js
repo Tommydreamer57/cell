@@ -30,7 +30,7 @@ export default function create(update) {
         data(model) {
             const getOrganization = () => GET.organizationByChannel(update, model.router.match.params.id);
             getOrganization();
-            // this.interval = setInterval(getOrganization, 5000);
+            this.interval = setInterval(getOrganization, 5000);
         },
         // CLEAR
         clear(model) {
