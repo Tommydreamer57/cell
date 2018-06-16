@@ -27,7 +27,9 @@ Routing of all view setup first
     - list of members
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    STYLED    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   FUNCTIONAL   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 ==================================   END OF WEEK GOAL   ==========================================
 
  - Messages (/messages/:type/:id)
@@ -40,25 +42,39 @@ Routing of all view setup first
 For now, just take on anything in the list below. Let the channel know which feature you are taking and which files you will be in to avoid merge conflicts
 
  - Little things to touch up:
+    
+    **mostly complete**
     - animations on http requests
         - login/signup, join/create organization/channel, send message, logout, etc...
+    
+    **partially complete on each page**
     - Modals:
-        - dashboard, sidenav - partially complete on each page
+        - dashboard, sidenav
             - gray div behind modals to cover screen - look at how this is done in the sidenav (with the transition)
             - click on gray div to close modal
             - hit Escape to close modal
             - add buttons on the bottom of all modals (Join/Create, Cancel, etc...), including login/signup
+    
+    **complete until direct messages**
     - organization/channel page
         - display members
             - as buttons/links to create a direct message with them (after DMs are built out)
+    
+    **not complete**
     - clean up border on message input
+    
+    **not complete**
     - on create channel
         - channel names must be lower case with only letters numbers and dashes, and must be unique per organization (unique constraint in DB)
             - convert channel name if possible - front end
             - validate channel name = [a-z0-9\-] - back end
+    
+    **needs better styles**
     - add logout feature
         - styles
         - add logout to the top left sidenav menu
+    
+    **partially complete**
     - Messages:
         - date dividers
             - add line
@@ -66,14 +82,20 @@ For now, just take on anything in the list below. Let the channel know which fea
             - on scroll fix latest divider to bottom of header (just like on slack - may take some planning)
         - hover buttons
             - add hover effect to each individual button (change color/background maybe?) (maybe create higher-order component to add labels on hover of certain things)
+        - scroll to bottom effect
+            - only on page load and after sending a message
+    
+    **partially complete**
     -Sidenav:
         - remove transition on hover of buttons
         - organize channels
             - first public then private
             - then alphabetical
             - lock icon by private channels
+        <!-- 
+        **complete**
         - change background on selected channel
-            - instead of bold (bold & white will be for new messages)
+            - instead of bold (bold & white will be for new messages) -->
         - top left header
             - add logout button
             - style dashboard and logout buttons differently from organization links
@@ -81,6 +103,9 @@ For now, just take on anything in the list below. Let the channel know which fea
         - drag feature
             - limit drag to 33vw instead of 50vw
             - stop propagation on drag (will this stop hover effects? probably not?)
+            - prevent default as well
+    
+    **not complete**
     - search feature in header (top right)
         - add styles - just like the inputs inside modals
         - search through people and channels

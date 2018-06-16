@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import { unauthorized } from './utils';
 
 export function authenticate(update) {
     return axios.get('/auth/me')
@@ -9,9 +8,7 @@ export function authenticate(update) {
                 user
             }));
             return user;
-        })
-    // .catch(unauthorized(update))
-    // .catch(console.error);
+        });
 }
 
 export function allOrganizations(update) {
@@ -21,9 +18,7 @@ export function allOrganizations(update) {
                 ...model,
                 allOrganizations
             }));
-        })
-        // .catch(unauthorized(update))
-        .catch(console.error);
+        });
 }
 
 export function organization(update, id) {
@@ -45,9 +40,7 @@ export function organization(update, id) {
                     )
                 ) ? organization : model.organization
             }));
-        })
-        // .catch(unauthorized(update))
-        .catch(console.error);
+        });
 }
 
 export function organizationByChannel(update, id) {
@@ -69,9 +62,7 @@ export function organizationByChannel(update, id) {
                     )
                 ) ? organization : model.organization
             }));
-        })
-        // .catch(unauthorized(update))
-        .catch(console.error);
+        });
 }
 
 export function channel(update, id) {
@@ -83,13 +74,13 @@ export function channel(update, id) {
                 organization: {
                     ...model.organization,
                     channels: model.organization.channels
-                        .map(channel => {
-                            if (channel.id == id) return updatedChannel;
-                            else return channel;
-                        })
+                        .map(channel => (
+                            channel.id == id ?
+                                updatedChannel
+                                :
+                                channel
+                        ))
                 }
             }));
-        })
-        // .catch(unauthorized(update))
-        .catch(console.error);
+        });
 }

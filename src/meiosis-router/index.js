@@ -1,5 +1,5 @@
 import _link from './link';
-import _createSwitch from './switch.js';
+import _createSwitch from './switch';
 import watchUrl from './listen';
 
 export const link = _link;

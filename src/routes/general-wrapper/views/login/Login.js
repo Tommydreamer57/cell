@@ -30,7 +30,6 @@ export default class Login extends Component {
         this.setState({ create: true });
     }
     handleError(err) {
-        console.log({ err });
         let reason = '';
         let {
             response: {

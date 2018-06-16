@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, css } from 'aphrodite-jss';
 import { StyleSheet as Aphrodite, css as anim } from 'aphrodite';
 import p from './presets';

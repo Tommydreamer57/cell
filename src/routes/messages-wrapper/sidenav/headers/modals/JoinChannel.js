@@ -38,7 +38,6 @@ export default class JoinChannel extends Component {
             state: { search },
             props: { join: joinChannel, channels }
         } = this;
-        console.log(channels);
         return (
             <div className='modal-modal' >
                 <h3>Find a Channel</h3>

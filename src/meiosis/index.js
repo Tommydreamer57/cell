@@ -18,5 +18,13 @@ export default function meiosis(createApp, model, render, ...middles) {
         }
     }
 
+    update.access = key => key ?
+        Array.isArray(key) ?
+            key.reduce((m, k) => m[k], model)
+            :
+            model[key]
+        :
+        model;
+
     update(m => m);
 }
