@@ -23,17 +23,19 @@ export default function create(update) {
     const saveEdit = ({ channel_id, message_id, text }) => PUT.message(update, { type: 'channel', message_id, channel_id, text });
     // DELETE MESSAGE
     const _delete = ({ channel_id, message_id }) => DELETE.message(update, { type: 'channel', message_id, channel_id });
+    // TRACK INTERVALS
+    const intervals = [];
     // COMPONENT
     return {
         // DATA
         data(model) {
             const getOrganization = () => GET.organizationByChannel(update, model.router.match.params.id);
             getOrganization();
-            this.interval = setInterval(getOrganization, 5000);
+            intervals.push(setInterval(getOrganization, 5000));
         },
         // CLEAR
         clear(model) {
-            clearInterval(this.interval);
+            while (intervals.length) clearInterval(intervals.pop());
         },
         // VIEW
         view(model) {

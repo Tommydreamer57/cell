@@ -10,15 +10,17 @@ import wrapper from '../../../../styles/components';
 import p from '../../../../styles/presets';
 
 export default function create(update) {
+    // TRACK INTERVALS
+    const intervals = [];
     // COMPONENT
     return {
         data(model) {
             const getOrganization = () => GET.organization(update, model.router.match.params.id);
             getOrganization();
-            this.interval = setInterval(getOrganization, 5000);
+            intervals.push(setInterval(getOrganization, 5000));
         },
         clear(model) {
-            clearInterval(this.interval);
+            while (intervals.length) clearInterval(intervals.pop());
         },
         view(model) {
             let { organization: { members } } = model;
