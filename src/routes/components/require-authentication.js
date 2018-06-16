@@ -7,7 +7,6 @@ import wrapper from '../../styles/components';
 export default function awaitUser(meiosisComponent) {
     return function (update) {
         let component = meiosisComponent(update);
-        console.log(component);
         let waiting = (
             <Waiting>
                 <Loading size={64} />
@@ -18,18 +17,15 @@ export default function awaitUser(meiosisComponent) {
             data(model) {
                 GET.authenticate(update)
                     .then(user => {
-                        console.log(user);
                         if (!user) throw new Error();
+                        else return user;
                     })
                     .catch(err => {
-                        console.log(err);
-                        update(({ router: { history } }) => {
-                            history.push('/login', { message: "Oops, looks like you're not logged in..." });
-                        });
                         update(model => ({
                             ...model,
                             user: {}
                         }));
+                        update.access(['router', 'history']).push('/login', { message: "Oops, looks like you're not logged in..." });
                     });
                 component.data(model);
             },

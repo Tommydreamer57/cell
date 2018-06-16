@@ -3,7 +3,7 @@ import meiosis from './meiosis';
 import createApp from './app';
 import initialModel from './model';
 import watchUrl from './meiosis-router';
-import { watchUpdates, countRenders } from './meiosis-middlewares';
+import { watchUpdates, countRenders, freeze } from './meiosis-middlewares';
 
 // ROOT
 let $root = document.getElementById('root');
@@ -17,5 +17,5 @@ meiosis(
     watchUrl,
     watchUpdates('count'),
     countRenders,
-    update => Object.freeze
+    freeze
 );

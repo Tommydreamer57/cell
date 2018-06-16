@@ -4,7 +4,6 @@ import { matchAndParse } from './utils';
 
 // REGISTER SINGLE ROUTE
 function registerRoute(update, route, exact = false) {
-    console.log("REGISTERING ROUTE: " + route);
     route = {
         route,
         exact
@@ -25,8 +24,6 @@ function registerRoute(update, route, exact = false) {
 
 // REGISTER MULTIPLE ROUTES
 function registerMultiple(update, routes) {
-    console.log("REGISTERING MULTIPLE ROUTES");
-    console.log(routes);
     for (let route of routes) {
         if (!route.exact) route.exact = false;
     }
@@ -48,7 +45,6 @@ function registerMultiple(update, routes) {
 
 // CREATE SINGLE ROUTE
 export function createRoute(path, createComponent, update, exact, register = true) {
-    console.log("CREATING ROUTE: " + path);
     let component = createComponent(update);
     if (register) registerRoute(update, path, exact);
     return {
@@ -63,7 +59,6 @@ export function createRoute(path, createComponent, update, exact, register = tru
 
 // CREATE MULTIPLE ROUTES
 export function createMultiple(update, ...args) {
-    console.log("CREATING MULTIPLE ROUTES");
     let routes = [];
     let components = [];
     for (let argSet of args) {

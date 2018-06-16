@@ -4,30 +4,22 @@ import initialModel from '../model';
 
 function gotUser(update) {
     return function ({ data: user }) {
-        update(model => {
-            return {
-                ...model,
-                user
-            };
-        });
-        update(({ router: { history } }) => {
-            history.push('/dashboard');
-        });
+        update(model => ({
+            ...model,
+            user
+        }));
+        update.access(['router', 'history']).push('/dashboard');
     }
 }
 
 export function signup(update, { first_name, last_name, username, email, password }) {
     return axios.post('/auth/signup', { first_name, last_name, username, email, password })
-        .then(gotUser(update))
-    // .catch(unauthorized(update))
-    // .catch(console.error);
+        .then(gotUser(update));
 }
 
 export function login(update, username, password) {
     return axios.post('/auth/login', { username, password })
-        .then(gotUser(update))
-    // .catch(unauthorized(update))
-    // .catch(console.error);
+        .then(gotUser(update));
 }
 
 export function logout(update) {
@@ -42,12 +34,8 @@ export function logout(update) {
                 user: initialModel.user,
                 loggingOut: false
             }));
-            update(({ router: { history } }) => {
-                history.push('/login');
-            });
-        })
-        // .catch(unauthorized(update))
-        .catch(console.error);
+            update.access(['router', 'history']).push('/login');
+        });
 }
 
 export function message(update, { type, id, text }) {
@@ -56,14 +44,15 @@ export function message(update, { type, id, text }) {
         organization: {
             ...model.organization,
             channels: model.organization.channels
-                .map(channel => {
-                    if (channel.id == id) {
-                        return {
+                .map(channel => (
+                    channel.id == id ?
+                        {
                             ...channel,
                             messages: [...channel.messages, { isLoading: true, text, author_id: model.user.id }]
-                        };
-                    } else return channel;
-                })
+                        }
+                        :
+                        channel
+                ))
         }
     }));
     return axios.post(`/api/messages/${type}/${id}`, { text })
@@ -73,49 +62,47 @@ export function message(update, { type, id, text }) {
                 organization: {
                     ...model.organization,
                     channels: model.organization.channels
-                        .map(channel => {
-                            if (channel.id == id) {
-                                return {
+                        .map(channel => (
+                            channel.id == id ?
+                                {
                                     ...channel,
                                     messages
                                 }
-                            } else return channel;
-                        })
+                                :
+                                channel
+                        ))
                 }
             }));
-        })
-        // .catch(unauthorized(update))
-        .catch(console.error);
+        });
 }
 
 export function newChannel(update, organization_id, name, _private) {
     return axios.post(`/api/create/channel/${organization_id}`, { name, _private })
         .then(({ data: channel }) => {
-            update(({ router: { history } }) => {
-                history.push(`/messages/channel/${channel.id}`);
-            });
-            update(model => {
-                if (model.organization.id === organization_id) model.organization.channels.push(channel);
-                return model;
-            });
-        })
-        // .catch(unauthorized(update))
-        .catch(console.error);
+            update(model => ({
+                ...model,
+                organization: {
+                    ...model.organization,
+                    channels: [...model.organization.channels, channel]
+                },
+                user: {
+                    ...model.user,
+                    channels: [...model.user.channels, channel.id]
+                }
+            }));
+            update.access(['router', 'history']).push(`/messages/channel/${channel.id}`);
+        });
 }
 
 export function joinChannel(update, channel_id) {
     return axios.post(`/api/join/channel/${channel_id}`)
         .then(({ data: organization }) => {
-            update(({ router: { history } }) => {
-                history.push(`/messages/channel/${channel_id}`);
-            });
             update(model => ({
                 ...model,
                 organization
             }));
-        })
-        // .catch(unauthorized(update))
-        .catch(console.error);
+            update.access(['router', 'history']).push(`/messages/channel/${channel_id}`);
+        });
 }
 
 export function joinOrganization(update, organization_id) {
@@ -125,10 +112,8 @@ export function joinOrganization(update, organization_id) {
                 ...model,
                 user
             }));
-        })
-        // .catch(unauthorized(update))
-        .catch(console.error);
-}
+        });
+};
 
 export function createOrganization(update, name) {
     return axios.post('/api/create/organization', { name })
@@ -141,7 +126,5 @@ export function createOrganization(update, name) {
                     organizations: [...model.user.organizations, organization.id]
                 }
             }));
-        })
-        // .catch(unauthorized(update))
-        .catch(console.error);
-}
+        });
+};
