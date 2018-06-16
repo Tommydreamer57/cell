@@ -1,4 +1,3 @@
-// import { unauthorized } from './utils';
 import axios from 'axios';
 import initialModel from '../model';
 

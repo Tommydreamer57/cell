@@ -37,7 +37,7 @@ Routing of all view setup first
     - input - Slate editor
         - text formatting - bold, italic
         - click on own message to edit
- - Sockets
+ - Sockets?
 
 For now, just take on anything in the list below. Let the channel know which feature you are taking and which files you will be in to avoid merge conflicts
 
