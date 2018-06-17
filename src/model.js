@@ -24,5 +24,6 @@ export default {
         routes: []
     },
     // CURRENT WIDTH OF THE RESIZABLE SIDEBAR
-    sideWidth: '20vw'
+    sideWidth: '20vw',
+    messageInputHeight: '104px'
 }

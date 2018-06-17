@@ -43,7 +43,7 @@ export function organization(update, id) {
         });
 }
 
-export function organizationByChannel(update, id) {
+export function organizationByChannel(update, id, cb) {
     if (!id) return null;
     return axios.get(`/api/organization?channel_id=${id}`)
         .then(({ data: organization }) => {
@@ -61,7 +61,7 @@ export function organizationByChannel(update, id) {
                         organization.channels.some(channel => channel.id == model.router.match.params.id)
                     )
                 ) ? organization : model.organization
-            }));
+            }), cb);
         });
 }
 

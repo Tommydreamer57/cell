@@ -5,7 +5,7 @@ export default function meiosis(createApp, model, render, ...middles) {
 
     const app = createApp(update);
 
-    function update(callback) {
+    function update(callback, cb) {
 
         let newModel = callback(model);
 
@@ -14,7 +14,7 @@ export default function meiosis(createApp, model, render, ...middles) {
 
             model = newModel;
 
-            if (app) render(app.view(model));
+            if (app) render(app.view(model), cb);
         }
     }
 

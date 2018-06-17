@@ -40,7 +40,7 @@ export default function awaitUser(meiosisComponent) {
 const styles = StyleSheet.create({
     waiting: {
         width: '100%',
-        height: '100vh',
+        height: '100%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
