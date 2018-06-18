@@ -13,12 +13,23 @@ import p from '../../../../styles/presets';
 
 export default function create(update) {
     // FUNCTIONS
-    function scrollToBottom() {
+    function scrollToBottom(arg) {
+        console.log("DEFINITELY SCROLLING TO BOTTOM");
         let $messages = document.querySelector("#router-view");
         if ($messages) $messages.scrollTop = $messages.scrollHeight;
+        return arg;
+    }
+    function maybeScrollToBottom() {
+        console.log("MAYBE SCROLLING TO BOTTOM");
+        let $messages = document.querySelector('#router-view');
+        if ($messages) {
+            if ($messages.scrollHeight - window.innerHeight < $messages.scrollTop + 62) {
+                $messages.scrollTop = $messages.scrollHeight;
+            }
+        }
     }
     // CREATE MESSAGE
-    const sendMessage = ({ id, text }) => POST.message(update, { type: 'channel', id, text });
+    const sendMessage = ({ id, text }) => POST.message(update, { type: 'channel', id, text }, scrollToBottom);
     // EDIT MESSAGE
     const saveEdit = ({ channel_id, message_id, text }) => PUT.message(update, { type: 'channel', message_id, channel_id, text });
     // DELETE MESSAGE
@@ -29,9 +40,10 @@ export default function create(update) {
     return {
         // DATA
         data(model) {
-            const getOrganization = () => GET.organizationByChannel(update, model.router.match.params.id);
-            getOrganization();
+            const getOrganization = cb => GET.organizationByChannel(update, model.router.match.params.id, cb || maybeScrollToBottom);
+            getOrganization(scrollToBottom);
             intervals.push(setInterval(getOrganization, 5000));
+            update(m => m, scrollToBottom);
         },
         // CLEAR
         clear(model) {
@@ -39,8 +51,6 @@ export default function create(update) {
         },
         // VIEW
         view(model) {
-            // AFTER RERENDER, SCROLL TO BOTTOM;
-            setTimeout(scrollToBottom);
             // DESTRUCTURE
             let {
                 user,
@@ -75,7 +85,12 @@ export default function create(update) {
                             });
                         }
                     }
-                    arr.push(message);
+                    if (previousMessage.author_id === message.author_id) {
+                        arr.push({
+                            ...message,
+
+                        });
+                    } else arr.push(message);
                     return arr;
                 }, []);
             // RENDER
@@ -116,7 +131,7 @@ export default function create(update) {
                     <MessageInput
                         channel={channel}
                         sendMessage={sendMessage}
-                        style={{ left: model.sideWidth, width: `calc(100vw - ${model.sideWidth})` }}
+                        style={{ left: `calc(${model.sideWidth} + 24px)` }}
                     />
                 </Messages>
             );
@@ -136,12 +151,12 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-end',
-        minHeight: '100%',
+        minHeight: 'calc(100% - 48px)',
         zIndex: 1,
         '& .message': {
             position: 'relative',
             display: 'flex',
-            padding: '8px 24px',
+            padding: '8px 28px',
             '& .loading-wrapper': {
                 display: 'flex',
                 justifyContent: 'center',
@@ -235,9 +250,15 @@ const styles = StyleSheet.create({
             paddingBottom: 8,
             '& .input-wrapper': {
                 ...centerFlex,
-                width: 'calc(100% - 56px)',
                 border: `3px solid ${p.acolor(0.25)}`,
                 borderRadius: 8,
+                maxHeight: '45%',
+                overflow: 'auto',
+                position: 'fixed',
+                bottom: 28,
+                right: 28,
+                left: 'calc(20vw + 24px)',
+                background: 'white',
                 '& button': {
                     fontSize: 36,
                     color: '#CCC',
@@ -245,10 +266,21 @@ const styles = StyleSheet.create({
                     width: 50,
                     borderRight: `3px solid ${p.acolor(0.25)}`,
                 },
-                '& input': {
+                '& input, textarea, div': {
                     padding: 12,
                     width: 'calc(100% - 18px)',
                     fontSize: 18,
+                }
+            },
+            '& mark': {
+                position: 'absolute',
+                fontSize: 14,
+                bottom: 7,
+                right: 30,
+                background: 'none',
+                opacity: 0.65,
+                '& code, span, b, em': {
+                    marginLeft: 8
                 }
             }
         },

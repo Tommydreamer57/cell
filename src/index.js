@@ -12,7 +12,7 @@ let $root = document.getElementById('root');
 meiosis(
     createApp,
     initialModel,
-    view => ReactDOM.render(view, $root),
+    (view, cb) => ReactDOM.render(view, $root, cb),
     // MIDDLEWARES
     watchUrl,
     watchUpdates('count'),

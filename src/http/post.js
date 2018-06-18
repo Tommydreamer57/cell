@@ -24,7 +24,9 @@ export function login(update, username, password) {
 export function logout(update) {
     update(model => ({
         ...model,
-        loggingOut: true
+        loggingOut: true,
+        user: initialModel.user,
+        organization: initialModel.organization
     }));
     return axios.post('/auth/logout')
         .then(() => {
@@ -37,7 +39,7 @@ export function logout(update) {
         });
 }
 
-export function message(update, { type, id, text }) {
+export function message(update, { type, id, text }, cb) {
     update(model => ({
         ...model,
         organization: {
@@ -53,7 +55,7 @@ export function message(update, { type, id, text }) {
                         channel
                 ))
         }
-    }));
+    }), cb);
     return axios.post(`/api/messages/${type}/${id}`, { text })
         .then(({ data: messages }) => {
             update(model => ({

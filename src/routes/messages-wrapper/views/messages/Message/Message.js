@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MessageHover from './MessageHover';
 import { toTime } from '../../../../date-parser';
 import { Loading } from '../../../../../styles/logo';
+import Text from './Text';
 
 export default class Message extends Component {
     constructor(props) {
@@ -69,7 +70,7 @@ export default class Message extends Component {
                     {editing ?
                         <input value={input} onChange={handleInput} onKeyDown={onKeyDown} />
                         :
-                        <span>{message.text}</span>}
+                        <Text text={message.text} />}
                     {editing && <button onClick={cancel} >Cancel</button>}
                     {editing && <button onClick={saveEdit} >Save</button>}
                 </div>
