@@ -64,6 +64,36 @@ const style = StyleSheet.create({
         '& button': {
             ...p.reset,
             transition: '0.2s'
+        },
+        '& blockquote': {
+            borderLeft: `3px solid ${p.acolor(0.25)}`,
+            padding: 8,
+            paddingLeft: 16
+        },
+        '& pre': {
+            width: 'calc(100% - 16px)',
+            padding: 8,
+            borderRadius: 4,
+            background: p.acolor(0.05),
+            border: `1px solid ${p.acolor(0.5)}`,
+            '& code': {
+                background: 'none',
+                padding: 0,
+                border: 'none'
+            }
+        },
+        '& code': {
+            padding: '0 4px',
+            borderRadius: 4,
+            border: `1px solid ${p.acolor(0.1)}`,
+            fontFamily: 'monospace',
+            background: p.acolor(0.1),
+        },
+        '& b': {
+            fontWeight: 'bold'
+        },
+        '& em': {
+            fontStyle: 'italic'
         }
     }
 });

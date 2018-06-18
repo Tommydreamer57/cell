@@ -15,7 +15,7 @@ export default function create(update) {
         data(model) {
             const getOrganization = () => GET.organizationByChannel(update, model.router.match.params.id);
             getOrganization();
-            intervals.push(setInterval(getOrganization, 5000));
+            // intervals.push(setInterval(getOrganization, 5000));
         },
         // CLEAR
         clear(model) {

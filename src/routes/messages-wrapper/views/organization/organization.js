@@ -17,7 +17,7 @@ export default function create(update) {
         data(model) {
             const getOrganization = () => GET.organization(update, model.router.match.params.id);
             getOrganization();
-            intervals.push(setInterval(getOrganization, 5000));
+            // intervals.push(setInterval(getOrganization, 5000));
         },
         clear(model) {
             while (intervals.length) clearInterval(intervals.pop());

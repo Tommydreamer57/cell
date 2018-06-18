@@ -42,8 +42,8 @@ export default function create(update) {
         data(model) {
             const getOrganization = cb => GET.organizationByChannel(update, model.router.match.params.id, cb || maybeScrollToBottom);
             getOrganization(scrollToBottom);
-            intervals.push(setInterval(getOrganization, 5000));
-            update(m => m, scrollToBottom);
+            // intervals.push(setInterval(getOrganization, 5000));
+            // update(m => m, scrollToBottom);
         },
         // CLEAR
         clear(model) {
@@ -175,6 +175,14 @@ const styles = StyleSheet.create({
             '& .message-body': {
                 display: 'flex',
                 flexDirection: 'column',
+                width: '100%',
+                lineHeight: '120%',
+                '& pre': {
+                    margin: '8px 0',
+                },
+                '& ': {
+                    
+                },
                 '& h5': {
                     fontWeight: 'bold'
                 },
@@ -186,9 +194,11 @@ const styles = StyleSheet.create({
                     alignItems: 'center',
                     marginBottom: 5,
                     '& h5': {
+                        lineHeight: '100%',
                         marginRight: 10
                     },
                     '& h6': {
+                        lineHeight: '100%',
                         fontSize: 14,
                         color: 'gray',
                         fontWeight: '200'
