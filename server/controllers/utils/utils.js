@@ -55,6 +55,9 @@ module.exports = {
         return user;
     },
     convertEntireOrganization(arr) {
+        // return arr;
+        // return [...new Set(arr.map(item => item.channel_id + ' ' + item.organization_channel_id + ' ' + item.channel_name + ' ' + item.channel_id + ' ' + item.channel_private))];
+        // console.log(new Set(arr.map()))
         // ORGANIZATION
         let organization = assign(/^organization_/, arr[0], 'channel_id', 'member_id');
         organization.last_visited = (arr.find(obj => obj.organization_last_visited) || {}).organization_last_visited;
@@ -70,26 +73,29 @@ module.exports = {
         // CHANNELS
         organization.channels = arr
             .reduce((channels, obj) => {
-                if (obj.channel_id) {
-                    let channel = channels.find(chan => chan.id === obj.channel_id);
+                if (obj.channel_id || obj.organization_channel_id) {
+                    let channel = channels.find(chan => (chan.id === obj.channel_id || chan.id === obj.organization_channel_id));
                     // add last_visited timestamp to channel object
-                    if (channel && obj.channel_id === channel.id && (obj.channel_last_visited || obj.channel_previous_last_visited)) {
+                    if (channel && (obj.channel_id === channel.id || obj.organization_channel_id === channel.id)) {
                         Object.assign(channel, removeFalsy(assign(/^channel_/, obj, 'member_id')));
                     }
                     if (!channel) {
                         let newChannel = assign(/^channel_/, obj, 'member_id');
+                        // ID
+                        newChannel.id = obj.organization_channel_id || obj.channel_id || obj.message_channel_id;
                         // MEMBERS
                         newChannel.members = arr
-                            .reduce((members, { channel_id, member_id }) => {
-                                if (!members.includes(member_id) && channel_id === newChannel.id) {
-                                    members.push(member_id);
+                            .reduce((members, { organization_channel_id, channel_id, channel_member_id }) => {
+                                if (channel_member_id && !members.includes(channel_member_id) && (organization_channel_id === newChannel.id || channel_id === newChannel.id)) {
+                                    console.log("ADDING MEMBER: " + " " + channel_member_id + " TO CHANNEL: " + newChannel.id);
+                                    members.push(channel_member_id);
                                 }
                                 return members;
                             }, []);
                         // MESSAGES
                         newChannel.messages = arr
                             .reduce((messages, obj) => {
-                                if (obj.channel_id === newChannel.id && obj.message_id && !messages.some(message => message.id === obj.message_id)) {
+                                if (obj.message_channel_id === newChannel.id && obj.message_id && !messages.some(message => message.id === obj.message_id)) {
                                     messages.push(assign(/^message_/, obj, 'channel_id'));
                                 }
                                 return messages;
@@ -98,7 +104,8 @@ module.exports = {
                     }
                 }
                 return channels;
-            }, []);
+            }, [])
+            .filter(({ name }) => name);
         // Organization
         return organization;
     },

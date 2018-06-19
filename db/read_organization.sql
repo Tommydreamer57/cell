@@ -25,8 +25,8 @@ organizations AS (
     -- MEMBERS
     cell_organization_memberships.member_id AS organization_member_id
     FROM cell_organizations
-    LEFT JOIN cell_channels ON cell_channels.organization_id = cell_organizations.ID
-    LEFT JOIN cell_organization_memberships ON cell_organization_memberships.organization_id = cell_organizations.id
+    FULL OUTER JOIN cell_channels ON cell_channels.organization_id = cell_organizations.id
+    FULL OUTER JOIN cell_organization_memberships ON cell_organization_memberships.organization_id = cell_organizations.id
 ),
 channels AS (
     SELECT
@@ -39,8 +39,8 @@ channels AS (
     -- MEMBERS
     cell_channel_memberships.member_id AS channel_member_id
     FROM cell_channels
-    LEFT JOIN cell_channel_memberships ON cell_channel_memberships.channel_id = cell_channels.id
-    WHERE cell_channels.private = false OR cell_channels.id IN (SELECT channel_id FROM cell_channel_memberships WHERE member_id = ${user_id})
+    FULL OUTER JOIN cell_channel_memberships ON cell_channel_memberships.channel_id = cell_channels.id
+    WHERE cell_channels.private <> true OR cell_channels.id IN (SELECT channel_id FROM cell_channel_memberships WHERE member_id = ${user_id})
 ),
 visits AS (
     SELECT
@@ -74,18 +74,18 @@ SELECT *
 -- ORGANIZATIONS
 FROM organizations
 -- CHANNELS
-LEFT OUTER JOIN channels
+FULL OUTER JOIN channels
 ON channels.channel_id = organizations.organization_channel_id
 AND channels.channel_member_id = organizations.organization_member_id
 -- VISITS
-LEFT JOIN visits
+FULL OUTER JOIN visits
 ON visits.channel_id = channels.channel_id
 -- MESSAGES
-LEFT OUTER JOIN messages
+FULL OUTER JOIN messages
 ON messages.message_channel_id = channels.channel_id
 AND messages.message_author_id = channels.channel_member_id
 -- MEMBERS
-JOIN members
+FULL OUTER JOIN members
 ON members.member_id = organizations.organization_member_id
 WHERE organization_id = ${organization_id}
 OR organization_id IN (SELECT organization_id FROM cell_channels WHERE cell_channels.id = ${channel_id})

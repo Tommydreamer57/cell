@@ -73,6 +73,7 @@ const style = StyleSheet.create({
         '& pre': {
             width: 'calc(100% - 16px)',
             padding: 8,
+            paddingLeft: 16,
             borderRadius: 4,
             background: p.acolor(0.05),
             border: `1px solid ${p.acolor(0.5)}`,
