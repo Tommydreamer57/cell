@@ -33,36 +33,34 @@ const tags = [
     }
 ];
 
-let protect = 0;
-
-export default function Text({ text }) {
-
-    console.log(text);
+export default function Text({ text, depth = 0 }) {
 
     const children = [];
 
-    for (let i = 0; i < text.length; i++) {
+    let skipCount = 0;
 
-        let letter = text[i];
+    text.split('').forEach((letter, i, arr) => {
 
-        let tag = tags.find(tag => tag.char === text.slice(i, i + 3)) || tags.find(tag => tag.char === letter);
-
-        if (!tag) {
-
-            if (typeof children[children.length - 1] === 'string') children[children.length - 1] += letter;
-            else children.push(letter);
-
+        if (skipCount > 0) {
+            skipCount--;
+            return;
         } else {
 
-            if (protect < 1000) {
+            let tag = tags.find(tag => tag.char === arr.slice(i, i + 3).join('')) || tags.find(tag => tag.char === letter);
 
-                protect++;
+            if (!tag) {
 
-                let closingIndex = text.indexOf(tag.char, i + 1);
+                if (typeof children[children.length - 1] === 'string') children[children.length - 1] += letter;
+                else children.push(letter);
 
-                if (tag.name === 'quote') {
-                    let match = /\n|$/.exec(text.slice(i + 1));
-                    closingIndex = match && match.index;
+            } else {
+
+                let closingIndex = arr.indexOf(tag.char, i + 1);
+
+                if (tag.name === 'pre') {
+                    closingIndex = arr.join('').indexOf(tag.char, i + 2);
+                } else if (tag.name === 'quote') {
+                    closingIndex = /\n|$/.exec(arr.slice(i + 1).join('')).index + i + 1;
                 }
 
                 if (closingIndex === - 1) {
@@ -72,26 +70,24 @@ export default function Text({ text }) {
 
                 } else {
 
-                    let contents = text.slice(i + tag.char.length, closingIndex);
+                    let contents = arr.slice(i + tag.char.length, closingIndex).join('');
+
+                    skipCount = contents.length + tag.char.length * 2 - 1;
 
                     children.push(
-                        <tag.Tag>
+                        <tag.Tag key={contents + depth + i} >
                             {
-                                tag.name === 'pre' ?
+                                tag.name === 'pre' || tag.name === 'quote' ?
                                     contents.trim()
                                     :
-                                    <Text text={contents} />
+                                    <Text text={contents.trim()} depth={depth + 1} />
                             }
                         </tag.Tag>
                     );
-
-                    i = closingIndex - 1 + tag.char.length;
                 }
             }
         }
-    }
-
-    console.log(children);
+    });
 
     return (
         children.length === 1 ?
