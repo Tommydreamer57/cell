@@ -45,7 +45,6 @@ export default class MessageInput extends Component {
             <div className="message-input" {...props} >
                 <div className="input-wrapper" style={style} >
                     <button className="plus-button">+</button>
-                    {/* <input onKeyDown={onKeyDown.bind(this)} /> */}
                     <Editor
                         value={value}
                         onChange={onChange}

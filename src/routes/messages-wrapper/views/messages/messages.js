@@ -203,7 +203,12 @@ const styles = StyleSheet.create({
                         color: 'gray',
                         fontWeight: '200'
                     }
-
+                },
+                '& .input-wrapper': {
+                    border: `2px solid ${p.acolor(0.25)}`,
+                    borderRadius: 4,
+                    padding: 8,
+                    background: p.white(0.875)
                 }
             },
             '& .message-hover': {
