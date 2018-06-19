@@ -23,7 +23,8 @@ exports.default = function addMiddlewaresTo(app) {
 
     // DESERIALIZE
     app.use((req, res, next) => {
-        let user_id = req.session.user;
+        // REMOVE || LATER --- DEFAULT USER = tommydreamer57
+        let user_id = req.session.user || 14;
         if (user_id) {
             console.log("GETTING USER: " + user_id);
             req.db.read_user({ user_id, username: null, hash: null })
