@@ -33,13 +33,14 @@ export default class Message extends Component {
                     channel_id: this.props.channel.id,
                     message_id: this.props.message.id,
                     text: Plain.serialize(this.state.value)
-                })
-                    .then(this.cancel);
-                change.selectAll().delete();
+                });
+                this.cancel();
             }
             return true;
         }
     }
+
+    saveEdit = e => this.onKeyDown(Object.assign(e, { key: "Enter" }));
 
     renderNode = ({ attributes, children }) => <p {...attributes} >{children}</p>
 
@@ -64,26 +65,39 @@ export default class Message extends Component {
             cancel,
             _delete,
             onKeyDown,
-            props: { loading, message, author, saveEdit, own },
+            saveEdit,
+            props: { loading, message: { renderAuthor, hasMultiple, ...message }, author, own },
             state: { editing, value }
         } = this;
+        // console.log(message, renderAuthor)
         return (
-            <div className="message" >
+            <div className={`message ${renderAuthor === false ? 'no-author' : ''} ${hasMultiple === true ? 'has-multiple' : ''} ${editing ? 'editing' : ''}`} >
                 {loading ?
-                    <div className="loading-wrapper" >
-                        <Loading />
-                    </div>
+                    renderAuthor === false ?
+                        <div className="loading-wrapper no-author" >
+                            <Loading size={12} />
+                        </div>
+                        :
+                        <div className="loading-wrapper" >
+                            <Loading />
+                        </div>
                     :
-                    <div className="image-wrapper" >
-                        <img src={author.img} />
-                    </div>}
-                <div className="message-body" >
-                    <span className="message-info">
-                        <h5>{author.first_name} {author.last_name}</h5>
-                        <h6>
+                    renderAuthor === false ?
+                        <h6 className="no-author-timestamp" >
                             {toTime(message.timestamp)}
                         </h6>
-                    </span>
+                        :
+                        <div className="image-wrapper" >
+                            <img src={author.img} />
+                        </div>}
+                <div className="message-body" >
+                    {renderAuthor !== false &&
+                        <span className="message-info">
+                            <h5>{author.first_name} {author.last_name}</h5>
+                            <h6>
+                                {toTime(message.timestamp)}
+                            </h6>
+                        </span>}
                     {editing ?
                         <div className="input-wrapper" >
                             <Editor
@@ -95,8 +109,11 @@ export default class Message extends Component {
                         </div>
                         :
                         <Text text={message.text} />}
-                    {editing && <button onClick={cancel} >Cancel</button>}
-                    {editing && <button onClick={saveEdit} >Save</button>}
+                    {editing &&
+                        <div className="button-wrapper" >
+                            <button onClick={cancel} >Cancel</button>
+                            <button onClick={saveEdit} >Save</button>
+                        </div>}
                 </div>
                 <MessageHover message={message} toggleEdit={toggleEdit} _delete={_delete} own={own} />
             </div>

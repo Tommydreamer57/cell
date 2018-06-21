@@ -63,41 +63,62 @@ export default function create(update) {
                 { messages: [] };
             // ADD DIVIDERS BETWEEN DAYS AND FOR NEW MESSAGES
             let groupedMessages = channel.messages
+                // .slice()
+                // .sort((a, b) => a.id > b.id)
                 .reduce((arr, message, i) => {
+
                     let previousMessage = channel.messages[i - 1] || {};
+
+                    let renderAuthor = !arr.length || previousMessage.author_id !== message.author_id;
+                    console.log("ITERATING THROUGH CHANNEL MESSAGES");
+                    console.log(renderAuthor);
+
                     if (message.timestamp) {
                         // ADD NEW MESSAGES DIVIDER (for notifications)
                         let lastViewDate = convertDate(channel.previous_last_visited);
                         if (previousDate < lastViewDate && currentDate > lastViewDate) {
+                            console.log("pushing NEW MESSAGE DIVIDER to array: " + renderAuthor);
                             arr.push({
                                 isNotMessage: true,
                                 isNewMessageDivider: true,
                                 date: lastViewDate
                             });
+                            console.log(arr[arr.length - 1]);
+                            renderAuthor = true;
                         }
                         // ONLY ADD DAY DIVIDER BETWEEN ACTUAL MESSAGES (not loading messages)
                         let previousDate = convertDate(previousMessage.timestamp);
                         let currentDate = convertDate(message.timestamp);
                         if (previousDate.getDate() !== currentDate.getDate()) {
+                            console.log("pushing DATE DIVIDER to array: " + renderAuthor);
                             arr.push({
                                 isNotMessage: true,
                                 date: currentDate
                             });
+                            console.log(arr[arr.length - 1]);
+                            renderAuthor = true;
                         }
                     }
-                    if (previousMessage.author_id === message.author_id) {
-                        arr.push({
-                            ...message,
-
-                        });
-                    } else arr.push(message);
+                    if (!renderAuthor) {
+                        arr.slice().reverse().find(m => m.renderAuthor).hasMultiple = true;
+                    }
+                    // ADD MESSAGE TO ARRAY
+                    console.log("pushing MESSAGE to array: " + renderAuthor);
+                    arr.push({
+                        ...message,
+                        renderAuthor,
+                    });
+                    console.log(arr[arr.length - 1]);
+                    // RETURN ARRAY
                     return arr;
                 }, []);
+            console.log(groupedMessages);
             // RENDER
             return (
                 <Messages id="messages" >
                     {groupedMessages
                         .map(message => (
+                            !console.log(message) &&
                             message.isNotMessage ?
                                 message.isNewMessageDivider ?
                                     <Divider
@@ -157,31 +178,84 @@ const styles = StyleSheet.create({
             position: 'relative',
             display: 'flex',
             padding: '8px 28px',
+            paddingLeft: 83,
+            '&.has-multiple': {
+                paddingBottom: 4,
+            },
+            '&.no-author': {
+                paddingTop: 4,
+                paddingBottom: 4,
+                '&:last-of-type': {
+                    paddingBottom: 8
+                }
+            },
+            '&.editing': {
+                background: 'rgba(255, 235, 95, 0.125)',
+                '&:hover': {
+                    background: 'rgba(255, 235, 95, 0.125)',
+                },
+                '& .button-wrapper': {
+                    '& button': {
+                        padding: '4px 8px',
+                        margin: 6,
+                        borderRadius: 5,
+                        '&:first-of-type': {
+                            marginLeft: 0,
+                            background: p.white(0.875),
+                            border: `1px solid ${p.acolor(0.75)}`
+                        },
+                        '&:last-of-type': {
+                            background: p.color3,
+                            border: `1px solid ${p.color3}`,
+                            color: p.white(0.875)
+                        },
+                    }
+                },
+            },
             '& .loading-wrapper': {
+                position: 'absolute',
+                top: 8,
+                left: 28,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: 45,
                 width: 45,
-                marginRight: 10
+                '&.no-author': {
+                    height: 'unset',
+                }
+            },
+            '& .image-wrapper, .no-author-timestamp': {
+                position: 'absolute',
+                top: 8,
+                left: 28,
+                height: 45,
+                borderRadius: 3,
             },
             '& .image-wrapper': {
-                height: 45,
+                background: 'lightblue',
                 width: 45,
-                borderRadius: 3,
-                marginRight: 10,
-                background: 'lightblue'
+            },
+            '& .no-author-timestamp': {
+                opacity: 0,
+                left: 14,
+            },
+            '& h6': {
+                lineHeight: '100%',
+                fontSize: 14,
+                color: 'gray',
+                fontWeight: '200'
             },
             '& .message-body': {
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
                 lineHeight: '120%',
-                '& pre': {
-                    margin: '8px 0',
+                '& pre, blockquote': {
+                    margin: '4px 0',
                 },
                 '& ': {
-                    
+
                 },
                 '& h5': {
                     fontWeight: 'bold'
@@ -192,17 +266,12 @@ const styles = StyleSheet.create({
                     flexDirection: 'row',
                     justifyContent: 'flex-start',
                     alignItems: 'center',
+                    marginTop: -4,
                     marginBottom: 5,
                     '& h5': {
                         lineHeight: '100%',
                         marginRight: 10
                     },
-                    '& h6': {
-                        lineHeight: '100%',
-                        fontSize: 14,
-                        color: 'gray',
-                        fontWeight: '200'
-                    }
                 },
                 '& .input-wrapper': {
                     border: `2px solid ${p.acolor(0.25)}`,
@@ -250,6 +319,9 @@ const styles = StyleSheet.create({
                 '& .message-hover': {
                     opacity: 1,
                     background: 'white'
+                },
+                '& .no-author-timestamp': {
+                    opacity: 1
                 },
                 background: p.acolor(0.05)
             }
