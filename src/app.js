@@ -63,7 +63,10 @@ const style = StyleSheet.create({
         },
         '& button': {
             ...p.reset,
-            transition: '0.2s'
+            transition: '0.2s',
+            '&:hover': {
+                cursor: 'pointer'
+            }
         },
         '& blockquote': {
             borderLeft: `3px solid ${p.acolor(0.25)}`,

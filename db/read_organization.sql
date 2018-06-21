@@ -89,4 +89,4 @@ FULL OUTER JOIN members
 ON members.member_id = organizations.organization_member_id
 WHERE organization_id = ${organization_id}
 OR organization_id IN (SELECT organization_id FROM cell_channels WHERE cell_channels.id = ${channel_id})
-ORDER BY messages.message_timestamp;
+ORDER BY messages.message_timestamp ASC;
