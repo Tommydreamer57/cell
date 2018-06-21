@@ -34,20 +34,26 @@ export default function create(update) {
     const saveEdit = ({ channel_id, message_id, text }) => PUT.message(update, { type: 'channel', message_id, channel_id, text });
     // DELETE MESSAGE
     const _delete = ({ channel_id, message_id }) => DELETE.message(update, { type: 'channel', message_id, channel_id });
-    // TRACK INTERVALS
-    const intervals = [];
     // COMPONENT
     return {
+        // TRACK TIMEOUTS
+        timeouts: [],
         // DATA
         data(model) {
-            const getOrganization = cb => GET.organizationByChannel(update, model.router.match.params.id, cb || maybeScrollToBottom);
+            scrollToBottom();
+            // ALLOW REQUESTS
+            this.requestOrganization = true;
+            const getOrganization = cb => (
+                this.requestOrganization &&
+                this.timeouts.push(setTimeout(getOrganization, 5000)) &&
+                GET.organizationByChannel(update, model.router.match.params.id, cb || maybeScrollToBottom)
+            );
             getOrganization(scrollToBottom);
-            // intervals.push(setInterval(getOrganization, 5000));
-            // update(m => m, scrollToBottom);
         },
         // CLEAR
         clear(model) {
-            while (intervals.length) clearInterval(intervals.pop());
+            this.requestOrganization = false;
+            while (this.timeouts.length) clearTimeout(this.timeouts.pop());
         },
         // VIEW
         view(model) {
@@ -70,32 +76,32 @@ export default function create(update) {
                     let previousMessage = channel.messages[i - 1] || {};
 
                     let renderAuthor = !arr.length || previousMessage.author_id !== message.author_id;
-                    console.log("ITERATING THROUGH CHANNEL MESSAGES");
-                    console.log(renderAuthor);
+                    // console.log("ITERATING THROUGH CHANNEL MESSAGES");
+                    // console.log(renderAuthor);
 
                     if (message.timestamp) {
                         // ADD NEW MESSAGES DIVIDER (for notifications)
                         let lastViewDate = convertDate(channel.previous_last_visited);
                         if (previousDate < lastViewDate && currentDate > lastViewDate) {
-                            console.log("pushing NEW MESSAGE DIVIDER to array: " + renderAuthor);
+                            // console.log("pushing NEW MESSAGE DIVIDER to array: " + renderAuthor);
                             arr.push({
                                 isNotMessage: true,
                                 isNewMessageDivider: true,
                                 date: lastViewDate
                             });
-                            console.log(arr[arr.length - 1]);
+                            // console.log(arr[arr.length - 1]);
                             renderAuthor = true;
                         }
                         // ONLY ADD DAY DIVIDER BETWEEN ACTUAL MESSAGES (not loading messages)
                         let previousDate = convertDate(previousMessage.timestamp);
                         let currentDate = convertDate(message.timestamp);
                         if (previousDate.getDate() !== currentDate.getDate()) {
-                            console.log("pushing DATE DIVIDER to array: " + renderAuthor);
+                            // console.log("pushing DATE DIVIDER to array: " + renderAuthor);
                             arr.push({
                                 isNotMessage: true,
                                 date: currentDate
                             });
-                            console.log(arr[arr.length - 1]);
+                            // console.log(arr[arr.length - 1]);
                             renderAuthor = true;
                         }
                     }
@@ -103,22 +109,22 @@ export default function create(update) {
                         arr.slice().reverse().find(m => m.renderAuthor).hasMultiple = true;
                     }
                     // ADD MESSAGE TO ARRAY
-                    console.log("pushing MESSAGE to array: " + renderAuthor);
+                    // console.log("pushing MESSAGE to array: " + renderAuthor);
                     arr.push({
                         ...message,
                         renderAuthor,
                     });
-                    console.log(arr[arr.length - 1]);
+                    // console.log(arr[arr.length - 1]);
                     // RETURN ARRAY
                     return arr;
                 }, []);
-            console.log(groupedMessages);
+            // console.log(groupedMessages);
             // RENDER
             return (
                 <Messages id="messages" >
                     {groupedMessages
                         .map(message => (
-                            !console.log(message) &&
+                            // !console.log(message) &&
                             message.isNotMessage ?
                                 message.isNewMessageDivider ?
                                     <Divider

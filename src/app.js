@@ -92,6 +92,10 @@ const style = StyleSheet.create({
             border: `1px solid ${p.acolor(0.1)}`,
             fontFamily: 'monospace',
             background: p.acolor(0.1),
+            width: 'fit-content'
+        },
+        '& .strikethrough': {
+            textDecoration: 'line-through'
         },
         '& b': {
             fontWeight: 'bold'
