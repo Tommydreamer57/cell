@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { Editor } from 'slate-react';
 import Plain from 'slate-plain-serializer';
 
 export default class MessageInput extends Component {
     constructor() {
         super();
-        this.initialValue = Plain.deserialize('');
+        this.initialValue = Plain.deserialize(' ');
         this.state = {
             value: this.initialValue
         };
+        this.inputWrapper = createRef();
     }
 
     onChange = ({ value }) => this.setState({ value })
@@ -38,18 +39,20 @@ export default class MessageInput extends Component {
             onChange,
             onKeyDown,
             renderNode,
+            inputWrapper,
             state: { value },
             props: { sendMessage, style, ...props },
         } = this;
         return (
             <div className="message-input" {...props} >
-                <div className="input-wrapper" style={style} >
+                <div ref={inputWrapper} className="input-wrapper" style={style} >
                     <button className="plus-button">+</button>
                     <Editor
                         value={value}
                         onChange={onChange}
                         onKeyDown={onKeyDown}
                         renderNode={renderNode}
+                        autoFocus={true}
                     />
                 </div>
                 <mark>

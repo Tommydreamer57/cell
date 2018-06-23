@@ -97,6 +97,10 @@ export default class Login extends Component {
             this.setState({ location, failed: false, reason: '', waiting: false });
             this.clearRefs();
         }
+        this.state.create ? this.first_name.current.focus() : this.username.current.focus();
+    }
+    componentDidMount(){
+        this.state.create ? this.first_name.current.focus() : this.username.current.focus();        
     }
     clearRefs() {
         if (this.state.create) {
@@ -151,7 +155,7 @@ export default class Login extends Component {
                         <div className="input-wrapper" >
                             {failed && <p>{reason}</p>}
                             {/* LOG IN */}
-                            <input ref={username} type="text" placeholder="username" />
+                            <input tabIndex="0" ref={username} type="text" placeholder="username" />
                             <input ref={password} type="password" placeholder="password" />
                         </div>
                 }
