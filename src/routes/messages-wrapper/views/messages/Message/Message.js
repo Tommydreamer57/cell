@@ -88,7 +88,7 @@ export default class Message extends Component {
                         </h6>
                         :
                         <div className="image-wrapper" >
-                            <img src={author.img} />
+                            <img src={author.img || "https://londonspeakerbureau.com/wp-content/uploads/1970/01/103c8ee903d35a1e7db510d660358dca-wpcf_300x300.png"} />
                         </div>}
                 <div className="message-body" >
                     {renderAuthor !== false &&

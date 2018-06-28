@@ -10,12 +10,12 @@ class OrganizationButton extends Component {
     }
     render() {
         return (
-            <div className='organization-button' >
+            <button onClick={this.joinOrganization} id={this.props.id} tabIndex={this.props.tabIndex} className='organization-button' >
                 {this.props.organization.name}
-                <button onClick={this.joinOrganization} >
+                <div>
                     JOIN
-                </button>
-            </div>
+                </div>
+            </button>
         );
     }
 }
@@ -24,9 +24,23 @@ export default class Search extends Component {
     constructor() {
         super();
         this.state = {
-            search: ''
+            search: '',
+            selectedIndex: -1
         };
         this.handleInput = this.handleInput.bind(this);
+    }
+    componentDidMount() {
+        window.addEventListener('click', this.resetSelectedIndex);
+        window.addEventListener('keydown', this.incrementSelectedIndex);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('click', this.resetSelectedIndex);
+        window.removeEventListener('keydown', this.incrementSelectedIndex);
+        
+    }
+    resetSelectedIndex = () => this.setState({ selectedIndex: -1 })
+    incrementSelectedIndex = () => {
+        this.setState({ selectedIndex: this.state.selectedIndex + 1 })
     }
     handleInput({ target: { value } }) {
         this.setState({
@@ -36,17 +50,18 @@ export default class Search extends Component {
     render() {
         let {
             handleInput,
-            props: { organizations: orgs, join: joinOrganization }
+            props: { organizations: orgs, join: joinOrganization },
+            state: { selectedIndex }
         } = this;
         return (
             <div className="search">
-                <h3>Find an Organization</h3>
-                <input placeholder="enter an organization name..." onChange={handleInput} />
+                <h2>Find an Organization</h2>
+                <input tabIndex={0} placeholder="enter an organization name..." onChange={handleInput} />
                 <div className="organization-button-wrapper" >
                     {orgs
                         .filter(org => this.state.search && org.name.match(this.state.search))
-                        .map(org => (
-                            <OrganizationButton key={org.id} organization={org} joinOrganization={joinOrganization}  />
+                        .map((org, i) => (
+                            <OrganizationButton id={org.name} selected={selectedIndex === i} key={org.id} organization={org} joinOrganization={joinOrganization} />
                         ))}
                 </div>
             </div>

@@ -124,6 +124,16 @@ const styles = StyleSheet.create({
                     marginBottom: 0
                 }
             },
+            '& .bottom-button-wrapper': {
+                '& button': {
+                    width: 'calc(100% - 32px)',
+                    background: p.acolor2(0.875),
+                    color: p.white(1),
+                    padding: 10,
+                    borderRadius: 4,
+                    margin: '0 18px 8px'
+                }
+            },
             '&.logout-wrapper': {
                 '& .loading-wrapper': {
                     display: 'flex',

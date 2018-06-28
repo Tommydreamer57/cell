@@ -99,8 +99,8 @@ export default class Login extends Component {
         }
         this.state.create ? this.first_name.current.focus() : this.username.current.focus();
     }
-    componentDidMount(){
-        this.state.create ? this.first_name.current.focus() : this.username.current.focus();        
+    componentDidMount() {
+        this.state.create ? this.first_name.current.focus() : this.username.current.focus();
     }
     clearRefs() {
         if (this.state.create) {
@@ -158,6 +158,11 @@ export default class Login extends Component {
                             <input tabIndex="0" ref={username} type="text" placeholder="username" />
                             <input ref={password} type="password" placeholder="password" />
                         </div>
+                }
+                {!waiting &&
+                    <div className="bottom-button-wrapper">
+                        <button onClick={() => onKeyDown({ key: "Enter" })} >Submit</button>
+                    </div>
                 }
             </div >
         );

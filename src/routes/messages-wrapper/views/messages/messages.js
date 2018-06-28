@@ -241,6 +241,11 @@ const styles = StyleSheet.create({
             '& .image-wrapper': {
                 background: 'lightblue',
                 width: 45,
+                '& img': {
+                    width: 45,
+                    height: 45,
+                    borderRadius: 3,
+                }
             },
             '& .no-author-timestamp': {
                 opacity: 0,
@@ -260,8 +265,8 @@ const styles = StyleSheet.create({
                 '& pre, blockquote': {
                     margin: '4px 0',
                 },
-                '& ': {
-
+                '& .strikethrough': {
+                    textDecoration: 'line-through'
                 },
                 '& h5': {
                     fontWeight: 'bold'

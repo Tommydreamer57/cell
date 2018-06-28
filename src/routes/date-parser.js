@@ -8,7 +8,8 @@ export function convertDate(datestring) {
 
 export function toTime(date) {
     if (!date) return '';
-    else return convertDate(date).toLocaleTimeString().replace(/(\d)(:\d\d)(:\d\d)/, '$1$2');
+    else return new Date(date).toLocaleTimeString().replace(/(\d)(:\d\d)(:\d\d)/, '$1$2');
+    // convertDate(date)
 }
 
 export function toDate(convertedDate) {

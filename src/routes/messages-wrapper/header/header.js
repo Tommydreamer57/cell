@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         background: p.acolor(0.125),
         justifyContent: 'space-between',
         alignItems: 'center',
+        borderBottom: `1px solid ${p.acolor(0.25)}`
     }
 });
 
