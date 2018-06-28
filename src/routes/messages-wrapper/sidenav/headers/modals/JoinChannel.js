@@ -10,12 +10,12 @@ class ChannelButton extends Component {
     }
     render() {
         return (
-            <div className='channel-button' >
+            <button onClick={this.joinChannel} className='channel-button' >
                 {this.props.channel.name}
-                <button onClick={this.joinChannel} >
+                <div>
                     JOIN
-                </button>
-            </div>
+                </div>
+            </button>
         );
     }
 }
@@ -39,7 +39,7 @@ export default class JoinChannel extends Component {
             props: { join: joinChannel, channels }
         } = this;
         return (
-            <div className='modal-modal' >
+            <div className='join-channel modal-modal' >
                 <h3>Find a Channel</h3>
                 <input type="text" placeholder="enter an organization name..." onChange={handleInput} />
                 <div className="organization-button-wrapper" >

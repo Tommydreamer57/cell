@@ -10,17 +10,25 @@ import wrapper from '../../../../styles/components';
 import p from '../../../../styles/presets';
 
 export default function create(update) {
-    // TRACK INTERVALS
-    const intervals = [];
     // COMPONENT
     return {
+        // TRACK TIMEOUTS
+        timeouts: [],
+        // DATA
         data(model) {
-            const getOrganization = () => GET.organization(update, model.router.match.params.id);
+            // ALLOW REQUESTS
+            this.requestOrganization = true;
+            const getOrganization = () => (
+                this.requestOrganization &&
+                this.timeouts.push(setTimeout(getOrganization, 5000)) &&
+                GET.organization(update, model.router.match.params.id)
+            );
             getOrganization();
-            // intervals.push(setInterval(getOrganization, 5000));
         },
+        // CLEAR
         clear(model) {
-            while (intervals.length) clearInterval(intervals.pop());
+            this.requestOrganization = false;
+            while (this.timeouts.length) clearTimeout(this.timeouts.pop());
         },
         view(model) {
             let { organization: { members } } = model;

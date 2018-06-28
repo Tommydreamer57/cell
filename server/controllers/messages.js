@@ -18,14 +18,15 @@ function create(req, res) {
         if (!req.user.channels.includes(+channel_id)) {
             res.status(403).json("User: " + author_id + " not a member of channel: " + channel_id);
         } else {
-            req.db.create_channel_message({ text, author_id, channel_id })
-                .then(messages => {
-                    res.status(200).send(messages);
-                })
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).send(err);
-                });
+            let timestamp = new Date(Date.now());
+            req.db.create_channel_message({ text, author_id, channel_id, timestamp })
+            .then(messages => {
+                res.status(200).send(messages);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).send(err);
+            });
         }
     } else res.status(400).json("can only send message to a channel");
 }
@@ -37,7 +38,8 @@ function update(req, res) {
     if (type === 'channel') {
         console.log("UPDATING");
         console.log({ message_id, text, author_id });
-        req.db.update_channel_message({ message_id, text, author_id })
+        let timestamp = new Date(Date.now());
+        req.db.update_channel_message({ message_id, text, author_id, timestamp })
             .then(convertUpdatedMessages)
             .then(messages => {
                 res.status(200).send(messages);
@@ -51,7 +53,6 @@ function update(req, res) {
 
 function _delete(req, res) {
     let { type, message_id } = req.params;
-    let { text } = req.body;
     let { id: author_id } = req.user;
     if (type === 'channel') {
         console.log("DELETING");

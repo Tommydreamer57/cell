@@ -8,16 +8,25 @@ export default class ChannelHeader extends Component {
         this.state = {
             currentModal: null
         };
-        this.toggleCreate = () => this.setState({ currentModal: 'create' });
-        this.toggleJoin = () => this.setState({ currentModal: 'join' });
+        this.toggleCreate = () => {
+            document.querySelector('#channel-header .create-channel input').focus();
+            this.setState({ currentModal: 'create' });
+        }
+        this.toggleJoin = () => {
+            document.querySelector('#channel-header .join-channel input').focus();
+            this.setState({ currentModal: 'join' });
+        }
         this.toggleOff = () => this.setState({ currentModal: null });
     }
     componentDidMount() {
         window.addEventListener('click', this.toggleOff);
+        window.addEventListener('keydown', this.handleEscape);
     }
     componentWillUnmount() {
         window.removeEventListener('click', this.toggleOff);
+        window.removeEventListener('keydown', this.handleEscape);
     }
+    handleEscape = ({ key }) => key === 'Escape' && this.toggleOff()
     stopPropagation(e) {
         e.stopPropagation();
     }

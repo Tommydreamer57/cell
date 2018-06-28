@@ -13,15 +13,20 @@ export default class CreateOrJoin extends Component {
     }
     componentDidMount() {
         window.addEventListener('click', this.toggleOff);
+        window.addEventListener('keydown', this.handleEscape);
     }
     componentWillUnmount() {
         window.removeEventListener('click', this.toggleOff);
+        window.addEventListener('keydown', this.handleEscape);
     }
+    handleEscape = ({ key }) => key === 'Escape' && this.toggleOff()
     toggleJoin = e => {
+        document.querySelector('#create-or-join .search input').focus();
         e.stopPropagation();
         this.setState({ currentModal: 'join' });
     }
     toggleCreate = e => {
+        document.querySelector('#create-or-join .create input').focus();
         e.stopPropagation();
         this.setState({ currentModal: 'create' });
     }
@@ -40,7 +45,6 @@ export default class CreateOrJoin extends Component {
         let {
             toggleJoin,
             toggleCreate,
-            toggleOff,
             stopPropagation,
             joinOrganization,
             state: { currentModal },
@@ -54,6 +58,7 @@ export default class CreateOrJoin extends Component {
                     <button onClick={toggleJoin} ><h6>Join an Organization</h6><Carat /></button>
                     <button onClick={toggleCreate} ><h6>Create an Organization</h6><Carat /></button>
                 </div>
+                <div className={`modal-background ${currentModal ? "in" : ''}`} />
                 <div onClick={stopPropagation} className='modal-wrapper'>
                     {/* JOIN */}
                     <div className={`modal ${currentModal === 'join' ? 'current' : 'out'}`} >

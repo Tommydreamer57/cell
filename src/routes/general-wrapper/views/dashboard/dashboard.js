@@ -87,6 +87,23 @@ const styles = StyleSheet.create({
                     }
                 }
             },
+            '& .modal-background': {
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                height: 0,
+                background: p.acolor(0.25),
+                opacity: 0.1,
+                transition: 'opacity 1s',
+                zIndex: 1,
+                '&.in': {
+                    bottom: 0,
+                    right: 0,
+                    height: '100vh',
+                    width: '100vw',
+                    opacity: 1,
+                },
+            },
             '& .modal': {
                 position: 'fixed',
                 top: '10rem',
@@ -97,6 +114,7 @@ const styles = StyleSheet.create({
                 borderRadius: 12,
                 transition: '0.6s',
                 left: '50%',
+                zIndex: 2,
                 '&.current': {
                     transform: 'translateX(-50%)'
                 },
@@ -114,7 +132,32 @@ const styles = StyleSheet.create({
                         border: '1px solid rgb(109, 159, 243)'
                     }
                 },
+                '& .create': {
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    '& h2': {
+                        width: '100%',
+                        textAlign: 'left'
+                    },
+                    '& input': {
+                        width: 'calc(100% - 14px)',
+                        fontSize: 18,
+                        margin: '36px 0 22px'
+                    },
+                    '& button': {
+                        width: '100%',
+                        background: p.acolor2(0.875),
+                        color: p.white(1),
+                        padding: 10,
+                        borderRadius: 4,
+                        width: 'calc(100%)',
+                        margin: 0
+                    }
+                },
                 '& .organization-button': {
+                    width: '100%',
                     border: `1px solid ${p.acolor(0.25)}`,
                     paddingLeft: 12,
                     margin: '6px 0',
@@ -122,7 +165,7 @@ const styles = StyleSheet.create({
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     borderRadius: 4,
-                    '& button': {
+                    '& div': {
                         padding: 6,
                         paddingRight: 12,
                         borderLeft: `1px solid ${p.acolor(0.25)}`
@@ -130,8 +173,8 @@ const styles = StyleSheet.create({
                     '&:nth-of-type(1)': {
                         marginTop: 24
                     }
-                }
-            }
+                },
+            },
         },
         '& .joined-organization-list': {
             display: 'flex',

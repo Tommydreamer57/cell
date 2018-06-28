@@ -90,10 +90,12 @@ export default function Text({ text, depth = 0 }) {
     });
 
     if (depth === 0) {
-        console.log(children);
+        // console.log(children);
         children = children.map((child, i) => (
             typeof child === 'string' && child.match(/\n/g) ?
-                child.trim().split(/\n/g).map((line, j) => (
+                child.trim()
+                    .split(/\n/g)
+                    .map((line, j) => (
                     <p key={`${i} ${j}`} >{line}</p>
                 ))
                 :

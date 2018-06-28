@@ -25,6 +25,11 @@ Routing of all view setup first
     - list of members
  - Channel (/channel/:id)
     - list of members
+ - Messages (/messages/:type/:id)
+    - messages
+    - input - Slate editor
+        - text formatting - bold, italic
+        - click on own message to edit
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    STYLED    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -32,12 +37,16 @@ Routing of all view setup first
 
 ==================================   END OF WEEK GOAL   ==========================================
 
- - Messages (/messages/:type/:id)
-    - messages
-    - input - Slate editor
-        - text formatting - bold, italic
-        - click on own message to edit
  - Sockets?
+
+NEXT TIME:
+
+Add default style to search (top-right) input - or remove
+Add buttons to all modals
+Add toggle off on Esc and Click off to all modals - (Modals includes top left dropdown)
+Add gray div behind all modals
+Debug auto scroll to bottom on messages
+
 
 For now, just take on anything in the list below. Let the channel know which feature you are taking and which files you will be in to avoid merge conflicts
 

@@ -247,6 +247,20 @@ const styles = StyleSheet.create({
                     border: '1px solid rgb(109, 159, 243)'
                 }
             },
+            '& .create-channel': {
+                '& h2': {
+                    marginBottom: 12
+                },
+                '& button': {
+                    width: '100%',
+                    background: p.acolor2(0.875),
+                    color: p.white(1),
+                    padding: 8,
+                    borderRadius: 4,
+                    width: 'calc(100%)',
+                    margin: '16px 0 0'
+                }
+            },
             '& .channel-button': {
                 border: `1px solid ${p.acolor(0.25)}`,
                 paddingLeft: 12,
@@ -255,7 +269,8 @@ const styles = StyleSheet.create({
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 borderRadius: 4,
-                '& button': {
+                width: '100%',
+                '& div': {
                     padding: 6,
                     paddingRight: 12,
                     borderLeft: `1px solid ${p.acolor(0.25)}`
