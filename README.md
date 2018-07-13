@@ -57,16 +57,24 @@ For the sake of simple authentication, I used the library `bcryptjs` to salt and
 
 ### Landing
 
+<kbd>
 <img src="https://github.com/Tommydreamer57/cell/blob/master/screenshots/landing.PNG?raw=true">
+</kbd>
 
 ### Dashboard
 
+<kbd>
 <img src="https://github.com/Tommydreamer57/cell/blob/master/screenshots/dashboard.PNG?raw=true">
+</kbd>
 
 ### Sign Up
 
+<kbd>
 <img src="https://github.com/Tommydreamer57/cell/blob/master/screenshots/signin.PNG?raw=true">
+</kbd>
 
 ### Messages
 
+<kbd>
 <img src="https://github.com/Tommydreamer57/cell/blob/master/screenshots/messages.PNG?raw=true">
+</kbd>
