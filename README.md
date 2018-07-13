@@ -52,3 +52,21 @@ Following the modular pattern used in Meiosis on the front end, I organized the 
 ## Bcrypt
 
 For the sake of simple authentication, I used the library `bcryptjs` to salt and hash passwords. It was surprizingly easy to implement. Although only signup, login, and logout features are currently integrated into the UI, the server also allows secure updating of passwords by providing the previous username and password and the new password. All authentication is handled on the back end, so a user must be logged in and a member of an organization to see any of that oragnization's channels, members, and messages.
+
+## Screenshots
+
+### Landing
+
+<img src="https://github.com/Tommydreamer57/cell/blob/master/screenshots/landing.PNG?raw=true">
+
+### Dashboard
+
+<img src="https://github.com/Tommydreamer57/cell/blob/master/screenshots/dashboard.PNG?raw=true">
+
+### Sign Up
+
+<img src="https://github.com/Tommydreamer57/cell/blob/master/screenshots/signin.PNG?raw=true">
+
+### Messages
+
+<img src="https://github.com/Tommydreamer57/cell/blob/master/screenshots/messages.PNG?raw=true">
