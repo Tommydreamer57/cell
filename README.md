@@ -17,7 +17,11 @@ Live at >>> [https://cell.thomaslowry.me](https://cell.thomaslowry.me)
 
 ## Meiosis Architecture
 
-This project utilizes an adaptation of the Meiosis pattern for managing state. A single top-level function written in vanilla JavaScript with no imported libraries controls the updating of the model and rerendering of the view. This adaptation is much simpler than the one found in the official [Meiosis Documentation](https://meiosis.js.org/), and it allows for very quick integration of middleware (I am working on converting this code into a node module called mitosisjs - hence, the multiple files with similar names).
+This project utilizes an adaptation of the Meiosis pattern for managing state. A single top-level function written in vanilla JavaScript with no imported libraries controls the updating of the model and rerendering of the view.
+
+This adaptation is much simpler than the one found in the official [Meiosis Documentation](https://meiosis.js.org/), and it allows for very quick integration of middleware (I am working on converting this code into a node module called mitosisjs - hence, the multiple files with similar names).
+
+I wrote a [demo on this adaptation](https://github.com/Tommydreamer57/meiosis-demo), if you're interested in taking a look.
 
 ## Custom Routing with History
 
