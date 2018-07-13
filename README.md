@@ -1,4 +1,4 @@
-## Views
+ ## Views
 
 Routing of all view setup first
 
@@ -42,9 +42,7 @@ Routing of all view setup first
 NEXT TIME:
 
 Add default style to search (top-right) input - or remove
-Add buttons to all modals
-Add toggle off on Esc and Click off to all modals - (Modals includes top left dropdown)
-Add gray div behind all modals
+Add toggle off on Esc and Enter and Click off to all modals - (Modals includes top left dropdown)
 Debug auto scroll to bottom on messages
 
 

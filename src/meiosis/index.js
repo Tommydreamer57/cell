@@ -1,11 +1,9 @@
 
 export default function meiosis(createApp, model, render, ...middles) {
 
-    const middlewares = middles.map(fn => fn(update));
+    var middlewares, app, update;
 
-    const app = createApp(update);
-
-    function update(callback, cb) {
+    update = (callback, cb) => {
 
         let newModel = callback(model);
 
@@ -25,6 +23,10 @@ export default function meiosis(createApp, model, render, ...middles) {
             model[key]
         :
         model;
+
+    middlewares = middles.map(fn => fn(update));
+
+    app = createApp(update);
 
     update(m => m);
 }

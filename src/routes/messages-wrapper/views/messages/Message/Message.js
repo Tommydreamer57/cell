@@ -5,6 +5,7 @@ import MessageHover from './MessageHover';
 import { toTime } from '../../../../date-parser';
 import { Loading } from '../../../../../styles/logo';
 import Text from './Text';
+import image from '../../../../../assets/facebook-avatar-square.jpg';
 
 export default class Message extends Component {
 
@@ -88,7 +89,7 @@ export default class Message extends Component {
                         </h6>
                         :
                         <div className="image-wrapper" >
-                            <img src={author.img || "https://londonspeakerbureau.com/wp-content/uploads/1970/01/103c8ee903d35a1e7db510d660358dca-wpcf_300x300.png"} />
+                            <img src={author.img || image} />
                         </div>}
                 <div className="message-body" >
                     {renderAuthor !== false &&

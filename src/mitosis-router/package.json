@@ -1,0 +1,25 @@
+{
+    "name": "mitosis-router",
+    "version": "1.0.0",
+    "description": "Routing for MitosisJS",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "mitosisjs": "^1.0.0",
+        "react": "^16.4.1",
+        "history": "^4.7.2"
+    },
+    "keywords": [
+        "routing",
+        "mitosis",
+        "mitosisjs",
+        "meiosis",
+        "react",
+        "redux",
+        "react-router"
+    ],
+    "author": "Thomas Lowry <minilao94@yahoo.com> (https://mitosisjs.io)",
+    "license": "ISC"
+}
