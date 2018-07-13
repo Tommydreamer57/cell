@@ -19,15 +19,24 @@ export default function create(update) {
         if ($messages) $messages.scrollTop = $messages.scrollHeight;
         return arg;
     }
-    function maybeScrollToBottom() {
+    function maybeScrollToBottom(arg) {
         console.log("MAYBE SCROLLING TO BOTTOM");
         let $messages = document.querySelector('#router-view');
         if ($messages) {
-            if ($messages.scrollHeight - window.innerHeight < $messages.scrollTop + 62) {
+            if ($messages.scrollHeight - window.innerHeight < $messages.scrollTop + 32) {
                 $messages.scrollTop = $messages.scrollHeight;
             }
         }
+        return arg;
     }
+    // SCROLL TO BOTTOM ON REROUTE
+    update(model => ({
+        ...model,
+        router: {
+            ...model.router,
+            callback: scrollToBottom
+        }
+    }))
     // CREATE MESSAGE
     const sendMessage = ({ id, text }) => POST.message(update, { type: 'channel', id, text }, scrollToBottom);
     // EDIT MESSAGE
@@ -48,6 +57,7 @@ export default function create(update) {
                 this.timeouts.push(setTimeout(getOrganization, 5000)) &&
                 GET.organizationByChannel(update, model.router.match.params.id, cb || maybeScrollToBottom)
             );
+            // for scroll to bottom on initial page load
             getOrganization(scrollToBottom);
         },
         // CLEAR
@@ -133,20 +143,20 @@ export default function create(update) {
                                     />
                                     :
                                     <Divider
-                                        key={message.date}
+                                        key={'date divider ' + message.date}
                                         date={message.date}
                                     />
                                 :
                                 message.isLoading ?
                                     <Message
-                                        key={message.timestamp}
+                                        key={'loading message ' + message.timestamp}
                                         message={message}
                                         loading={true}
                                         author={organization.members.find(({ id }) => id === message.author_id)}
                                     />
                                     :
                                     <Message
-                                        key={message.id}
+                                        key={'message ' + message.id}
                                         channel={channel}
                                         message={message}
                                         author={organization.members.find(({ id }) => id === message.author_id)}

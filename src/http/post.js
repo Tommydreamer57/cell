@@ -73,7 +73,7 @@ export function message(update, { type, id, text }, cb) {
                                 channel
                         ))
                 }
-            }));
+            }), cb);
         });
 }
 
